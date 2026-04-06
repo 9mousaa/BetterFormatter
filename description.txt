@@ -1,2 +1,1 @@
-{stream.title::exists["{stream.title::title}"||""]}{stream.year::exists::and::stream.episodes::exists::isfalse::and::stream.seasons::exists::isfalse[" ({stream.year})"||""]}{stream.seasonEpisode::exists[" {stream.seasonEpisode::join('·')}"||""]}
 {stream.filename::exists["{stream.filename}"||""]}
