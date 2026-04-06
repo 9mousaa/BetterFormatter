@@ -1,1 +1,1 @@
-
+{stream.nSeScore::exists["{stream.nSeScore::pstar::replace('⯪','★')::replace('★★★★★','♛ ')::replace('★★★★☆','⭑ ')::replace('★★★☆☆','✦ ')::replace('★★☆☆☆','△ ')::replace('★☆☆☆☆','∅ ')::replace('☆☆☆☆☆','∅ ')}"||""]}{stream.quality::exists["{stream.quality::title}"||""]}{service.shortName::exists[" · {service.shortName}"||""]}{stream.size::>0[" · {stream.size::bytes}"||""]}
