@@ -8,7 +8,7 @@
       "isEnabled": true,
       "name": "Best",
       "pattern": "♛",
-      "tagColor": "#80000000",
+      "tagColor": "#E600E932",
       "tagStyle": "filled and bordered",
       "textColor": "#27C04F",
       "type": "filter"
@@ -21,7 +21,7 @@
       "isEnabled": true,
       "name": "Good",
       "pattern": "[⭑✦]",
-      "tagColor": "#80000000",
+      "tagColor": "#3300E932",
       "tagStyle": "filled and bordered",
       "textColor": "#27C04F",
       "type": "filter"
@@ -34,7 +34,7 @@
       "isEnabled": true,
       "name": "Bad",
       "pattern": "[△∅]",
-      "tagColor": "#80000000",
+      "tagColor": "#33FF7728",
       "tagStyle": "filled and bordered",
       "textColor": "#FF6904",
       "type": "filter"
@@ -47,9 +47,9 @@
       "isEnabled": true,
       "name": "4K",
       "pattern": "(?i)^(?!.*\\b(?:1080[pi]?|720[pi]?|full[-\\s]?hd|fhd|hd1080|hd720)\\b).*?(?:\\b(bd|hd|m)?2160[pi]?\\b|\\b4k\\b|\\bu(ltra)?[ ._-]?hd\\b|\\b3840\\s?x\\s?\\d{4}\\b)",
-      "tagColor": "#80000000",
+      "tagColor": "#33FFFFFF",
       "tagStyle": "filled and bordered",
-      "textColor": "#FFBE01",
+      "textColor": "#FFFFFF",
       "type": "filter"
     },
     {
@@ -60,9 +60,9 @@
       "isEnabled": true,
       "name": "1080p",
       "pattern": "(?i)\\b(bd|hd|m)?1080[pi]?\\b|\\b1920\\s?x\\s?\\d{3,4}\\b",
-      "tagColor": "#80000000",
+      "tagColor": "#33FFFFFF",
       "tagStyle": "filled and bordered",
-      "textColor": "#FF6904",
+      "textColor": "#FFFFFF",
       "type": "filter"
     },
     {
@@ -73,59 +73,59 @@
       "isEnabled": true,
       "name": "720p",
       "pattern": "(?i)\\b(bd|hd|m)?720[pi]?\\b|\\b1280\\s?x\\s?\\d{3,4}\\b",
-      "tagColor": "#80000000",
+      "tagColor": "#33FFFFFF",
       "tagStyle": "filled and bordered",
-      "textColor": "#FB411C",
+      "textColor": "#FFFFFF",
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "groupId": "bf-visual",
       "id": "bf-dolby-vision",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/vision.png",
       "isEnabled": true,
       "name": "DV",
       "pattern": "(?i)\\b(dv|dovi|dolby[ ._-]?vision)\\b",
-      "tagColor": "#80000000",
+      "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
-      "textColor": "#FFBE01",
+      "textColor": "#FFFFFF",
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "groupId": "bf-audio",
       "id": "bf-dolby-atmos",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/atmos.png",
       "isEnabled": true,
       "name": "Atmos",
       "pattern": "(?=.*(^|[.\\s_\\-])[aA][tT][mM][oO][sS]([.\\s_\\-]|$))(?=.*(?:[dD][dD][pP]|[dD][dD]\\+|[eE]-?[aA][cC]3|[eE][aA][cC]3))",
-      "tagColor": "#80000000",
+      "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
       "textColor": "#FFFFFF",
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "groupId": "bf-channels",
       "id": "bf-71",
       "imageURL": "",
       "isEnabled": true,
       "name": "7.1",
       "pattern": "(?i)(?=.*[^0-9][7-8][ .][0-1]\\b)(?!.*[^0-9]5[ .][0-1]\\b)(?!.*[^0-9]6[ .][0-1]\\b)(?!.*(?<!repac)[^0-9][1-4][ .][0-1]|\\\\b(Stereo|Mono)\\\\b)",
-      "tagColor": "#80000000",
+      "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
       "textColor": "#FFFFFF",
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "groupId": "bf-channels",
       "id": "bf-51",
       "imageURL": "",
       "isEnabled": true,
       "name": "5.1",
       "pattern": "(?i)(?=.*[^0-9]5[ .][0-1]\\b)(?!.*[^0-9]6[ .][0-1]\\b)(?!.*[^0-9][7-8][ .][0-1]\\b)(?!.*(?<!repac)[^0-9][1-4][ .][0-1]\\b|\\\\b(Stereo|Mono)\\\\b)",
-      "tagColor": "#80000000",
+      "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
       "textColor": "#FFFFFF",
       "type": "filter"
@@ -133,35 +133,35 @@
   ],
   "groups": [
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF00FF37",
       "color": "#27C04F",
       "id": "bf-quality",
       "isExpanded": true,
       "name": "Quality Tier"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF858283",
       "color": "#FFBE01",
       "id": "bf-resolution",
       "isExpanded": true,
       "name": "Resolution"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "color": "#FFBE01",
       "id": "bf-visual",
       "isExpanded": true,
       "name": "Visual"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "color": "#FFFFFF",
       "id": "bf-audio",
       "isExpanded": true,
       "name": "Audio"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#00000000",
       "color": "#FFFFFF",
       "id": "bf-channels",
       "isExpanded": true,
