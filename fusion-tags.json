@@ -1,7 +1,7 @@
 {
   "filters": [
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF00FF37",
       "groupId": "bf-quality",
       "id": "bf-best",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/best.png",
@@ -14,7 +14,7 @@
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF2D9943",
       "groupId": "bf-quality",
       "id": "bf-good",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/good.png",
@@ -27,7 +27,7 @@
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF9D613D",
       "groupId": "bf-quality",
       "id": "bf-bad",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/Bad.png",
@@ -40,7 +40,7 @@
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF858283",
       "groupId": "bf-resolution",
       "id": "bf-4k",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/4k.png",
@@ -53,7 +53,7 @@
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF858283",
       "groupId": "bf-resolution",
       "id": "bf-1080p",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/1080p.png",
@@ -66,7 +66,7 @@
       "type": "filter"
     },
     {
-      "borderColor": "#66FFFFFF",
+      "borderColor": "#FF858283",
       "groupId": "bf-resolution",
       "id": "bf-720p",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/720p.png",
