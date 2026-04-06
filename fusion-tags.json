@@ -114,7 +114,7 @@
       "pattern": "(?i)(?=.*[^0-9][7-8][ .][0-1]\\b)(?!.*[^0-9]5[ .][0-1]\\b)(?!.*[^0-9]6[ .][0-1]\\b)(?!.*(?<!repac)[^0-9][1-4][ .][0-1]|\\\\b(Stereo|Mono)\\\\b)",
       "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
-      "textColor": "#FFFFFF",
+      "textColor": "#80FFFFFF",
       "type": "filter"
     },
     {
@@ -127,7 +127,7 @@
       "pattern": "(?i)(?=.*[^0-9]5[ .][0-1]\\b)(?!.*[^0-9]6[ .][0-1]\\b)(?!.*[^0-9][7-8][ .][0-1]\\b)(?!.*(?<!repac)[^0-9][1-4][ .][0-1]\\b|\\\\b(Stereo|Mono)\\\\b)",
       "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
-      "textColor": "#FFFFFF",
+      "textColor": "#80FFFFFF",
       "type": "filter"
     }
   ],
