@@ -1684,7 +1684,7 @@
       "imageURL": "",
       "isEnabled": true,
       "name": "🇫🇷",
-      "pattern": "(?i)\\bfrench\\b|\\bfra\\b",
+      "pattern": "(?i)\\bfrench\\b|\\bfra\\b|\\bfr\\b|\\bvff\\b|\\bvfq\\b",
       "tagColor": "#00000000",
       "tagStyle": "filled and bordered",
       "textColor": "#80FFFFFF",
