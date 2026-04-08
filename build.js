@@ -39,7 +39,9 @@ function gen(C){
     T.push(mk('q-gr','Good Remux','(?i)^(?=.*[\u2b51\u2726])(?=.*remux)',p+'-good-remux.png',qs('good'),'gq'));
     T.push(mk('q-gb','Good BluRay','(?i)^(?=.*[\u2b51\u2726])(?=.*(?:bluray|blu-ray))(?!.*remux)',p+'-good-bluray.png',qs('good'),'gq'));
     T.push(mk('q-gw','Good WebDL','(?i)^(?=.*[\u2b51\u2726])(?=.*(?:web[-_. ]?dl|webdl|webrip))',p+'-good-webdl.png',qs('good'),'gq'));
-    T.push(mk('q-bad','Bad','[\u25b3\u2205]',p+'-Bad.png',qs('bad'),'gq'));
+    T.push(mk('q-or','OK Remux','(?i)^(?=.*[\u25b3\u2205])(?=.*remux)','mono-ok-remux.png',ST.res,'gq'));
+    T.push(mk('q-ob','OK BluRay','(?i)^(?=.*[\u25b3\u2205])(?=.*(?:bluray|blu-ray))(?!.*remux)','mono-ok-bluray.png',ST.res,'gq'));
+    T.push(mk('q-ow','OK WebDL','(?i)^(?=.*[\u25b3\u2205])(?=.*(?:web[-_. ]?dl|webdl|webrip))','mono-ok-webdl.png',ST.res,'gq'));
   }else if(C.qual==='tier'){
     const subs=['\u2081','\u2082','\u2083'];
     const srcs=[['remux','Remux','\u0280\u1d07\u1d0d\u1d1c\u0445'],['bluray','Bluray','\u0299\u029f\u1d1c\u0280\u1d00\u028f'],['webdl','WEB','\u1d21\u1d07\u0299']];

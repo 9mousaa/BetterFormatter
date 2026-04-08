@@ -40,7 +40,7 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 </div></div>
 
 <div class="sec"><h2>Quality System</h2><div class="opts" data-g="qual">
-<div class="o on" data-v="bgb">Best / Good / Bad</div>
+<div class="o on" data-v="bgb">Best / Good / OK</div>
 <div class="o" data-v="tier">Tiers (T1/T2/T3)</div>
 <div class="o" data-v="src">Source Label Only</div>
 <div class="o" data-v="pct">Percentages</div>
@@ -93,7 +93,7 @@ const STREAMS=[
   {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 18 GB',pct:85,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'webdl',q:'good',tier:'t1'},
   {t:'Avatar Fire and Ash',s:'BluRay \xb7 TorBox \xb7 12 GB',pct:80,res:'1080p',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2'},
   {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 4 GB',pct:70,res:'1080p',hdr:null,dv:true,aud:'ddp',ch:'5.1',src:'webdl',q:'good',tier:'t3'},
-  {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 2 GB',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'bad',tier:'t3'},
+  {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 2 GB',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'ok',tier:'t3'},
 ];
 
 function rgba(c){
@@ -118,8 +118,8 @@ function preview(){
 
     // 1) QUALITY
     if(C.qual==='bgb'){
-      const qst=mono?ST.res:ST[s.q];
-      const img=s.q==='bad'?p+'-Bad.png':p+'-'+s.q+'-'+s.src+'.png';
+      const qst=s.q==='ok'?ST.res:(mono?ST.res:ST[s.q]);
+      const img=s.q==='ok'?'mono-ok-'+s.src+'.png':p+'-'+s.q+'-'+s.src+'.png';
       h+=thtml(null,img,qst);
     }else if(C.qual==='tier'){
       h+=thtml(null,p+'-icon-'+s.src+'-'+s.tier+'.png',mono?ST.res:ST.best);
