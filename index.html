@@ -35,6 +35,9 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 .gc{flex:1}
 .gt{font-size:.78rem;font-weight:600;color:#ddd;margin-bottom:.2rem}
 .gd{font-size:.68rem;color:#888;line-height:1.45}
+.abtn{padding:.5rem .9rem;background:#222;color:#fff;border:1px solid #333;border-radius:8px;font-size:.72rem;font-weight:600;cursor:pointer;margin-top:.45rem;transition:all .15s}
+.abtn:hover{background:#333;border-color:#444}
+.gd.alt{font-size:.6rem;color:#555;margin-top:.3rem}
 .warn{color:#FF9A3D;font-size:.6rem;margin-top:.3rem;line-height:1.4}
 .req{color:#555;font-size:.56rem;margin-top:.2rem}
 #guide .note{font-size:.7rem;color:#999;margin-bottom:.8rem;line-height:1.5}
@@ -86,29 +89,31 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 <div class="gs">
 <div class="gn">1</div>
 <div class="gc">
-<div class="gt">Import scoring template into AIOStreams</div>
-<div class="gd">Find <b>Tamtaro Complete SEL Setup</b> in Featured Templates on your AIOStreams home page, or paste this URL in Templates → Import:</div>
-<div class="ob" style="margin:.4rem 0 0"><textarea id="tamtaro" readonly rows="1" style="color:#fff">https://git.tamtaro.de/complete.json</textarea><button class="cp" onclick="cc('tamtaro')">Copy</button></div>
-<div class="warn">Overrides your filters and sorting. Addons and services are not affected.</div>
+<div class="gt">Scoring Template</div>
+<div class="gd">AIOStreams → Featured Templates → Tamtaro Complete SEL Setup</div>
+<button class="abtn" onclick="cc('tamtaro')">Copy Template URL</button>
+<div class="gd alt">Or find it directly on your AIOStreams home page</div>
+<div class="warn">Overrides filters and sorting · Addons and services are not affected</div>
 <div class="req">Requires AIOStreams nightly · Self-hosted: add SEL_SYNC_ACCESS=all</div>
+<textarea id="tamtaro" style="display:none">https://git.tamtaro.de/complete.json</textarea>
 </div></div>
 
 <div class="gs">
 <div class="gn">2</div>
 <div class="gc">
-<div class="gt">Set custom formatter in AIOStreams</div>
-<div class="gd">Go to Formatter → select Custom. Replace both fields with these:</div>
-<div class="ob" style="margin:.4rem 0 0"><label>Name</label><textarea id="on" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('on')">Copy</button></div>
-<div class="ob"><label>Description</label><textarea id="od" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('od')">Copy</button></div>
+<div class="gt">Formatter</div>
+<div class="gd">AIOStreams → Formatter → Custom → replace both fields</div>
+<div style="display:flex;gap:.4rem;margin-top:.45rem"><button class="abtn" onclick="cc('on')">Copy Name</button><button class="abtn" onclick="cc('od')">Copy Description</button></div>
+<textarea id="on" style="display:none"></textarea><textarea id="od" style="display:none"></textarea>
 </div></div>
 </div>
 
 <div class="gs">
 <div class="gn" id="step-fusion-n">3</div>
 <div class="gc">
-<div class="gt">Import filters into Fusion</div>
-<div class="gd">Fusion → Settings → Filters → Import Filters → paste the URL below:</div>
-<button class="cbtn" style="margin-top:.5rem" onclick="cc('ou')">Copy Fusion Import URL</button>
+<div class="gt">Fusion Filters</div>
+<div class="gd">Fusion → Settings → Filters → Import Filters → paste URL</div>
+<button class="cbtn" style="margin-top:.45rem" onclick="cc('ou')">Copy Import URL</button>
 </div></div>
 </div>
 <div class="toast" id="toast">Copied!</div>
