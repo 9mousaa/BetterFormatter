@@ -30,20 +30,14 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 .ob .cp:hover{color:#fff}
 .cbtn{width:100%;padding:.7rem;background:#fff;color:#111;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s}
 .cbtn:hover{opacity:.9}
-.imp-hint{text-align:center;font-size:.62rem;color:#555;margin-top:.4rem}
-.aios-details{background:#111;border:1px solid #1e1e1e;border-radius:10px;margin-top:1rem}
-.aios-summary{padding:.7rem .9rem;font-size:.75rem;font-weight:600;color:#888;cursor:pointer;list-style:none}
-.aios-summary::-webkit-details-marker{display:none}
-.aios-summary::before{content:'›';margin-right:.5rem;display:inline-block;transition:transform .2s}
-details[open] .aios-summary::before{transform:rotate(90deg)}
-.aios-summary:hover{color:#ccc}
-.aios-inner{padding:0 .9rem .8rem}
-.aios-block{margin-bottom:.8rem}
-.aios-label{font-size:.72rem;font-weight:600;color:#ccc;margin-bottom:.25rem}
-.aios-desc{font-size:.68rem;color:#888;line-height:1.4}
-.warn{color:#FF9A3D;font-size:.62rem;margin-top:.35rem;line-height:1.4}
-.req{color:#555;font-size:.58rem;margin-top:.2rem}
-#guide .note{font-size:.68rem;color:#888;margin-bottom:.6rem;line-height:1.5}
+.gs{display:flex;gap:.65rem;margin-bottom:.65rem}
+.gn{width:22px;height:22px;border-radius:50%;background:#222;color:#aaa;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+.gc{flex:1}
+.gt{font-size:.78rem;font-weight:600;color:#ddd;margin-bottom:.2rem}
+.gd{font-size:.68rem;color:#888;line-height:1.45}
+.warn{color:#FF9A3D;font-size:.6rem;margin-top:.3rem;line-height:1.4}
+.req{color:#555;font-size:.56rem;margin-top:.2rem}
+#guide .note{font-size:.7rem;color:#999;margin-bottom:.8rem;line-height:1.5}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#4ade80;padding:.5rem 1rem;border-radius:8px;font-size:.78rem;display:none;z-index:99;border:1px solid #2a2a2a}
 </style></head><body>
 <div class="wrap">
@@ -85,31 +79,37 @@ details[open] .aios-summary::before{transform:rotate(90deg)}
 
 <div style="display:none"><textarea id="ou" readonly></textarea><textarea id="oj" readonly></textarea></div>
 
-<h2 class="oph" style="margin-top:1.5rem">Import</h2>
+<h2 class="oph" style="margin-top:1.5rem">Setup</h2>
 <div id="guide"></div>
-<button class="cbtn" onclick="cc('ou')">Copy Fusion Import URL</button>
-<div class="imp-hint">Fusion → Settings → Filters → Import Filters → paste</div>
 
 <div id="aios-section">
-<details class="aios-details">
-<summary class="aios-summary">AIOStreams Setup</summary>
-<div class="aios-inner">
-<div class="aios-block">
-<div class="aios-label">1. Import scoring template</div>
-<div class="aios-desc">Find <b>Tamtaro Complete SEL Setup</b> in Featured Templates on your AIOStreams home page, or import this URL:</div>
+<div class="gs">
+<div class="gn">1</div>
+<div class="gc">
+<div class="gt">Import scoring template into AIOStreams</div>
+<div class="gd">Find <b>Tamtaro Complete SEL Setup</b> in Featured Templates on your AIOStreams home page, or paste this URL in Templates → Import:</div>
 <div class="ob" style="margin:.4rem 0 0"><textarea id="tamtaro" readonly rows="1" style="color:#fff">https://git.tamtaro.de/complete.json</textarea><button class="cp" onclick="cc('tamtaro')">Copy</button></div>
-<div class="warn">Overrides your filters and sorting. Addons, services, and formatter are not affected.</div>
+<div class="warn">Overrides your filters and sorting. Addons and services are not affected.</div>
 <div class="req">Requires AIOStreams nightly · Self-hosted: add SEL_SYNC_ACCESS=all</div>
-</div>
-<div class="aios-block">
-<div class="aios-label">2. Set custom formatter</div>
-<div class="aios-desc">AIOStreams → Formatter → Custom. Replace both fields:</div>
+</div></div>
+
+<div class="gs">
+<div class="gn">2</div>
+<div class="gc">
+<div class="gt">Set custom formatter in AIOStreams</div>
+<div class="gd">Go to Formatter → select Custom. Replace both fields with these:</div>
 <div class="ob" style="margin:.4rem 0 0"><label>Name</label><textarea id="on" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('on')">Copy</button></div>
 <div class="ob"><label>Description</label><textarea id="od" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('od')">Copy</button></div>
+</div></div>
 </div>
-</div>
-</details>
-</div>
+
+<div class="gs">
+<div class="gn" id="step-fusion-n">3</div>
+<div class="gc">
+<div class="gt">Import filters into Fusion</div>
+<div class="gd">Fusion → Settings → Filters → Import Filters → paste the URL below:</div>
+<button class="cbtn" style="margin-top:.5rem" onclick="cc('ou')">Copy Fusion Import URL</button>
+</div></div>
 </div>
 <div class="toast" id="toast">Copied!</div>
 
