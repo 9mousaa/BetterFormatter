@@ -127,7 +127,7 @@ function preview(){
   const p=C.icon,mono=p==='mono';
   let h='';
   for(const s of STREAMS){
-    const st=(s.type||'debrid');const descTxt=C.desc==='fn'?s.fn:s.title+' \xb7 '+(s.svc||'RD')+' \xb7 '+st[0].toUpperCase()+st.slice(1)+' \xb7 '+s.size;
+    const st=(s.type||'debrid');const stCap=st==='p2p'?'P2P':st[0].toUpperCase()+st.slice(1);const descTxt=C.desc==='fn'?s.fn:s.title+' \xb7 '+(s.svc||'RD')+' \xb7 '+stCap+' \xb7 '+s.size;
     h+='<div class="cd"><div class="cn">'+fmtName(s)+'</div><div class="cs">'+descTxt+'</div><div class="tr">';
 
     // 1) QUALITY
@@ -309,7 +309,7 @@ function gen(){
 function fmt(){
   const d=C.desc==='fn'
     ?'{stream.filename::exists["{stream.filename}"||""]}'
-    :'{stream.title::exists["{stream.title::title}"||""]}{stream.year::exists::and::stream.episodes::exists::isfalse::and::stream.seasons::exists::isfalse[" ({stream.year})"||""]}{stream.seasonEpisode::exists[" {stream.seasonEpisode::join(\'\xb7\')}"||""]}{service.shortName::exists[" \xb7 {service.shortName}"||""]}{stream.type::exists[" \xb7 {stream.type::title}"||""]}{stream.size::>0[" \xb7 {stream.size::bytes}"||""]}';
+    :'{stream.title::exists["{stream.title::title}"||""]}{stream.year::exists::and::stream.episodes::exists::isfalse::and::stream.seasons::exists::isfalse[" ({stream.year})"||""]}{stream.seasonEpisode::exists[" {stream.seasonEpisode::join(\'\xb7\')}"||""]}{service.shortName::exists[" \xb7 {service.shortName}"||""]}{stream.type::exists[" \xb7 {stream.type::title::replace('P2p','P2P')}"||""]}{stream.size::>0[" \xb7 {stream.size::bytes}"||""]}';
   if(C.qual==='pct')return{n:'{stream.nSeScore::exists["{stream.nSeScore}% "||""]}{stream.quality::exists["{stream.quality::title}"||""]}',d};
   if(C.qual==='bgb')return{n:"{stream.nSeScore::exists[\"{stream.nSeScore::pstar::replace('\u2bea','\u2605')::replace('\u2605\u2605\u2605\u2605\u2605','\u265b ')::replace('\u2605\u2605\u2605\u2605\u2606','\u2b51 ')::replace('\u2605\u2605\u2605\u2606\u2606','\u2726 ')::replace('\u2605\u2605\u2606\u2606\u2606','\u25b3 ')::replace('\u2605\u2606\u2606\u2606\u2606','\u2205 ')::replace('\u2606\u2606\u2606\u2606\u2606','\u2205 ')}\"||\"\"]}"+'{stream.quality::exists["{stream.quality::title}"||""]}',d};
   return{n:'{stream.quality::exists["{stream.quality::title}"||""]}',d};
