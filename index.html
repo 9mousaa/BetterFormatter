@@ -84,16 +84,17 @@ function hsl(h,s,l){const a=s*Math.min(l,1-l),f=n=>{const k=(n+h/30)%12;return l
 function hx(r,g,b){return((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1).toUpperCase()}
 function pctS(p){const c=hsl((p/100)*120,1,.45),h=hx(...c);return{bc:'#66'+h,bg:'#33'+h,tc:'#FF'+h}}
 
-// 8 realistic streams with actual filenames
+// 10 realistic streams with actual filenames — covers all tag types
 const STREAMS=[
-  {qual:'Bluray Remux',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.REMUX.DV.TrueHD.7.1.Atmos-FraMeSToR.mkv',pct:99,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'7.1',src:'remux',q:'best',tier:'t1'},
-  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.DV.HDR10Plus.DDP5.1.Atmos-iFT.mkv',pct:90,res:'4K',hdr:'HDR10+',dv:true,aud:'atmos',ch:'7.1',src:'bluray',q:'good',tier:'t2'},
-  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.HDR10.DTS-X.7.1-CtrlHD.mkv',pct:95,res:'4K',hdr:'HDR10',dv:false,aud:'dtsx',ch:'7.1',src:'bluray',q:'best',tier:'t1'},
-  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.HDR.TrueHD.7.1-DON.mkv',pct:90,res:'4K',hdr:'HDR',dv:false,aud:'truehd',ch:'7.1',src:'bluray',q:'good',tier:'t2'},
-  {qual:'Web-Dl',fn:'Avatar.Fire.and.Ash.2025.2160p.WEB-DL.DDP5.1.Atmos.DV-FLUX.mkv',pct:85,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'webdl',q:'good',tier:'t1'},
-  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.1080p.BluRay.DV.DDP5.1.Atmos-hallowed.mkv',pct:80,res:'1080p',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2'},
-  {qual:'Web-Dl',fn:'Avatar.Fire.and.Ash.2025.1080p.WEB-DL.DDP5.1.DV-PHOENiX.mkv',pct:70,res:'1080p',hdr:null,dv:true,aud:'ddp',ch:'5.1',src:'webdl',q:'good',tier:'t3'},
-  {qual:'Web-Dl',fn:'Avatar.Fire.and.Ash.2025.720p.WEB-DL.DD5.1.DV-RandomGrp.mkv',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'ok',tier:'t3'},
+  {qual:'Bluray Remux',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.REMUX.IMAX.DV.TrueHD.7.1.Atmos-FraMeSToR.mkv',pct:99,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'7.1',src:'remux',q:'best',tier:'t1',imax:'IMAX',seadex:false},
+  {qual:'Bluray Remux',fn:'Dune.2021.2160p.BluRay.REMUX.IMAX.Enhanced.DV.TrueHD.7.1.Atmos-FraMeSToR.mkv',pct:99,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'7.1',src:'remux',q:'best',tier:'t1',imax:'IMAX Enhanced',seadex:false},
+  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.DV.HDR10Plus.DDP5.1.Atmos-iFT.mkv',pct:90,res:'4K',hdr:'HDR10+',dv:true,aud:'atmos',ch:'7.1',src:'bluray',q:'good',tier:'t2',imax:null,seadex:false},
+  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.HDR10.DTS-X.7.1-CtrlHD.mkv',pct:95,res:'4K',hdr:'HDR10',dv:false,aud:'dtsx',ch:'7.1',src:'bluray',q:'best',tier:'t1',imax:null,seadex:false},
+  {qual:'Bluray',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.HDR.TrueHD.7.1-DON.mkv',pct:90,res:'4K',hdr:'HDR',dv:false,aud:'truehd',ch:'7.1',src:'bluray',q:'good',tier:'t2',imax:null,seadex:false},
+  {qual:'Web-Dl',fn:'Avatar.Fire.and.Ash.2025.2160p.WEB-DL.DDP5.1.Atmos.DV-FLUX.mkv',pct:85,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'webdl',q:'good',tier:'t1',imax:null,seadex:false},
+  {qual:'Bluray',fn:'Demon.Slayer.2019.1080p.BluRay.DV.DDP5.1.Atmos-hallowed.mkv',pct:80,res:'1080p',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2',imax:null,seadex:true},
+  {qual:'Web-Dl',fn:'Avatar.Fire.and.Ash.2025.1080p.WEB-DL.DDP5.1.DV-PHOENiX.mkv',pct:70,res:'1080p',hdr:null,dv:true,aud:'ddp',ch:'5.1',src:'webdl',q:'good',tier:'t3',imax:null,seadex:false},
+  {qual:'Web-Dl',fn:'Avatar.Fire.and.Ash.2025.720p.WEB-DL.DD5.1.DV-RandomGrp.mkv',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'ok',tier:'t3',imax:null,seadex:false},
 ];
 
 function rgba(c){
@@ -146,6 +147,10 @@ function preview(){
       h+=thtml(null,hi,ST.res);
     }
 
+    // 3b) IMAX
+    if(s.imax==='IMAX Enhanced')h+=thtml(null,'IMAX-enhanced.png',ST.res);
+    else if(s.imax==='IMAX')h+=thtml(null,'IMAX.png',ST.res);
+
     // 4) AUDIO + DV — combined shows ONE badge, separate shows individual
     const isDTS=s.aud&&s.aud.startsWith('dts');
     if(C.dv==='combo'){
@@ -178,6 +183,9 @@ function preview(){
 
     // 5) SURROUND
     h+=thtml(null,s.ch==='7.1'?'7dot1.png':'5dot1.png',ST.tr);
+
+    // 6) SEADEX
+    if(s.seadex)h+=thtml(null,'SeaDex.png',ST.best);
 
     h+='</div></div>';
   }
