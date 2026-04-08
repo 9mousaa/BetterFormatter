@@ -33,13 +33,11 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 .gs{display:flex;gap:.65rem;margin-bottom:.65rem}
 .gn{width:22px;height:22px;border-radius:50%;background:#222;color:#aaa;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
 .gc{flex:1}
-.gt{font-size:.78rem;font-weight:600;color:#ddd;margin-bottom:.2rem}
-.gd{font-size:.68rem;color:#888;line-height:1.45}
-.abtn{padding:.5rem .9rem;background:#222;color:#fff;border:1px solid #333;border-radius:8px;font-size:.72rem;font-weight:600;cursor:pointer;margin-top:.45rem;transition:all .15s}
+.gt{font-size:.88rem;font-weight:600;color:#ddd;margin-bottom:.25rem}
+.gd{font-size:.8rem;color:#888;line-height:1.5}
+.gd.sub{font-size:.7rem;color:#666;margin-top:.3rem}
+.abtn{padding:.5rem .9rem;background:#222;color:#fff;border:1px solid #333;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;margin-top:.45rem;transition:all .15s}
 .abtn:hover{background:#333;border-color:#444}
-.gd.alt{font-size:.6rem;color:#555;margin-top:.3rem}
-.warn{color:#FF9A3D;font-size:.6rem;margin-top:.3rem;line-height:1.4}
-.req{color:#555;font-size:.56rem;margin-top:.2rem}
 #guide .note{font-size:.7rem;color:#999;margin-bottom:.8rem;line-height:1.5}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#4ade80;padding:.5rem 1rem;border-radius:8px;font-size:.78rem;display:none;z-index:99;border:1px solid #2a2a2a}
 </style></head><body>
@@ -90,17 +88,15 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 <div class="gn">1</div>
 <div class="gc">
 <div class="gt">Scoring Template</div>
-<div class="gd">Open AIOStreams home → Featured Templates → <b>Tamtaro Complete SEL Setup</b> → Load Template</div>
-<button class="abtn" onclick="cc('tamtaro')">Copy URL Instead</button>
-<div class="req">Overrides filters and sorting only · Nightly required · Self-hosted: SEL_SYNC_ACCESS=all</div>
-<textarea id="tamtaro" style="display:none">https://git.tamtaro.de/complete.json</textarea>
+<div class="gd">AIOStreams → Featured Templates → <b>Tamtaro Complete SEL Setup</b> → Load Template → follow the wizard</div>
+<div class="gd sub">Overrides filters and sorting only · Nightly required</div>
 </div></div>
 
 <div class="gs">
 <div class="gn">2</div>
 <div class="gc">
 <div class="gt">Formatter</div>
-<div class="gd">AIOStreams → Formatter → Custom → replace both fields</div>
+<div class="gd">AIOStreams → Formatter → Custom → replace both fields → Save</div>
 <div style="display:flex;gap:.4rem;margin-top:.45rem"><button class="abtn" onclick="cc('on')">Copy Name</button><button class="abtn" onclick="cc('od')">Copy Description</button></div>
 <textarea id="on" style="display:none"></textarea><textarea id="od" style="display:none"></textarea>
 </div></div>
