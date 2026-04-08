@@ -39,7 +39,7 @@ const WEB_T1='ABBIE|ABBiE|AJP69|APEX|BLUTONiUM|BYNDR|CMRG|CRFW|CRUD|CasStudio|Ct
 const WEB_T2='dB|MiU|MZABI|playWEB|SbR|SMURF|XEBEC|4KBEC|CEBEX|Flights|PHOENiX|3cTWeB|BTW|Chotab|Cinefeel|CiT|Coo7|DEEP|END|ETHiCS|FC|iJP|iKA|iT00NZ|JETIX|KHN|KiMCHI|LAZY|MiU|NPMS|NYH|orbitron|PSiG|ROCCaT|RTFM|SA89|SDCC|SIGMA|SiGMA|SPiRiT|TVSmash|WELP';
 const WEB_T3='BLOOM|Dooky|DRACULA|GNOMiSSiON|HHWEB|NINJACENTRAL|SLiGNOME|SwAgLaNdEr|T4H|ViSiON';
 const WEB_T4='Erai-raws|ToonsHub|VARYG';
-const WEB_T5='BlueLobster|GST|HorribleRips|HorribleSubs|KAN3D2M|KiyoshiStar|Lia|NanDesuKa|PlayWeb|SobsPlease|Some-Stuffs|SubsPlease|URANIME|ZigZag';
+const WEB_T5='BlueLobster|GST|HorribleRips|HorribleSubs|KAN3D2M|KiyoshiStar|Lia|NanDesuKa|SobsPlease|Some-Stuffs|SubsPlease|URANIME|ZigZag';
 const WEB_ALL=WEB_T1+'|'+WEB_T2+'|'+WEB_T3+'|'+WEB_T4+'|'+WEB_T5;
 
 // Source detection fragments
@@ -49,11 +49,11 @@ const NOT_RMX='(?!.*(?:(?:[_. ]|\\d{4}p-|\\bHybrid-)(?:(?:BD|UHD)[-_. ]?)?Remux\
 const IS_WEB='(?:WEB[-_. ]DL(?:mux)?|WEBDL|WebRip|Web-Rip|WEBMux|(?:720|1080|2160)p[-. ]WEB[-. ]|[-. ]WEB[-. ](?:720|1080|2160)p|(?:AMZN|NF|DP)[. -]WEB[. -])';
 const NOT_WEB='(?!.*(?:WEB[-_. ]DL|WEBDL|WebRip|Web-Rip|WEBMux))';
 
-// Build tier pattern: (?i) for case-insensitive, matches source+group in filename OR tier label
-function tierPat(source,groups,label,smallcaps){
-  if(source==='remux') return '(?i)(?:(?=.*(?:'+IS_RMX+'))(?=.*\\b(?:'+groups+')\\b)|\\b'+label+'\\b|'+smallcaps+')';
-  if(source==='bluray') return '(?i)(?:(?=.*'+IS_BLU+')'+NOT_RMX+NOT_WEB+'(?=.*\\b(?:'+groups+')\\b)|\\b'+label+'\\b|'+smallcaps+')';
-  if(source==='web') return '(?i)(?:(?=.*'+IS_WEB+')(?=.*\\b(?:'+groups+')\\b)|\\b'+label+'\\b|'+smallcaps+')';
+// Build tier pattern: (?i) for case-insensitive, filename group detection ONLY (no label fallback to avoid double-matching)
+function tierPat(source,groups){
+  if(source==='remux') return '(?i)(?=.*(?:'+IS_RMX+'))(?=.*\\b(?:'+groups+')\\b)';
+  if(source==='bluray') return '(?i)(?=.*'+IS_BLU+')'+NOT_RMX+NOT_WEB+'(?=.*\\b(?:'+groups+')\\b)';
+  if(source==='web') return '(?i)(?=.*'+IS_WEB+')(?=.*\\b(?:'+groups+')\\b)';
 }
 
 // Unranked pattern: matches source but NOT any known group
@@ -94,9 +94,9 @@ function gen(C){
       {n:'T5',rmx:RMX_T5,blu:BLU_T5,web:WEB_T5,sub:'\u2085'},
     ];
     for(const t of tiers){
-      T.push(mk('q-rmx-'+t.n.toLowerCase(),'Remux '+t.n,tierPat('remux',t.rmx,'Remux '+t.n,'\u0280\u1d07\u1d0d\u1d1c\u0445 \u1d1b'+t.sub),p+'-icon-remux-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
-      T.push(mk('q-blu-'+t.n.toLowerCase(),'BluRay '+t.n,tierPat('bluray',t.blu,'Bluray '+t.n,'\u0299\u029f\u1d1c\u0280\u1d00\u028f \u1d1b'+t.sub),p+'-icon-bluray-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
-      T.push(mk('q-web-'+t.n.toLowerCase(),'Web '+t.n,tierPat('web',t.web,'WEB '+t.n,'\u1d21\u1d07\u0299 \u1d1b'+t.sub),p+'-icon-webdl-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
+      T.push(mk('q-rmx-'+t.n.toLowerCase(),'Remux '+t.n,tierPat('remux',t.rmx),p+'-icon-remux-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
+      T.push(mk('q-blu-'+t.n.toLowerCase(),'BluRay '+t.n,tierPat('bluray',t.blu),p+'-icon-bluray-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
+      T.push(mk('q-web-'+t.n.toLowerCase(),'Web '+t.n,tierPat('web',t.web),p+'-icon-webdl-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
     }
     // Unranked fallbacks
     T.push(mk('q-rmx-u','Remux',unrankedPat('remux',RMX_ALL),p+'-remux.png',ST.res,'gq'));
