@@ -28,6 +28,13 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 .ob .cp:hover{color:#fff}
 .cbtn{width:100%;padding:.7rem;background:#fff;color:#111;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s}
 .cbtn:hover{opacity:.9}
+.step{display:flex;gap:.7rem;margin-bottom:.8rem;background:#111;border:1px solid #1e1e1e;border-radius:10px;padding:.8rem}
+.sn{background:#222;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.si{flex:1;font-size:.75rem;color:#ccc;line-height:1.5}
+.si .hint{color:#888;font-size:.68rem;margin-top:.4rem}
+.si .warn{color:#FF9A3D;font-size:.65rem;margin-top:.4rem;line-height:1.4}
+.si .req{color:#666;font-size:.62rem;margin-top:.3rem}
+#guide .note{font-size:.68rem;color:#888;background:#111;border:1px solid #1e1e1e;border-radius:8px;padding:.6rem .8rem;margin-bottom:.6rem;line-height:1.5}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#4ade80;padding:.5rem 1rem;border-radius:8px;font-size:.78rem;display:none;z-index:99;border:1px solid #2a2a2a}
 </style></head><body>
 <div class="wrap">
@@ -64,11 +71,26 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 <h2 class="pvh">Preview</h2>
 <div id="pv"></div>
 
-<h2 class="oph">Output</h2>
+<h2 class="oph">Setup Guide</h2>
+<div id="guide"></div>
+
+<h2 class="oph" style="margin-top:1.5rem">Export</h2>
 <div style="display:none"><textarea id="ou" readonly></textarea><textarea id="oj" readonly></textarea></div>
-<button class="cbtn" onclick="cc('ou')">Copy Fusion Import URL</button>
-<div class="ob" style="margin-top:1rem"><label>AIOStreams — Name</label><textarea id="on" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('on')">Copy</button></div>
-<div class="ob"><label>AIOStreams — Description</label><textarea id="od" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('od')">Copy</button></div>
+<div id="aios-section">
+<div class="step"><span class="sn">1</span><div class="si">Import Tam-Taro's template into AIOStreams — sets up scoring, sorting, and filtering automatically.
+<div class="hint">Paste this URL in AIOStreams → Templates → Import:</div>
+<div class="ob" style="margin:.4rem 0 0"><textarea id="tamtaro" readonly rows="1" style="color:#fff">https://git.tamtaro.de/complete.json</textarea><button class="cp" onclick="cc('tamtaro')">Copy</button></div>
+<div class="warn">This overrides your AIOStreams filters and sorting. Your addons, services, and formatter are not affected.</div>
+<div class="req">Requires AIOStreams nightly \xb7 Self-hosted: add SEL_SYNC_ACCESS=all env var</div>
+</div></div>
+<div class="step"><span class="sn">2</span><div class="si">Set custom formatter in AIOStreams → Formatter → Custom:
+<div class="ob" style="margin:.4rem 0 0"><label>Name</label><textarea id="on" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('on')">Copy</button></div>
+<div class="ob"><label>Description</label><textarea id="od" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('od')">Copy</button></div>
+</div></div>
+</div>
+<div class="step"><span class="sn" id="step-fusion-n">3</span><div class="si">Import filters into Fusion → Filters → Import:
+<button class="cbtn" style="margin-top:.4rem" onclick="cc('ou')">Copy Fusion Import URL</button>
+</div></div>
 </div>
 <div class="toast" id="toast">Copied!</div>
 
@@ -324,6 +346,16 @@ function upd(){
   document.getElementById('od').value=f.d;
   const url='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/presets/'+C.icon+'-'+C.qual+'-'+C.dv+'-'+C.hdr+'.json';
   document.getElementById('ou').value=url;
+  // Show/hide AIOStreams section + update guide based on quality mode
+  const needsAIOS=C.qual==='bgb'||C.qual==='pct';
+  document.getElementById('aios-section').style.display=needsAIOS?'':'none';
+  document.getElementById('step-fusion-n').textContent=needsAIOS?'3':'1';
+  const g=document.getElementById('guide');
+  if(needsAIOS){
+    g.innerHTML='<div class="note">Your selection (<b>'+(C.qual==='bgb'?'Best/Good/OK':'Percentages')+'</b>) requires AIOStreams scored sorting. Follow all 3 steps below.</div>';
+  }else{
+    g.innerHTML='<div class="note">Your selection (<b>'+(C.qual==='tier'?'Tiers':'Source Only')+'</b>) works from filenames — no AIOStreams setup needed. Just import the Fusion filters below.</div>';
+  }
 }
 
 function cc(id){navigator.clipboard.writeText(document.getElementById(id).value).then(()=>{const t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',1500)})}
