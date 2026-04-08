@@ -116,6 +116,13 @@ function gen(C){
   T.push(mk('v-hdr10','HDR10','(?i)^'+dvBlock+'(?=.*hdr[\\s._-]?10)(?!.*hdr[\\s._-]?10[\\s._-]?(?:\\\\+|plus|p))','HDR10.png',ST.res,'gv'));
   T.push(mk('v-hdr','HDR','(?i)^'+dvBlock+'(?=.*\\bHDR\\b)(?!.*hdr[\\s._-]?10)','HDR.png',ST.res,'gv'));
 
+  // IMAX (before audio — visual category)
+  T.push(mk('v-imax-e','IMAX Enhanced','(?i)\\bimax[\\s._-]?enhanced\\b','IMAX-enhanced.png',ST.res,'gv'));
+  T.push(mk('v-imax','IMAX','(?i)\\bIMAX\\b(?!.*(?i)enhanced)','IMAX.png',ST.res,'gv'));
+
+  // SeaDex (from AIOStreams formatter output — requires formatter to include SeaDex text)
+  T.push(mk('v-seadex','SeaDex','(?i)\\b(?:seadex|best[\\s._-]?release|alt[\\s._-]?(?:best[\\s._-]?)?release)\\b','SeaDex.png',ST.best,'gv'));
+
   // Audio + DV
   if(C.dv==='combo'){
     T.push(mk('a-at-dv','Atmos+DV','(?i)^(?=.*'+ATMOS+')(?=.*'+DV+')','atmos-vision.png',ST.tr,'ga'));

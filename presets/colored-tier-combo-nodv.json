@@ -235,6 +235,45 @@
       "type": "filter"
     },
     {
+      "borderColor": "#FF858283",
+      "groupId": "gv",
+      "id": "v-imax-e",
+      "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/IMAX-enhanced.png",
+      "isEnabled": true,
+      "name": "IMAX Enhanced",
+      "pattern": "(?i)\\bimax[\\s._-]?enhanced\\b",
+      "tagColor": "#33FFFFFF",
+      "tagStyle": "filled and bordered",
+      "textColor": "#FFFFFF",
+      "type": "filter"
+    },
+    {
+      "borderColor": "#FF858283",
+      "groupId": "gv",
+      "id": "v-imax",
+      "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/IMAX.png",
+      "isEnabled": true,
+      "name": "IMAX",
+      "pattern": "(?i)\\bIMAX\\b(?!.*(?i)enhanced)",
+      "tagColor": "#33FFFFFF",
+      "tagStyle": "filled and bordered",
+      "textColor": "#FFFFFF",
+      "type": "filter"
+    },
+    {
+      "borderColor": "#FF00FF37",
+      "groupId": "gv",
+      "id": "v-seadex",
+      "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/SeaDex.png",
+      "isEnabled": true,
+      "name": "SeaDex",
+      "pattern": "(?i)\\b(?:seadex|best[\\s._-]?release|alt[\\s._-]?(?:best[\\s._-]?)?release)\\b",
+      "tagColor": "#E600E932",
+      "tagStyle": "filled and bordered",
+      "textColor": "#27C04F",
+      "type": "filter"
+    },
+    {
       "borderColor": "#00000000",
       "groupId": "ga",
       "id": "a-at-dv",
