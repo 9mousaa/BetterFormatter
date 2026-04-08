@@ -1,74 +1,73 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BetterFormatter — Configurator</title>
+<title>BetterFormatter Configurator</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
-.wrap{max-width:640px;margin:0 auto;padding:2rem 1.5rem}
-h1{font-size:1.6rem;font-weight:800;margin-bottom:.25rem}
-.sub{color:#888;font-size:.85rem;margin-bottom:2rem}
-.section{margin-bottom:1rem;background:#111;border:1px solid #222;border-radius:12px;padding:1rem}
-.section h2{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.65rem}
-.opts{display:flex;flex-wrap:wrap;gap:.4rem}
-.opt{padding:.45rem .8rem;border:1px solid #333;border-radius:8px;font-size:.78rem;cursor:pointer;transition:all .15s;color:#888;background:#0a0a0a}
-.opt:hover{border-color:#555;color:#ccc}
-.opt.on{border-color:#00FF37;color:#00FF37;background:#0d1a0f}
-.preview-section{margin:1.5rem 0}
-.preview-section h2{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.65rem}
-.card{background:#2a2a2a;border:1px solid #333;border-radius:12px;padding:.75rem .85rem;margin-bottom:.5rem}
-.card-title{font-size:.9rem;font-weight:600;margin-bottom:.15rem}
-.card-sub{font-size:.75rem;color:#999;margin-bottom:.55rem}
-.tags{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
-.t{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;font-size:.68rem;font-weight:600;gap:3px;border:1px solid transparent}
-.t img{height:15px;width:auto}
-.output-section{margin-top:2rem}
-.output-section h2{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.65rem}
-.obox{position:relative;margin-bottom:1rem}
-.obox label{font-size:.68rem;color:#555;margin-bottom:.3rem;display:block}
-.obox textarea{width:100%;padding:.5rem;background:#0a0a0a;border:1px solid #333;border-radius:8px;color:#4ade80;font-size:.65rem;font-family:ui-monospace,monospace;resize:vertical;min-height:50px}
-.obox .cb{position:absolute;top:0;right:0;background:#222;color:#aaa;border:none;padding:.3rem .6rem;border-radius:6px;font-size:.65rem;cursor:pointer}
-.obox .cb:hover{color:#fff}
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#222;color:#4ade80;padding:.5rem 1rem;border-radius:8px;font-size:.8rem;display:none;z-index:99}
+.wrap{max-width:640px;margin:0 auto;padding:2rem 1.5rem 4rem}
+h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
+.sub{color:#888;font-size:.82rem;margin-bottom:1.8rem}
+.sec{margin-bottom:.9rem;background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:.9rem 1rem}
+.sec h2{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.6rem}
+.opts{display:flex;flex-wrap:wrap;gap:.35rem}
+.o{padding:.4rem .75rem;border:1px solid #2a2a2a;border-radius:8px;font-size:.75rem;cursor:pointer;color:#777;background:#0a0a0a;transition:all .15s}
+.o:hover{border-color:#444;color:#bbb}
+.o.on{border-color:#fff;color:#fff;background:#1a1a1a}
+.pvh{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:1.4rem 0 .6rem}
+.cd{background:#222;border:1px solid #2a2a2a;border-radius:12px;padding:.7rem .85rem;margin-bottom:.45rem}
+.cn{font-size:.88rem;font-weight:600;margin-bottom:.12rem}
+.cs{font-size:.72rem;color:#999;margin-bottom:.5rem}
+.tr{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.tg{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;font-size:.72rem;font-weight:600;gap:3px;border:1px solid transparent;white-space:nowrap;min-height:24px}
+.tg img{height:16px;width:auto}
+.tg.lg img{height:22px}
+.oph{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:1.8rem 0 .6rem}
+.ob{position:relative;margin-bottom:.9rem}
+.ob label{font-size:.65rem;color:#555;margin-bottom:.25rem;display:block}
+.ob textarea{width:100%;padding:.5rem;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:8px;color:#4ade80;font-size:.62rem;font-family:ui-monospace,monospace;resize:vertical;min-height:48px}
+.ob .cp{position:absolute;top:0;right:0;background:#1a1a1a;color:#888;border:1px solid #2a2a2a;padding:.25rem .55rem;border-radius:6px;font-size:.6rem;cursor:pointer}
+.ob .cp:hover{color:#fff}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#4ade80;padding:.5rem 1rem;border-radius:8px;font-size:.78rem;display:none;z-index:99;border:1px solid #2a2a2a}
 </style></head><body>
 <div class="wrap">
 <h1>BetterFormatter</h1>
-<p class="sub">Configure your Fusion stream tags</p>
+<p class="sub">Configure your Fusion stream tags, preview, and export.</p>
 
-<div class="section"><h2>Icon Style</h2><div class="opts" data-g="iconStyle">
-<div class="opt on" data-v="colored">Colored</div>
-<div class="opt" data-v="mono">Mono</div>
+<div class="sec"><h2>Icon Style</h2><div class="opts" data-g="icon">
+<div class="o on" data-v="colored">Colored</div>
+<div class="o" data-v="mono">Mono</div>
 </div></div>
 
-<div class="section"><h2>Quality System</h2><div class="opts" data-g="quality">
-<div class="opt on" data-v="bgb">Best / Good / Bad</div>
-<div class="opt" data-v="tier">Tiers (T1 / T2 / T3)</div>
-<div class="opt" data-v="src">Source Label Only</div>
-<div class="opt" data-v="pct">Percentages</div>
+<div class="sec"><h2>Quality System</h2><div class="opts" data-g="qual">
+<div class="o on" data-v="bgb">Best / Good / Bad</div>
+<div class="o" data-v="tier">Tiers (T1/T2/T3)</div>
+<div class="o" data-v="src">Source Label Only</div>
+<div class="o" data-v="pct">Percentages</div>
 </div></div>
 
-<div class="section"><h2>Dolby Vision + Audio</h2><div class="opts" data-g="dv">
-<div class="opt on" data-v="combo">Combined Badge</div>
-<div class="opt" data-v="sep">Separate Tags</div>
+<div class="sec"><h2>Dolby Vision + Audio</h2><div class="opts" data-g="dv">
+<div class="o on" data-v="combo">Combined Badge</div>
+<div class="o" data-v="sep">Separate Tags</div>
 </div></div>
 
-<div class="section"><h2>HDR Display</h2><div class="opts" data-g="hdr">
-<div class="opt on" data-v="nodv">Only when no Dolby Vision</div>
-<div class="opt" data-v="always">Always (for hybrids)</div>
+<div class="sec"><h2>HDR Display</h2><div class="opts" data-g="hdr">
+<div class="o on" data-v="nodv">Only when no DV</div>
+<div class="o" data-v="always">Always (hybrids)</div>
 </div></div>
 
-<div class="preview-section"><h2>Preview</h2><div id="pv"></div></div>
+<h2 class="pvh">Preview</h2>
+<div id="pv"></div>
 
-<div class="output-section"><h2>Output</h2>
-<div class="obox"><label>AIOStreams — Name</label><textarea id="o-name" readonly rows="2"></textarea><button class="cb" onclick="cp('o-name')">Copy</button></div>
-<div class="obox"><label>AIOStreams — Description</label><textarea id="o-desc" readonly rows="2"></textarea><button class="cb" onclick="cp('o-desc')">Copy</button></div>
-<div class="obox"><label>Fusion Tags JSON</label><textarea id="o-json" readonly rows="14"></textarea><button class="cb" onclick="cp('o-json')">Copy</button></div>
-</div></div>
+<h2 class="oph">Output</h2>
+<div class="ob"><label>AIOStreams — Name</label><textarea id="on" readonly rows="2"></textarea><button class="cp" onclick="cc('on')">Copy</button></div>
+<div class="ob"><label>AIOStreams — Description</label><textarea id="od" readonly rows="2"></textarea><button class="cp" onclick="cc('od')">Copy</button></div>
+<div class="ob"><label>Fusion Tags JSON</label><textarea id="oj" readonly rows="16"></textarea><button class="cp" onclick="cc('oj')">Copy</button></div>
+</div>
 <div class="toast" id="toast">Copied!</div>
 
 <script>
-const B='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/';
-let C={iconStyle:'colored',quality:'bgb',dv:'combo',hdr:'nodv'};
+const I='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/';
+let C={icon:'colored',qual:'bgb',dv:'combo',hdr:'nodv'};
 
-// Styles
 const ST={
   best:{bc:'#FF00FF37',bg:'#E600E932',tc:'#27C04F'},
   good:{bc:'#FF2D9943',bg:'#3300E932',tc:'#27C04F'},
@@ -78,241 +77,232 @@ const ST={
   dim:{bc:'#00000000',bg:'#00000000',tc:'#80FFFFFF'},
 };
 
-function hsl2rgb(h,s,l){const a=s*Math.min(l,1-l);const f=n=>{const k=(n+h/30)%12;return l-a*Math.max(Math.min(k-3,9-k,1),-1)};return[Math.round(f(0)*255),Math.round(f(8)*255),Math.round(f(4)*255)]}
-function hex(r,g,b){return((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1).toUpperCase()}
-function pctST(p){const[r,g,b]=hsl2rgb((p/100)*120,1,.45);const h=hex(r,g,b);return{bc:'#66'+h,bg:'#33'+h,tc:'#FF'+h}}
+function hsl(h,s,l){const a=s*Math.min(l,1-l),f=n=>{const k=(n+h/30)%12;return l-a*Math.max(Math.min(k-3,9-k,1),-1)};return[Math.round(f(0)*255),Math.round(f(8)*255),Math.round(f(4)*255)]}
+function hx(r,g,b){return((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1).toUpperCase()}
+function pctS(p){const c=hsl((p/100)*120,1,.45),h=hx(...c);return{bc:'#66'+h,bg:'#33'+h,tc:'#FF'+h}}
 
-// Preview streams (matching screenshot)
+// 8 realistic streams
 const STREAMS=[
-  {title:'Avatar Fire and Ash',sub:'TorBox \u00b7 76 GB',pct:99,res:'4k',hdr:null,dv:true,audio:'truehd+atmos',ch:'7.1',src:'remux',q:'best',tier:'t1'},
-  {title:'Avatar Fire and Ash',sub:'BluRay \u00b7 TorBox \u00b7 76 GB',pct:90,res:'4k',hdr:'HDR10+',dv:true,audio:'ddp+atmos',ch:'7.1',src:'bluray',q:'good',tier:'t2'},
-  {title:'Avatar Fire and Ash',sub:'BluRay \u00b7 TorBox \u00b7 76 GB',pct:95,res:'4k',hdr:'HDR10',dv:false,audio:'dtsx',ch:'7.1',src:'bluray',q:'best',tier:'t1'},
-  {title:'Avatar Fire and Ash',sub:'BluRay \u00b7 TorBox \u00b7 76 GB',pct:90,res:'4k',hdr:'HDR',dv:false,audio:null,ch:'7.1',src:'bluray',q:'good',tier:'t2'},
-  {title:'Avatar Fire and Ash',sub:'BluRay \u00b7 TorBox \u00b7 76 GB',pct:80,res:'1080p',hdr:null,dv:true,audio:'ddp+atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2'},
-  {title:'Avatar Fire and Ash',sub:'BluRay \u00b7 TorBox \u00b7 76 GB',pct:50,res:'720p',hdr:null,dv:true,audio:'ddp+atmos',ch:'5.1',src:'webdl',q:'bad',tier:'t3'},
+  {t:'Avatar Fire and Ash',s:'TorBox \xb7 76 GB',pct:99,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'7.1',src:'remux',q:'best',tier:'t1'},
+  {t:'Avatar Fire and Ash',s:'BluRay \xb7 TorBox \xb7 76 GB',pct:90,res:'4K',hdr:'HDR10+',dv:true,aud:'atmos',ch:'7.1',src:'bluray',q:'good',tier:'t2'},
+  {t:'Avatar Fire and Ash',s:'BluRay \xb7 TorBox \xb7 76 GB',pct:95,res:'4K',hdr:'HDR10',dv:false,aud:'dtsx',ch:'7.1',src:'bluray',q:'best',tier:'t1'},
+  {t:'Avatar Fire and Ash',s:'BluRay \xb7 TorBox \xb7 76 GB',pct:90,res:'4K',hdr:'HDR',dv:false,aud:'truehd',ch:'7.1',src:'bluray',q:'good',tier:'t2'},
+  {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 18 GB',pct:85,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'webdl',q:'good',tier:'t1'},
+  {t:'Avatar Fire and Ash',s:'BluRay \xb7 TorBox \xb7 12 GB',pct:80,res:'1080p',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2'},
+  {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 4 GB',pct:70,res:'1080p',hdr:null,dv:true,aud:'ddp',ch:'5.1',src:'webdl',q:'good',tier:'t3'},
+  {t:'Avatar Fire and Ash',s:'WEB-DL \xb7 TorBox \xb7 2 GB',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'bad',tier:'t3'},
 ];
 
-function renderTag(name,img,st){
-  const ba=parseInt(st.bc.slice(1,3),16)/255;
-  const br=parseInt(st.bc.slice(3,5),16),bg2=parseInt(st.bc.slice(5,7),16),bb=parseInt(st.bc.slice(7,9),16);
-  const ga=parseInt(st.bg.slice(1,3),16)/255;
-  const gr=parseInt(st.bg.slice(3,5),16),gg=parseInt(st.bg.slice(5,7),16),gb=parseInt(st.bg.slice(7,9),16);
-  const ta=st.tc.length>7?parseInt(st.tc.slice(1,3),16)/255:1;
-  const tr2=parseInt(st.tc.slice(st.tc.length>7?3:1,st.tc.length>7?5:3),16);
-  const tg=parseInt(st.tc.slice(st.tc.length>7?5:3,st.tc.length>7?7:5),16);
-  const tb=parseInt(st.tc.slice(st.tc.length>7?7:5,st.tc.length>7?9:7),16);
-  let inner=img?'<img src="'+B+img+'">':'<span>'+name+'</span>';
-  return '<span class="t" style="border-color:rgba('+br+','+bg2+','+bb+','+ba.toFixed(2)+');background:rgba('+gr+','+gg+','+gb+','+ga.toFixed(2)+');color:rgba('+tr2+','+tg+','+tb+','+ta.toFixed(2)+')">'+inner+'</span>';
+function rgba(aarrggbb){
+  if(!aarrggbb||aarrggbb.length<9)return'transparent';
+  const a=parseInt(aarrggbb.slice(1,3),16)/255;
+  const r=parseInt(aarrggbb.slice(3,5),16);
+  const g=parseInt(aarrggbb.slice(5,7),16);
+  const b=parseInt(aarrggbb.slice(7,9),16);
+  return'rgba('+r+','+g+','+b+','+a.toFixed(3)+')';
+}
+
+function thtml(label,img,st,lg){
+  const s='border-color:'+rgba(st.bc)+';background:'+rgba(st.bg)+';color:'+rgba(st.tc);
+  const cls='tg'+(lg?' lg':'');
+  if(img)return'<span class="'+cls+'" style="'+s+'"><img src="'+I+img+'"></span>';
+  return'<span class="'+cls+'" style="'+s+'">'+label+'</span>';
 }
 
 function preview(){
-  const p=C.iconStyle;const mono=p==='mono';
-  let html='';
+  const p=C.icon,mono=p==='mono';
+  let h='';
   for(const s of STREAMS){
-    html+='<div class="card"><div class="card-title">'+s.title+'</div><div class="card-sub">'+s.sub+'</div><div class="tags">';
+    h+='<div class="cd"><div class="cn">'+s.t+'</div><div class="cs">'+s.s+'</div><div class="tr">';
 
-    // 1. Quality tag
-    if(C.quality==='bgb'){
+    // 1) QUALITY
+    if(C.qual==='bgb'){
       const qst=mono?ST.res:ST[s.q];
-      const ql=s.q==='best'?'Best':s.q==='good'?'Good':'Bad';
-      const qi=s.q==='bad'?p+'-Bad.png':p+'-'+s.q+'-'+s.src+'.png';
-      html+=renderTag(ql,qi,qst);
-    } else if(C.quality==='tier'){
-      const qi=p+'-icon-'+s.src+'-'+s.tier+'.png';
-      html+=renderTag(s.tier.toUpperCase(),qi,mono?ST.res:ST.best);
-    } else if(C.quality==='src'){
-      const qi=p+'-'+s.src+'.png';
-      html+=renderTag(s.src,qi,mono?ST.res:ST.best);
-    } else if(C.quality==='pct'){
-      const cst=mono?ST.res:pctST(s.pct);
-      html+=renderTag(s.pct+'%',null,cst);
+      const img=s.q==='bad'?p+'-Bad.png':p+'-'+s.q+'-'+s.src+'.png';
+      h+=thtml(null,img,qst);
+    }else if(C.qual==='tier'){
+      h+=thtml(null,p+'-icon-'+s.src+'-'+s.tier+'.png',mono?ST.res:ST.best);
+    }else if(C.qual==='src'){
+      h+=thtml(null,p+'-'+s.src+'.png',mono?ST.res:ST.best);
+    }else{
+      h+=thtml(s.pct+'%',null,mono?ST.res:pctS(s.pct));
     }
 
-    // 2. Resolution
-    html+=renderTag(s.res,s.res==='4k'?'4k.png':s.res+'.png',ST.res);
+    // 2) RESOLUTION
+    const ri=s.res==='4K'?'4k.png':s.res.toLowerCase()+'.png';
+    h+=thtml(null,ri,ST.res);
 
-    // 3. HDR (before audio/DV)
-    if(s.hdr){
-      const showHDR=C.hdr==='always'||(C.hdr==='nodv'&&!s.dv);
-      if(showHDR){
-        const hi=s.hdr==='HDR10+'?'HDR10Plus.png':s.hdr+'.png';
-        html+=renderTag(s.hdr,hi,ST.res);
-      }
+    // 3) HDR
+    if(s.hdr&&(C.hdr==='always'||!s.dv)){
+      const hi=s.hdr==='HDR10+'?'HDR10Plus.png':s.hdr==='HDR10'?'HDR10.png':'HDR.png';
+      h+=thtml(null,hi,ST.res);
     }
 
-    // 4. Audio + DV
+    // 4) AUDIO + DV — combined shows ONE badge, separate shows individual
+    const isDTS=s.aud&&s.aud.startsWith('dts');
     if(C.dv==='combo'){
-      if(s.audio&&s.audio.includes('atmos')&&s.dv) html+=renderTag('DV+Atmos','atmos-vision.png',ST.tr);
-      else if(s.audio&&s.audio.includes('truehd')&&s.dv) html+=renderTag('TrueHD+DV','truehd-vision.png',ST.tr);
-      else if(s.audio&&s.audio.includes('ddp')&&s.dv) html+=renderTag('DD++DV','digitalplus-vision.png',ST.tr);
-      else if(s.dv&&!s.audio) html+=renderTag('DV','vision.png',ST.tr);
-      else if(s.dv) html+=renderTag('DV','vision.png',ST.tr);
-      // Audio without DV
-      if(s.audio&&s.audio.includes('atmos')&&!s.dv) html+=renderTag('Atmos','atmos.png',ST.tr);
-      else if(s.audio&&s.audio.includes('truehd')&&!s.dv) html+=renderTag('TrueHD','truehd.png',ST.tr);
-      else if(s.audio&&s.audio.includes('ddp')&&!s.dv) html+=renderTag('DD+','digitalplus.png',ST.tr);
-      // DTS (always separate)
-      if(s.audio==='dtsx') html+=renderTag('DTS:X','dtsx.png',ST.res);
-      else if(s.audio==='dtshdma') html+=renderTag('DTS-HD MA','dtshdma.png',ST.res);
-      else if(s.audio==='dtshd') html+=renderTag('DTS-HD','dtshd.png',ST.res);
-      else if(s.audio==='dts') html+=renderTag('DTS','dts.png',ST.res);
-    } else {
-      // Separate: DV first, then audio
-      if(s.dv) html+=renderTag('DV','vision.png',ST.tr);
-      if(s.audio&&s.audio.includes('atmos')) html+=renderTag('Atmos','atmos.png',ST.tr);
-      else if(s.audio&&s.audio.includes('truehd')) html+=renderTag('TrueHD','truehd.png',ST.tr);
-      else if(s.audio&&s.audio.includes('ddp')) html+=renderTag('DD+','digitalplus.png',ST.tr);
-      else if(s.audio==='dtsx') html+=renderTag('DTS:X','dtsx.png',ST.res);
-      else if(s.audio==='dtshdma') html+=renderTag('DTS-HD MA','dtshdma.png',ST.res);
-      else if(s.audio==='dtshd') html+=renderTag('DTS-HD','dtshd.png',ST.res);
-      else if(s.audio==='dts') html+=renderTag('DTS','dts.png',ST.res);
+      // Combined: one badge for Dolby audio+DV
+      if(s.dv&&!isDTS){
+        // DV + Dolby audio → single combined badge
+        if(s.aud==='atmos')h+=thtml(null,'atmos-vision.png',ST.tr,true);
+        else if(s.aud==='truehd')h+=thtml(null,'truehd-vision.png',ST.tr,true);
+        else if(s.aud==='ddp')h+=thtml(null,'digitalplus-vision.png',ST.tr,true);
+        else if(s.aud==='dd')h+=thtml(null,'digital-vision.png',ST.tr,true);
+        else h+=thtml(null,'vision.png',ST.tr,true);
+      }else{
+        // No DV, or DV + DTS (no Dolby audio combo)
+        if(s.dv)h+=thtml(null,'vision.png',ST.tr,true);
+        if(s.aud==='atmos')h+=thtml(null,'atmos.png',ST.tr,true);
+        else if(s.aud==='truehd')h+=thtml(null,'truehd.png',ST.tr,true);
+        else if(s.aud==='ddp')h+=thtml(null,'digitalplus.png',ST.tr,true);
+        else if(s.aud==='dd')h+=thtml(null,'digital.png',ST.tr,true);
+        else if(isDTS){h+=thtml(null,(s.aud==='dtsx'?'dtsx':s.aud==='dtshdma'?'dtshdma':s.aud==='dtshd'?'dtshd':'dts')+'.png',ST.res);}
+      }
+    }else{
+      // Separate: individual DV + individual audio
+      if(s.dv)h+=thtml(null,'vision.png',ST.tr,true);
+      if(s.aud==='atmos')h+=thtml(null,'atmos.png',ST.tr,true);
+      else if(s.aud==='truehd')h+=thtml(null,'truehd.png',ST.tr,true);
+      else if(s.aud==='ddp')h+=thtml(null,'digitalplus.png',ST.tr,true);
+      else if(s.aud==='dd')h+=thtml(null,'digital.png',ST.tr,true);
+      else if(isDTS){h+=thtml(null,(s.aud==='dtsx'?'dtsx':s.aud==='dtshdma'?'dtshdma':s.aud==='dtshd'?'dtshd':'dts')+'.png',ST.res);}
     }
 
-    // 5. Surround
-    if(s.ch==='7.1') html+=renderTag('7.1','7dot1.png',ST.tr);
-    else if(s.ch==='5.1') html+=renderTag('5.1','5dot1.png',ST.tr);
+    // 5) SURROUND
+    h+=thtml(null,s.ch==='7.1'?'7dot1.png':'5dot1.png',ST.tr);
 
-    html+='</div></div>';
+    h+='</div></div>';
   }
-  document.getElementById('pv').innerHTML=html;
+  document.getElementById('pv').innerHTML=h;
 }
 
-// --- Tag generation ---
-function mkTag(id,name,pattern,img,st,gid){
-  return{borderColor:st.bc,groupId:gid,id:id,imageURL:img?B+img:'',isEnabled:true,name:name,pattern:pattern,tagColor:st.bg,tagStyle:'filled and bordered',textColor:st.tc,type:'filter'};
+// --- JSON Generation ---
+function mk(id,name,pat,img,st,gid){
+  return{borderColor:st.bc,groupId:gid,id:id,imageURL:img?I+img:'',isEnabled:true,name:name,pattern:pat,tagColor:st.bg,tagStyle:'filled and bordered',textColor:st.tc,type:'filter'};
 }
 
-function generate(){
-  const p=C.iconStyle;const mono=p==='mono';const tags=[];
-  const qst=k=>mono?ST.res:ST[k];
-  const dvP='(?i)\\b(?:dv|dovi|dolby[\\s._-]?vision)\\b';
-  const dvPos='(?=.*'+dvP+')';
-  const dvNeg='(?!.*'+dvP+')';
-  const atmosP='(?i)\\batmos\\b';
-  const truehdP='(?i)true[\\s._-]?hd';
-  const ddpP='(?i)(?:dd[p+]|e[\\s._-]?ac[\\s._-]?3)';
-  const ddOnly='(?i)(?:dd[^p+a-z]|(?<!e-)ac-?3)';
+function gen(){
+  const p=C.icon,mono=p==='mono',T=[],G=[];
+  const qs=k=>mono?ST.res:ST[k];
+
+  // Patterns
+  const dvR='\\b(?:dv|dovi|dolby[\\s._-]?vision)\\b';
+  const dvY='(?=.*(?i)'+dvR+')';
+  const dvN='(?!.*(?i)'+dvR+')';
+  const atmosR='(?i)\\batmos\\b';
+  const thR='(?i)true[\\s._-]?hd';
+  const ddpR='(?i)(?:dd[p+]|e[\\s._-]?ac[\\s._-]?3)';
+  const ddR='(?i)(?:dd[^p+a-z]|(?<!e-)ac-?3)';
 
   // Quality
-  if(C.quality==='bgb'){
-    const bestP='\u266b',goodP='[\u2b51\u2726]',badP='[\u25b3\u2205]';
-    tags.push(mkTag('q-best-rmx','Best Remux','(?=.*\u266b)(?=.*(?i)remux)',p+'-best-remux.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-best-blu','Best BluRay','(?=.*\u266b)(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-best-bluray.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-best-web','Best WebDL','(?=.*\u266b)(?=.*(?i)(?:web[-_. ]?dl|webdl|webrip))',p+'-best-webdl.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-good-rmx','Good Remux','(?=.*[\u2b51\u2726])(?=.*(?i)remux)',p+'-good-remux.png',qst('good'),'g-q'));
-    tags.push(mkTag('q-good-blu','Good BluRay','(?=.*[\u2b51\u2726])(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-good-bluray.png',qst('good'),'g-q'));
-    tags.push(mkTag('q-good-web','Good WebDL','(?=.*[\u2b51\u2726])(?=.*(?i)(?:web[-_. ]?dl|webdl|webrip))',p+'-good-webdl.png',qst('good'),'g-q'));
-    tags.push(mkTag('q-bad','Bad','[\u25b3\u2205]',p+'-Bad.png',qst('bad'),'g-q'));
-  } else if(C.quality==='tier'){
-    const tiers=[['t1','\u2081'],['t2','\u2082'],['t3','\u2083']];
-    for(const[t,sub] of tiers){
-      const n=t.toUpperCase();
-      tags.push(mkTag('q-rmx-'+t,'Remux '+n,'(?:\\bRemux '+n+'\\b|\u0280\u1d07\u1d0d\u1d1c\u0445 \u1d1b'+sub+')',p+'-icon-remux-'+t+'.png',qst('best'),'g-q'));
-      tags.push(mkTag('q-blu-'+t,'BluRay '+n,'(?:\\bBluray '+n+'\\b|\u0299\u029f\u1d1c\u0280\u1d00\u028f \u1d1b'+sub+')',p+'-icon-bluray-'+t+'.png',qst('best'),'g-q'));
-      tags.push(mkTag('q-web-'+t,'WebDL '+n,'(?:\\bWEB '+n+'\\b|\u1d21\u1d07\u0299 \u1d1b'+sub+')',p+'-icon-webdl-'+t+'.png',qst('best'),'g-q'));
+  if(C.qual==='bgb'){
+    T.push(mk('q-br','Best Remux','(?=.*\u265b)(?=.*(?i)remux)',p+'-best-remux.png',qs('best'),'gq'));
+    T.push(mk('q-bb','Best BluRay','(?=.*\u265b)(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-best-bluray.png',qs('best'),'gq'));
+    T.push(mk('q-bw','Best WebDL','(?=.*\u265b)(?=.*(?i)(?:web[-_. ]?dl|webdl|webrip))',p+'-best-webdl.png',qs('best'),'gq'));
+    T.push(mk('q-gr','Good Remux','(?=.*[\u2b51\u2726])(?=.*(?i)remux)',p+'-good-remux.png',qs('good'),'gq'));
+    T.push(mk('q-gb','Good BluRay','(?=.*[\u2b51\u2726])(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-good-bluray.png',qs('good'),'gq'));
+    T.push(mk('q-gw','Good WebDL','(?=.*[\u2b51\u2726])(?=.*(?i)(?:web[-_. ]?dl|webdl|webrip))',p+'-good-webdl.png',qs('good'),'gq'));
+    T.push(mk('q-bad','Bad','[\u25b3\u2205]',p+'-Bad.png',qs('bad'),'gq'));
+  }else if(C.qual==='tier'){
+    const subs=['\u2081','\u2082','\u2083'];
+    const srcs=[['remux','Remux','\u0280\u1d07\u1d0d\u1d1c\u0445'],['bluray','Bluray','\u0299\u029f\u1d1c\u0280\u1d00\u028f'],['webdl','WEB','\u1d21\u1d07\u0299']];
+    for(let i=0;i<3;i++){
+      const tn='T'+(i+1);
+      for(const[k,l,sc] of srcs){
+        T.push(mk('q-'+k+'-t'+(i+1),l+' '+tn,'(?:\\b'+l+' '+tn+'\\b|'+sc+' \u1d1b'+subs[i]+')',p+'-icon-'+k+'-t'+(i+1)+'.png',qs('best'),'gq'));
+      }
     }
-  } else if(C.quality==='src'){
-    tags.push(mkTag('q-rmx','Remux','(?i)remux',p+'-remux.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-blu','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-bluray.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-web','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip|web-rip)',p+'-webdl.png',qst('best'),'g-q'));
-  } else if(C.quality==='pct'){
-    for(let i=100;i>=1;i--){
-      tags.push(mkTag('pct-'+i,i+'%','\\b'+i+'%','',mono?ST.res:pctST(i),'g-pct'));
-    }
-    tags.push(mkTag('q-rmx','Remux','(?i)remux',p+'-remux.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-blu','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-bluray.png',qst('best'),'g-q'));
-    tags.push(mkTag('q-web','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip|web-rip)',p+'-webdl.png',qst('best'),'g-q'));
+  }else if(C.qual==='src'){
+    T.push(mk('q-r','Remux','(?i)remux',p+'-remux.png',qs('best'),'gq'));
+    T.push(mk('q-b','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-bluray.png',qs('best'),'gq'));
+    T.push(mk('q-w','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip)',p+'-webdl.png',qs('best'),'gq'));
+  }else{
+    for(let i=100;i>=1;i--)T.push(mk('p'+i,i+'%','\\b'+i+'%','',mono?ST.res:pctS(i),'gp'));
+    T.push(mk('q-r','Remux','(?i)remux',p+'-remux.png',qs('best'),'gq'));
+    T.push(mk('q-b','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-bluray.png',qs('best'),'gq'));
+    T.push(mk('q-w','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip)',p+'-webdl.png',qs('best'),'gq'));
   }
 
   // Resolution
-  tags.push(mkTag('r-4k','4K','(?i)^(?!.*\\b(?:1080[pi]?|720[pi]?)\\b).*?(?:\\b2160[pi]?\\b|\\b4k\\b|\\buhd\\b)',B+'4k.png',ST.res,'g-r'));
-  tags.push(mkTag('r-1080','1080p','(?i)\\b1080[pi]?\\b','1080p.png',ST.res,'g-r'));
-  tags.push(mkTag('r-720','720p','(?i)\\b720[pi]?\\b','720p.png',ST.res,'g-r'));
+  T.push(mk('r4','4K','(?i)^(?!.*\\b(?:1080[pi]?|720[pi]?)\\b).*?(?:\\b2160[pi]?\\b|\\b4k\\b|\\buhd\\b)','4k.png',ST.res,'gr'));
+  T.push(mk('r1','1080p','(?i)\\b1080[pi]?\\b','1080p.png',ST.res,'gr'));
+  T.push(mk('r7','720p','(?i)\\b720[pi]?\\b','720p.png',ST.res,'gr'));
 
-  // HDR (before audio — tag order matters)
-  const hdrPfx=C.hdr==='nodv'?dvNeg:'';
-  tags.push(mkTag('v-hdr10p','HDR10+',hdrPfx+'(?=.*(?i)hdr\\s*10\\s*(?:\\+|plus|p))','HDR10Plus.png',ST.res,'g-v'));
-  tags.push(mkTag('v-hdr10','HDR10',hdrPfx+'(?=.*(?i)hdr\\s*10(?!\\s*(?:\\+|plus|p)))','HDR10.png',ST.res,'g-v'));
-  tags.push(mkTag('v-hdr','HDR',hdrPfx+'(?=.*(?i)(?:^|[^0-9A-Za-z])HDR(?:[^0-9A-Za-z]|$))(?!.*(?i)hdr\\s*10)','HDR.png',ST.res,'g-v'));
+  // HDR (before audio in order)
+  const hp=C.hdr==='nodv'?dvN:'';
+  T.push(mk('h+','HDR10+',hp+'(?=.*(?i)hdr\\s*10\\s*(?:\\+|plus|p))','HDR10Plus.png',ST.res,'gv'));
+  T.push(mk('h1','HDR10',hp+'(?=.*(?i)hdr\\s*10)(?!.*(?i)hdr\\s*10\\s*(?:\\+|plus|p))','HDR10.png',ST.res,'gv'));
+  T.push(mk('hh','HDR',hp+'(?=.*(?i)\\bHDR\\b)(?!.*(?i)hdr\\s*10)','HDR.png',ST.res,'gv'));
 
   // Audio + DV
   if(C.dv==='combo'){
-    tags.push(mkTag('a-atmos-dv','Atmos+DV','(?=.*'+atmosP+')'+dvPos,'atmos-vision.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-atmos','Atmos','(?=.*'+atmosP+')'+dvNeg,'atmos.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-truehd-dv','TrueHD+DV','(?=.*'+truehdP+')'+dvPos,'truehd-vision.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-truehd','TrueHD','(?=.*'+truehdP+')'+dvNeg,'truehd.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-ddp-dv','DD++DV','(?=.*'+ddpP+')(?!.*'+atmosP+')'+dvPos,'digitalplus-vision.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-ddp','DD+','(?=.*'+ddpP+')(?!.*'+atmosP+')'+dvNeg,'digitalplus.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-dd-dv','DD+DV','(?=.*'+ddOnly+')(?!.*'+ddpP+')(?!.*'+truehdP+')'+dvPos,'digital-vision.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-dd','DD','(?=.*'+ddOnly+')(?!.*'+ddpP+')(?!.*'+truehdP+')'+dvNeg,'digital.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-dv','DV','(?=.*'+dvP+')(?!.*'+atmosP+')(?!.*'+truehdP+')(?!.*'+ddpP+')(?!.*'+ddOnly+')','vision.png',ST.tr,'g-v'));
-  } else {
-    tags.push(mkTag('a-dv','DV',dvP,'vision.png',ST.tr,'g-v'));
-    tags.push(mkTag('a-atmos','Atmos',atmosP,'atmos.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-truehd','TrueHD',truehdP,'truehd.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-ddp','DD+','(?=.*'+ddpP+')(?!.*'+atmosP+')','digitalplus.png',ST.tr,'g-a'));
-    tags.push(mkTag('a-dd','DD','(?=.*'+ddOnly+')(?!.*'+ddpP+')(?!.*'+truehdP+')','digital.png',ST.tr,'g-a'));
+    // Atmos (top priority) — catches both TrueHD Atmos and DD+ Atmos
+    T.push(mk('a-at-dv','Atmos+DV','(?=.*'+atmosR+')'+dvY,'atmos-vision.png',ST.tr,'ga'));
+    T.push(mk('a-at','Atmos','(?=.*'+atmosR+')'+dvN,'atmos.png',ST.tr,'ga'));
+    // TrueHD (no Atmos)
+    T.push(mk('a-th-dv','TrueHD+DV','(?=.*'+thR+')(?!.*'+atmosR+')'+dvY,'truehd-vision.png',ST.tr,'ga'));
+    T.push(mk('a-th','TrueHD','(?=.*'+thR+')(?!.*'+atmosR+')'+dvN,'truehd.png',ST.tr,'ga'));
+    // DD+ (no Atmos, no TrueHD)
+    T.push(mk('a-dp-dv','DD+ DV','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')'+dvY,'digitalplus-vision.png',ST.tr,'ga'));
+    T.push(mk('a-dp','DD+','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')'+dvN,'digitalplus.png',ST.tr,'ga'));
+    // DD (no DD+, no TrueHD, no Atmos)
+    T.push(mk('a-dd-dv','DD DV','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')'+dvY,'digital-vision.png',ST.tr,'ga'));
+    T.push(mk('a-dd','DD','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')'+dvN,'digital.png',ST.tr,'ga'));
+    // DV standalone (DV + non-Dolby audio like DTS)
+    T.push(mk('a-dv','DV','(?=.*(?i)'+dvR+')(?!.*'+atmosR+')(?!.*'+thR+')(?!.*'+ddpR+')(?!.*'+ddR+')','vision.png',ST.tr,'gv'));
+  }else{
+    T.push(mk('a-dv','DV','(?i)'+dvR,'vision.png',ST.tr,'gv'));
+    T.push(mk('a-at','Atmos',atmosR,'atmos.png',ST.tr,'ga'));
+    T.push(mk('a-th','TrueHD','(?=.*'+thR+')(?!.*'+atmosR+')','truehd.png',ST.tr,'ga'));
+    T.push(mk('a-dp','DD+','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')','digitalplus.png',ST.tr,'ga'));
+    T.push(mk('a-dd','DD','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')','digital.png',ST.tr,'ga'));
   }
 
   // DTS (always separate, resolution style)
-  tags.push(mkTag('a-dtsx','DTS:X','(?i)dts[-_.: ]?x','dtsx.png',ST.res,'g-a'));
-  tags.push(mkTag('a-dtshdma','DTS-HD MA','(?i)dts[-_. ]?(?:hd[-_. ]?ma|ma|xll)','dtshdma.png',ST.res,'g-a'));
-  tags.push(mkTag('a-dtshd','DTS-HD','(?i)dts[-_. ]?hd(?![-_. ]?ma)','dtshd.png',ST.res,'g-a'));
-  tags.push(mkTag('a-dts','DTS','(?=.*(?i)\\bDTS\\b)(?!.*(?i)dts[-_. ]?(?:hd|ma|xll|x))','dts.png',ST.res,'g-a'));
+  T.push(mk('d-x','DTS:X','(?i)\\bdts[-_.: ]?x\\b','dtsx.png',ST.res,'ga'));
+  T.push(mk('d-ma','DTS-HD MA','(?i)\\bdts[-_. ]?(?:hd[-_. ]?ma|ma|xll)\\b','dtshdma.png',ST.res,'ga'));
+  T.push(mk('d-hd','DTS-HD','(?i)\\bdts[-_. ]?hd\\b(?![-_. ]?ma)','dtshd.png',ST.res,'ga'));
+  T.push(mk('d-d','DTS','(?=.*(?i)\\bDTS\\b)(?!.*(?i)dts[-_. ]?(?:hd|ma|xll|x))','dts.png',ST.res,'ga'));
 
   // Surround
-  tags.push(mkTag('ch-71','7.1','(?i)(?=.*[^0-9][7-8][ .][0-1]\\b)','7dot1.png',ST.tr,'g-ch'));
-  tags.push(mkTag('ch-51','5.1','(?i)(?=.*[^0-9]5[ .][0-1]\\b)(?!.*[^0-9][7-8][ .][0-1]\\b)','5dot1.png',ST.tr,'g-ch'));
+  T.push(mk('c7','7.1','(?i)[^0-9][7-8][ .][0-1]','7dot1.png',ST.tr,'gc'));
+  T.push(mk('c5','5.1','(?=.*(?i)[^0-9]5[ .][0-1])(?!.*(?i)[^0-9][7-8][ .][0-1])','5dot1.png',ST.tr,'gc'));
 
-  // Language flags
-  const langs=[['en','\ud83c\uddec\ud83c\udde7','(?i)\\benglish\\b|\\beng\\b'],['es','\ud83c\uddea\ud83c\uddf8','(?i)\\bspanish\\b|\\bspa\\b'],['fr','\ud83c\uddeb\ud83c\uddf7','(?i)\\bfrench\\b|\\bfra\\b'],['de','\ud83c\udde9\ud83c\uddea','(?i)\\bgerman\\b|\\bdeu\\b'],['it','\ud83c\uddee\ud83c\uddf9','(?i)\\bitalian\\b|\\bita\\b'],['pt','\ud83c\udde7\ud83c\uddf7','(?i)\\bportuguese\\b|\\bpor\\b'],['ja','\ud83c\uddef\ud83c\uddf5','(?i)\\bjapanese\\b|\\bjpn\\b'],['ko','\ud83c\uddf0\ud83c\uddf7','(?i)\\bkorean\\b|\\bkor\\b'],['zh','\ud83c\udde8\ud83c\uddf3','(?i)\\bchinese\\b|\\bchi\\b'],['hi','\ud83c\uddee\ud83c\uddf3','(?i)\\bhindi\\b|\\bhin\\b'],['ar','\ud83c\uddf8\ud83c\udde6','(?i)\\barabic\\b|\\bara\\b'],['ru','\ud83c\uddf7\ud83c\uddfa','(?i)\\brussian\\b|\\brus\\b'],['multi','\ud83c\udf10','(?i)\\bmulti\\b|\\bdual[\\s._-]?audio\\b']];
-  for(const[c,f,pat] of langs) tags.push(mkTag('l-'+c,f,pat,'',ST.dim,'g-l'));
+  // Languages
+  const L=[['en','\ud83c\uddec\ud83c\udde7','(?i)\\benglish\\b|\\beng\\b'],['es','\ud83c\uddea\ud83c\uddf8','(?i)\\bspanish\\b|\\bspa\\b'],['fr','\ud83c\uddeb\ud83c\uddf7','(?i)\\bfrench\\b|\\bfra\\b'],['de','\ud83c\udde9\ud83c\uddea','(?i)\\bgerman\\b|\\bdeu\\b'],['it','\ud83c\uddee\ud83c\uddf9','(?i)\\bitalian\\b|\\bita\\b'],['pt','\ud83c\udde7\ud83c\uddf7','(?i)\\bportuguese\\b|\\bpor\\b'],['ja','\ud83c\uddef\ud83c\uddf5','(?i)\\bjapanese\\b|\\bjpn\\b'],['ko','\ud83c\uddf0\ud83c\uddf7','(?i)\\bkorean\\b|\\bkor\\b'],['zh','\ud83c\udde8\ud83c\uddf3','(?i)\\bchinese\\b|\\bchi\\b'],['hi','\ud83c\uddee\ud83c\uddf3','(?i)\\bhindi\\b|\\bhin\\b'],['ar','\ud83c\uddf8\ud83c\udde6','(?i)\\barabic\\b|\\bara\\b'],['ru','\ud83c\uddf7\ud83c\uddfa','(?i)\\brussian\\b|\\brus\\b'],['mu','\ud83c\udf10','(?i)\\bmulti\\b|\\bdual[\\s._-]?audio\\b']];
+  for(const[c,f,pt] of L)T.push(mk('l-'+c,f,pt,'',ST.dim,'gl'));
 
-  // Groups (order matters for Fusion display)
-  const groups=[
-    {borderColor:ST.best.bc,color:'#27C04F',id:'g-q',isExpanded:true,name:'Quality'},
-    {borderColor:ST.res.bc,color:'#FFBE01',id:'g-r',isExpanded:true,name:'Resolution'},
-    {borderColor:ST.res.bc,color:'#FFBE01',id:'g-v',isExpanded:true,name:'Visual'},
-    {borderColor:'#00000000',color:'#FFFFFF',id:'g-a',isExpanded:true,name:'Audio'},
-    {borderColor:'#00000000',color:'#FFFFFF',id:'g-ch',isExpanded:true,name:'Channels'},
-    {borderColor:'#00000000',color:'#4ECDC4',id:'g-l',isExpanded:true,name:'Language'},
-  ];
-  if(C.quality==='pct') groups.splice(1,0,{borderColor:'#00000000',color:'#27C04F',id:'g-pct',isExpanded:true,name:'Score'});
+  // Groups (order = display order in Fusion)
+  if(C.qual==='pct')G.push({borderColor:'#00000000',color:'#27C04F',id:'gp',isExpanded:true,name:'Score'});
+  G.push({borderColor:ST.best.bc,color:'#27C04F',id:'gq',isExpanded:true,name:'Quality'});
+  G.push({borderColor:ST.res.bc,color:'#FFBE01',id:'gr',isExpanded:true,name:'Resolution'});
+  G.push({borderColor:ST.res.bc,color:'#FF6B6B',id:'gv',isExpanded:true,name:'Visual'});
+  G.push({borderColor:'#00000000',color:'#45B7D1',id:'ga',isExpanded:true,name:'Audio'});
+  G.push({borderColor:'#00000000',color:'#FFD700',id:'gc',isExpanded:true,name:'Channels'});
+  G.push({borderColor:'#00000000',color:'#4ECDC4',id:'gl',isExpanded:true,name:'Language'});
 
-  return{filters:tags,groups};
+  return{filters:T,groups:G};
 }
 
-function getFormatter(){
-  if(C.quality==='pct') return{
-    name:'{stream.nSeScore::exists["{stream.nSeScore}% "||""]}{stream.quality::exists["{stream.quality::title}"||""]}',
-    desc:'{stream.filename::exists["{stream.filename}"||""]}'
-  };
-  if(C.quality==='bgb') return{
-    name:'{stream.nSeScore::exists["{stream.nSeScore::pstar::replace(\'⯪\',\'★\')::replace(\'★★★★★\',\'♛ \')::replace(\'★★★★☆\',\'⭑ \')::replace(\'★★★☆☆\',\'✦ \')::replace(\'★★☆☆☆\',\'△ \')::replace(\'★☆☆☆☆\',\'∅ \')::replace(\'☆☆☆☆☆\',\'∅ \')}"||""]}{stream.quality::exists["{stream.quality::title}"||""]}',
-    desc:'{stream.filename::exists["{stream.filename}"||""]}'
-  };
-  return{
-    name:'{stream.quality::exists["{stream.quality::title}"||""]}',
-    desc:'{stream.filename::exists["{stream.filename}"||""]}'
-  };
+function fmt(){
+  const d='{stream.filename::exists["{stream.filename}"||""]}';
+  if(C.qual==='pct')return{n:'{stream.nSeScore::exists["{stream.nSeScore}% "||""]}{stream.quality::exists["{stream.quality::title}"||""]}',d};
+  if(C.qual==='bgb')return{n:"{stream.nSeScore::exists[\"{stream.nSeScore::pstar::replace('\u2bea','\u2605')::replace('\u2605\u2605\u2605\u2605\u2605','\u265b ')::replace('\u2605\u2605\u2605\u2605\u2606','\u2b51 ')::replace('\u2605\u2605\u2605\u2606\u2606','\u2726 ')::replace('\u2605\u2605\u2606\u2606\u2606','\u25b3 ')::replace('\u2605\u2606\u2606\u2606\u2606','\u2205 ')::replace('\u2606\u2606\u2606\u2606\u2606','\u2205 ')}\"||\"\"]}"+'{stream.quality::exists["{stream.quality::title}"||""]}',d};
+  return{n:'{stream.quality::exists["{stream.quality::title}"||""]}',d};
 }
 
-function update(){
+function upd(){
   preview();
-  const d=generate();
-  document.getElementById('o-json').value=JSON.stringify(d,null,2);
-  const f=getFormatter();
-  document.getElementById('o-name').value=f.name;
-  document.getElementById('o-desc').value=f.desc;
+  const j=gen();
+  document.getElementById('oj').value=JSON.stringify(j,null,2);
+  const f=fmt();
+  document.getElementById('on').value=f.n;
+  document.getElementById('od').value=f.d;
 }
 
-function cp(id){navigator.clipboard.writeText(document.getElementById(id).value).then(()=>{const t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',1500)})}
+function cc(id){navigator.clipboard.writeText(document.getElementById(id).value).then(()=>{const t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',1500)})}
 
-document.querySelectorAll('.opts').forEach(g=>{
-  g.querySelectorAll('.opt').forEach(o=>{
-    o.onclick=()=>{g.querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');C[g.dataset.g]=o.dataset.v;update()};
-  });
-});
+document.querySelectorAll('.opts').forEach(g=>{g.querySelectorAll('.o').forEach(o=>{o.onclick=()=>{g.querySelectorAll('.o').forEach(x=>x.classList.remove('on'));o.classList.add('on');C[g.dataset.g]=o.dataset.v;upd()}})});
 
-update();
+upd();
 </script></body></html>
