@@ -1,0 +1,380 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BetterFormatter — Configurator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:2rem 1.5rem}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:.25rem}
+.sub{color:#888;font-size:.85rem;margin-bottom:2rem}
+.section{margin-bottom:1.5rem;background:#111;border:1px solid #222;border-radius:12px;padding:1rem}
+.section h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.75rem}
+.opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.opt{padding:.5rem .9rem;border:1px solid #333;border-radius:8px;font-size:.8rem;cursor:pointer;transition:all .15s;color:#888;background:#0a0a0a}
+.opt:hover{border-color:#555;color:#ccc}
+.opt.on{border-color:#00FF37;color:#00FF37;background:#0d1a0f}
+.preview-section{margin:2rem 0}
+.preview-section h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.75rem}
+.stream-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:.8rem;margin-bottom:.6rem}
+.stream-name{font-size:.9rem;font-weight:600;margin-bottom:.3rem}
+.stream-desc{font-size:.75rem;color:#888;margin-bottom:.5rem;word-break:break-all}
+.tags-row{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.tag{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;font-size:.7rem;font-weight:600;gap:4px}
+.tag img{height:14px;width:auto}
+.output-section{margin-top:2rem}
+.output-section h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.75rem}
+.output-box{position:relative;margin-bottom:1rem}
+.output-box label{font-size:.7rem;color:#666;margin-bottom:.3rem;display:block}
+.output-box textarea{width:100%;padding:.6rem;background:#0a0a0a;border:1px solid #333;border-radius:8px;color:#4ade80;font-size:.7rem;font-family:monospace;resize:vertical;min-height:60px}
+.btn{padding:.6rem 1.2rem;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff;color:#111;transition:all .15s}
+.btn:hover{opacity:.9}
+.btn-copy{background:#222;color:#fff;font-size:.75rem;padding:.45rem .8rem}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#222;color:#4ade80;padding:.6rem 1.2rem;border-radius:8px;font-size:.8rem;display:none;z-index:99}
+</style></head><body>
+<div class="wrap">
+<h1>BetterFormatter</h1>
+<p class="sub">Configure your Fusion stream tags, preview, and export JSON.</p>
+
+<div class="section"><h2>Icon Style</h2><div class="opts" data-group="iconStyle">
+<div class="opt on" data-val="colored">Colored</div>
+<div class="opt" data-val="mono">Mono</div>
+</div></div>
+
+<div class="section"><h2>Quality System</h2><div class="opts" data-group="qualitySystem">
+<div class="opt on" data-val="bestgoodbad">Best / Good / Bad</div>
+<div class="opt" data-val="tiersIcon">Tiers (with T1/T2/T3)</div>
+<div class="opt" data-val="tiersText">Source Label Only</div>
+<div class="opt" data-val="percentages">Percentages (0-100%)</div>
+</div></div>
+
+<div class="section"><h2>Source Labels (Remux / BluRay / WebDL)</h2><div class="opts" data-group="sourceLabels">
+<div class="opt on" data-val="on">Enabled</div>
+<div class="opt" data-val="off">Disabled</div>
+</div></div>
+
+<div class="section"><h2>Dolby Vision + Audio</h2><div class="opts" data-group="dolbyMode">
+<div class="opt on" data-val="combined">Combined Badge</div>
+<div class="opt" data-val="separate">Separate Tags</div>
+</div></div>
+
+<div class="section"><h2>HDR Display</h2><div class="opts" data-group="hdrMode">
+<div class="opt on" data-val="noDV">Only when no Dolby Vision</div>
+<div class="opt" data-val="always">Always show (for hybrids)</div>
+</div></div>
+
+<div class="preview-section"><h2>Preview</h2><div id="preview"></div></div>
+
+<div class="output-section"><h2>Output</h2>
+<div class="output-box"><label>AIOStreams — Name template</label><textarea id="out-name" readonly rows="2"></textarea><button class="btn btn-copy" onclick="copyEl('out-name')">Copy</button></div>
+<div class="output-box"><label>AIOStreams — Description template</label><textarea id="out-desc" readonly rows="2"></textarea><button class="btn btn-copy" onclick="copyEl('out-desc')">Copy</button></div>
+<div class="output-box"><label>Fusion Tags JSON</label><textarea id="out-json" readonly rows="12"></textarea><button class="btn btn-copy" onclick="copyEl('out-json')">Copy</button></div>
+</div>
+</div>
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const IMG='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/';
+const DV_RE='\\\\b(?:dv|dovi|dolby[\\\\s._-]?vision)\\\\b';
+const DV_POS='(?=.*(?i)'+DV_RE+')';
+const DV_NEG='(?!.*(?i)'+DV_RE+')';
+
+let cfg={iconStyle:'colored',qualitySystem:'bestgoodbad',sourceLabels:'on',dolbyMode:'combined',hdrMode:'noDV'};
+
+// --- Styles ---
+const S={
+  best:{borderColor:'#FF00FF37',tagColor:'#E600E932',textColor:'#27C04F'},
+  good:{borderColor:'#FF2D9943',tagColor:'#3300E932',textColor:'#27C04F'},
+  bad:{borderColor:'#FF9D613D',tagColor:'#33FF7728',textColor:'#FF6904'},
+  res:{borderColor:'#FF858283',tagColor:'#33FFFFFF',textColor:'#FFFFFF'},
+  trans:{borderColor:'#00000000',tagColor:'#00000000',textColor:'#FFFFFF'},
+  transDim:{borderColor:'#00000000',tagColor:'#00000000',textColor:'#80FFFFFF'},
+};
+
+function hsl2rgb(h,s,l){h/=360;const a=s*Math.min(l,1-l),f=n=>{const k=(n+h*12)%12;return l-a*Math.max(-1,Math.min(k-3,9-k,1))};return[Math.round(f(0)*255),Math.round(f(8)*255),Math.round(f(4)*255)]}
+function pctColor(p){const[r,g,b]=hsl2rgb((p/100)*120,1,.45);const h=((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1).toUpperCase();return{textColor:'#FF'+h,borderColor:'#66'+h,tagColor:'#33'+h}}
+
+function tag(id,name,pattern,imageURL,style,groupId){return{borderColor:style.borderColor,groupId,id,imageURL:imageURL||'',isEnabled:true,name,pattern,tagColor:style.tagColor,tagStyle:'filled and bordered',textColor:style.textColor,type:'filter'}}
+
+function generate(){
+  const p=cfg.iconStyle;const tags=[];const groups=[];
+  const monoStyle=cfg.iconStyle==='mono';
+  const qStyle=k=>monoStyle?S.res:S[k];
+
+  // Groups
+  groups.push({borderColor:S.best.borderColor,color:'#27C04F',id:'g-qual',isExpanded:true,name:'Quality'});
+  groups.push({borderColor:S.res.borderColor,color:'#FFBE01',id:'g-res',isExpanded:true,name:'Resolution'});
+  groups.push({borderColor:'#00000000',color:'#FFBE01',id:'g-vis',isExpanded:true,name:'Visual'});
+  groups.push({borderColor:'#00000000',color:'#FFFFFF',id:'g-aud',isExpanded:true,name:'Audio'});
+  groups.push({borderColor:'#00000000',color:'#FFFFFF',id:'g-ch',isExpanded:true,name:'Channels'});
+  groups.push({borderColor:'#00000000',color:'#4ECDC4',id:'g-lang',isExpanded:true,name:'Language'});
+  if(cfg.qualitySystem==='percentages')groups.push({borderColor:'#00000000',color:'#27C04F',id:'g-pct',isExpanded:true,name:'Score'});
+
+  // --- Quality ---
+  const remuxRE='(?i)(?:[_. ]|\\\\d{4}p-|\\\\bHybrid-)(?:(?:BD|UHD)[-_. ]?)?Remux\\\\b';
+  const blurayRE='(?i)(?:BluRay|Blu-Ray|BD(?!$))';
+  const webRE='(?i)(?:WEB[-_. ]DL|WEBDL|WebRip|Web-Rip|WEBMux)';
+
+  if(cfg.qualitySystem==='bestgoodbad'){
+    tags.push(tag('q-best-remux','Best Remux','(?=.*\\u266b)(?=.*'+remuxRE+')'.replace('\\u266b','\u266b'), IMG+p+'-best-remux.png',qStyle('best'),'g-qual'));
+    // Actually patterns need to be simpler. Let me use the score symbols directly.
+  }
+
+  // I'll simplify by building patterns inline
+  const bestP='♛', goodP='[⭑✦]', badP='[△∅]';
+  const remuxP='(?i)remux';
+  const bluP='(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)';
+  const webP='(?i)(?:web[-_. ]?dl|webdl|webrip)';
+
+  if(cfg.qualitySystem==='bestgoodbad'){
+    if(cfg.sourceLabels==='on'){
+      tags.push(tag('q-best-rmx','Best Remux','(?=.*'+bestP+')(?=.*(?i)remux)',IMG+p+'-best-remux.png',qStyle('best'),'g-qual'));
+      tags.push(tag('q-best-blu','Best BluRay','(?=.*'+bestP+')'+bluP,IMG+p+'-best-bluray.png',qStyle('best'),'g-qual'));
+      tags.push(tag('q-best-web','Best WebDL','(?=.*'+bestP+')(?=.*'+webP+')',IMG+p+'-best-webdl.png',qStyle('best'),'g-qual'));
+      tags.push(tag('q-good-rmx','Good Remux','(?=.*'+goodP+')(?=.*(?i)remux)',IMG+p+'-good-remux.png',qStyle('good'),'g-qual'));
+      tags.push(tag('q-good-blu','Good BluRay','(?=.*'+goodP+')'+bluP,IMG+p+'-good-bluray.png',qStyle('good'),'g-qual'));
+      tags.push(tag('q-good-web','Good WebDL','(?=.*'+goodP+')(?=.*'+webP+')',IMG+p+'-good-webdl.png',qStyle('good'),'g-qual'));
+    } else {
+      tags.push(tag('q-best','Best',bestP,IMG+p+'-best-remux.png',qStyle('best'),'g-qual'));
+      tags.push(tag('q-good','Good',goodP,IMG+p+'-good-remux.png',qStyle('good'),'g-qual'));
+    }
+    tags.push(tag('q-bad','Bad',badP,IMG+p+'-Bad.png',qStyle('bad'),'g-qual'));
+  }
+  else if(cfg.qualitySystem==='tiersIcon'){
+    const tiers=['t1','t2','t3'];
+    const src=[['remux','Remux','(?:\\\\bRemux T{T}\\\\b|\\u0280\\u1d07\\u1d0d\\u1d1c\\u0445 \\u1d1b\\u2081)'],['bluray','BluRay','(?:\\\\bBluray T{T}\\\\b|\\u0299\\u029f\\u1d1c\\u0280\\u1d00\\u028f \\u1d1b\\u2081)'],['webdl','WebDL','(?:\\\\bWEB T{T}\\\\b|\\u1d21\\u1d07\\u0299 \\u1d1b\\u2081)']];
+    for(const[key,label,pat] of src){
+      for(let i=0;i<3;i++){
+        const t=tiers[i];const tn=i+1;
+        const p2=pat.replace(/T\{T\}/g,String(tn)).replace(/\\u2081/g,['\\u2081','\\u2082','\\u2083'][i]);
+        tags.push(tag('q-'+key+'-'+t,label+' T'+tn,p2,IMG+p+'-icon-'+key+'-'+t+'.png',qStyle('best'),'g-qual'));
+      }
+    }
+  }
+  else if(cfg.qualitySystem==='tiersText'){
+    tags.push(tag('q-rmx','Remux','(?i)remux',IMG+p+'-remux.png',qStyle('best'),'g-qual'));
+    tags.push(tag('q-blu','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',IMG+p+'-bluray.png',qStyle('best'),'g-qual'));
+    tags.push(tag('q-web','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip|web-rip)',IMG+p+'-webdl.png',qStyle('best'),'g-qual'));
+  }
+  else if(cfg.qualitySystem==='percentages'){
+    for(let i=100;i>=1;i--){
+      const c=pctColor(i);
+      tags.push(tag('pct-'+i,i+'%','\\\\b'+i+'%','',(monoStyle?S.res:c),'g-pct'));
+    }
+    if(cfg.sourceLabels==='on'){
+      tags.push(tag('q-rmx','Remux','(?i)remux',IMG+p+'-remux.png',qStyle('best'),'g-qual'));
+      tags.push(tag('q-blu','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',IMG+p+'-bluray.png',qStyle('best'),'g-qual'));
+      tags.push(tag('q-web','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip|web-rip)',IMG+p+'-webdl.png',qStyle('best'),'g-qual'));
+    }
+  }
+
+  // --- Resolution ---
+  tags.push(tag('r-4k','4K','(?i)^(?!.*\\\\b(?:1080[pi]?|720[pi]?)\\\\b).*?(?:\\\\b2160[pi]?\\\\b|\\\\b4k\\\\b|\\\\buhd\\\\b)',IMG+'4k.png',S.res,'g-res'));
+  tags.push(tag('r-1080','1080p','(?i)\\\\b1080[pi]?\\\\b',IMG+'1080p.png',S.res,'g-res'));
+  tags.push(tag('r-720','720p','(?i)\\\\b720[pi]?\\\\b',IMG+'720p.png',S.res,'g-res'));
+
+  // --- Audio + DV ---
+  const dvPat='(?i)\\\\b(?:dv|dovi|dolby[\\\\s._-]?vision)\\\\b';
+  const atmosPat='(?i)\\\\batmos\\\\b';
+  const truehdPat='(?i)true[\\\\s._-]?hd';
+  const ddpPat='(?i)(?:dd[p+]|e[\\\\s._-]?ac[\\\\s._-]?3|dolby[\\\\s._-]?digital[\\\\s._-]?plus)';
+  const ddPat='(?i)(?:dd[^p+a-z]|ac-?3|dolby[\\\\s._-]?digital(?![\\\\s._-]?plus))';
+  const dvPos='(?=.*'+dvPat+')';
+  const dvNeg='(?!.*'+dvPat+')';
+
+  if(cfg.dolbyMode==='combined'){
+    // Atmos combos (Atmos = DD+ Atmos typically)
+    tags.push(tag('a-atmos-dv','Atmos + DV','(?=.*'+atmosPat+')'+dvPos,IMG+'atmos-vision.png',S.trans,'g-aud'));
+    tags.push(tag('a-atmos','Atmos','(?=.*'+atmosPat+')'+dvNeg,IMG+'atmos.png',S.trans,'g-aud'));
+    // TrueHD combos
+    tags.push(tag('a-truehd-dv','TrueHD + DV','(?=.*'+truehdPat+')'+dvPos,IMG+'truehd-vision.png',S.trans,'g-aud'));
+    tags.push(tag('a-truehd','TrueHD','(?=.*'+truehdPat+')'+dvNeg,IMG+'truehd.png',S.trans,'g-aud'));
+    // DD+ combos
+    tags.push(tag('a-ddp-dv','DD+ + DV','(?=.*'+ddpPat+')(?!.*'+atmosPat+')'+dvPos,IMG+'digitalplus-vision.png',S.trans,'g-aud'));
+    tags.push(tag('a-ddp','DD+','(?=.*'+ddpPat+')(?!.*'+atmosPat+')'+dvNeg,IMG+'digitalplus.png',S.trans,'g-aud'));
+    // DD combos
+    tags.push(tag('a-dd-dv','DD + DV','(?=.*'+ddPat+')(?!.*'+ddpPat+')(?!.*'+truehdPat+')'+dvPos,IMG+'digital-vision.png',S.trans,'g-aud'));
+    tags.push(tag('a-dd','DD','(?=.*'+ddPat+')(?!.*'+ddpPat+')(?!.*'+truehdPat+')'+dvNeg,IMG+'digital.png',S.trans,'g-aud'));
+    // DV standalone (when audio is DTS or other non-Dolby)
+    tags.push(tag('a-dv-only','DV','(?=.*'+dvPat+')(?!.*'+atmosPat+')(?!.*'+truehdPat+')(?!.*'+ddpPat+')(?!.*(?i)(?:dd[^p+a-z]|ac-?3))',IMG+'vision.png',S.trans,'g-vis'));
+  } else {
+    tags.push(tag('a-dv','Dolby Vision',dvPat,IMG+'vision.png',S.trans,'g-vis'));
+    tags.push(tag('a-atmos','Atmos',atmosPat,IMG+'atmos.png',S.trans,'g-aud'));
+    tags.push(tag('a-truehd','TrueHD',truehdPat,IMG+'truehd.png',S.trans,'g-aud'));
+    tags.push(tag('a-ddp','DD+','(?=.*'+ddpPat+')(?!.*'+atmosPat+')',IMG+'digitalplus.png',S.trans,'g-aud'));
+    tags.push(tag('a-dd','DD','(?=.*'+ddPat+')(?!.*'+ddpPat+')(?!.*'+truehdPat+')',IMG+'digital.png',S.trans,'g-aud'));
+  }
+
+  // DTS (always separate, resolution style)
+  tags.push(tag('a-dtsx','DTS:X','(?i)dts[-_.: ]?x',IMG+'dtsx.png',S.res,'g-aud'));
+  tags.push(tag('a-dtshdma','DTS-HD MA','(?i)dts[-_. ]?(?:hd[-_. ]?ma|ma|xll)',IMG+'dtshdma.png',S.res,'g-aud'));
+  tags.push(tag('a-dtshd','DTS-HD','(?i)dts[-_. ]?hd(?![-_. ]?ma)',IMG+'dtshd.png',S.res,'g-aud'));
+  tags.push(tag('a-dts','DTS','(?=.*(?i)\\\\bDTS\\\\b)(?!.*(?i)dts[-_. ]?(?:hd|ma|xll|x))',IMG+'dts.png',S.res,'g-aud'));
+
+  // --- HDR ---
+  const hdrBase=cfg.hdrMode==='noDV'?dvNeg:'';
+  tags.push(tag('v-hdr10p','HDR10+',hdrBase+'(?=.*(?i)hdr\\\\s*10\\\\s*(?:\\\\+|plus|p))',IMG+'HDR10Plus.png',S.res,'g-vis'));
+  tags.push(tag('v-hdr10','HDR10',hdrBase+'(?=.*(?i)hdr\\\\s*10(?!\\\\s*(?:\\\\+|plus|p)))',IMG+'HDR10.png',S.res,'g-vis'));
+  tags.push(tag('v-hdr','HDR',hdrBase+'(?=.*(?i)(?:^|[^0-9A-Za-z])HDR(?:[^0-9A-Za-z]|$))(?!.*(?i)hdr\\\\s*10)',IMG+'HDR.png',S.res,'g-vis'));
+
+  // --- Surround ---
+  tags.push(tag('ch-71','7.1','(?i)(?=.*[^0-9][7-8][ .][0-1]\\\\b)',IMG+'7dot1.png',S.trans,'g-ch'));
+  tags.push(tag('ch-51','5.1','(?i)(?=.*[^0-9]5[ .][0-1]\\\\b)(?!.*[^0-9][7-8][ .][0-1]\\\\b)',IMG+'5dot1.png',S.trans,'g-ch'));
+
+  // --- Language flags ---
+  const langs=[
+    ['en','\u{1F1EC}\u{1F1E7}','(?i)\\\\benglish\\\\b|\\\\beng\\\\b|\u{1F1EC}\u{1F1E7}|\u{1F1FA}\u{1F1F8}'],
+    ['es','\u{1F1EA}\u{1F1F8}','(?i)\\\\bspanish\\\\b|\\\\bspa\\\\b|\u{1F1EA}\u{1F1F8}|\u{1F1F2}\u{1F1FD}'],
+    ['fr','\u{1F1EB}\u{1F1F7}','(?i)\\\\bfrench\\\\b|\\\\bfra\\\\b|\u{1F1EB}\u{1F1F7}'],
+    ['de','\u{1F1E9}\u{1F1EA}','(?i)\\\\bgerman\\\\b|\\\\bdeu\\\\b|\u{1F1E9}\u{1F1EA}'],
+    ['it','\u{1F1EE}\u{1F1F9}','(?i)\\\\bitalian\\\\b|\\\\bita\\\\b|\u{1F1EE}\u{1F1F9}'],
+    ['pt','\u{1F1E7}\u{1F1F7}','(?i)\\\\bportuguese\\\\b|\\\\bpor\\\\b|\u{1F1E7}\u{1F1F7}|\u{1F1F5}\u{1F1F9}'],
+    ['ja','\u{1F1EF}\u{1F1F5}','(?i)\\\\bjapanese\\\\b|\\\\bjpn\\\\b|\u{1F1EF}\u{1F1F5}'],
+    ['ko','\u{1F1F0}\u{1F1F7}','(?i)\\\\bkorean\\\\b|\\\\bkor\\\\b|\u{1F1F0}\u{1F1F7}'],
+    ['zh','\u{1F1E8}\u{1F1F3}','(?i)\\\\bchinese\\\\b|\\\\bchi\\\\b|\u{1F1E8}\u{1F1F3}|\u{1F1F9}\u{1F1FC}'],
+    ['hi','\u{1F1EE}\u{1F1F3}','(?i)\\\\bhindi\\\\b|\\\\bhin\\\\b|\u{1F1EE}\u{1F1F3}'],
+    ['ar','\u{1F1F8}\u{1F1E6}','(?i)\\\\barabic\\\\b|\\\\bara\\\\b|\u{1F1F8}\u{1F1E6}|\u{1F1E6}\u{1F1EA}'],
+    ['ru','\u{1F1F7}\u{1F1FA}','(?i)\\\\brussian\\\\b|\\\\brus\\\\b|\u{1F1F7}\u{1F1FA}'],
+    ['multi','\u{1F310}','(?i)\\\\bmulti\\\\b|\\\\bdual[\\\\s._-]?audio\\\\b'],
+  ];
+  for(const[code,flag,pat] of langs){
+    tags.push(tag('l-'+code,flag,pat,'',S.transDim,'g-lang'));
+  }
+
+  return {filters:tags,groups};
+}
+
+// --- Formatter ---
+function getFormatter(){
+  let name='',desc='{stream.filename::exists["{stream.filename}"||""]}';
+  if(cfg.qualitySystem==='percentages'){
+    name='{stream.nSeScore::exists["{stream.nSeScore}% "||""]}{stream.quality::exists["{stream.quality::title}"||""]}';
+  } else if(cfg.qualitySystem==='bestgoodbad'){
+    name='{stream.nSeScore::exists["{stream.nSeScore::pstar::replace(\'\\u2BEA\',\'\\u2605\')::replace(\'\\u2605\\u2605\\u2605\\u2605\\u2605\',\'\\u266B \')::replace(\'\\u2605\\u2605\\u2605\\u2605\\u2606\',\'\\u2B51 \')::replace(\'\\u2605\\u2605\\u2605\\u2606\\u2606\',\'\\u2726 \')::replace(\'\\u2605\\u2605\\u2606\\u2606\\u2606\',\'\\u25B3 \')::replace(\'\\u2605\\u2606\\u2606\\u2606\\u2606\',\'\\u2205 \')::replace(\'\\u2606\\u2606\\u2606\\u2606\\u2606\',\'\\u2205 \')}"||""]}{stream.quality::exists["{stream.quality::title}"||""]}';
+  } else {
+    name='{stream.quality::exists["{stream.quality::title}"||""]}';
+  }
+  return {name,desc};
+}
+
+// --- Preview ---
+function renderPreview(){
+  const el=document.getElementById('preview');
+  const streams=[
+    {name:'♛ Bluray Remux',nameP:'99% Bluray Remux',nameTI:'Remux T1',nameTT:'Bluray Remux',desc:'Avatar.Fire.and.Ash.2025.2160p.BluRay.REMUX.DV.HDR10.TrueHD.Atmos-FraMeSToR.mkv',res:'4K',audio:'truehd+atmos',dv:true,hdr:'HDR10',ch:'7.1',lang:'en',qual:'best'},
+    {name:'⭑ Bluray',nameP:'65% Bluray',nameTI:'Bluray T2',nameTT:'Bluray',desc:'Avatar.Fire.and.Ash.2025.1080p.BluRay.DD+.Atmos-FLUX.mkv',res:'1080p',audio:'ddp+atmos',dv:false,hdr:'HDR',ch:'5.1',lang:'en',qual:'good'},
+    {name:'△ Web-Dl',nameP:'25% Web-Dl',nameTI:'WEB T3',nameTT:'Web-Dl',desc:'Avatar.Fire.and.Ash.2025.720p.WEB-DL.DD5.1-UNKNOWN.mkv',res:'720p',audio:'dd',dv:false,hdr:null,ch:'5.1',lang:'en',qual:'bad'}
+  ];
+  let html='';
+  for(const s of streams){
+    let sn=s.name;
+    if(cfg.qualitySystem==='percentages')sn=s.nameP;
+    else if(cfg.qualitySystem==='tiersIcon')sn=s.nameTI;
+    else if(cfg.qualitySystem==='tiersText')sn=s.nameTT;
+    html+='<div class="stream-card"><div class="stream-name">'+sn+'</div><div class="stream-desc">'+s.desc+'</div><div class="tags-row">';
+    // Quality tag
+    html+=previewQualTag(s);
+    // Resolution
+    html+=previewTag(s.res,S.res);
+    // Audio + DV
+    html+=previewAudioTag(s);
+    // HDR
+    if(s.hdr && (cfg.hdrMode==='always' || !s.dv))html+=previewTag(s.hdr,S.res);
+    // Surround
+    html+=previewTag(s.ch,S.trans);
+    // Language
+    html+=previewTag(s.lang==='en'?'\u{1F1EC}\u{1F1E7}':'',S.transDim);
+    html+='</div></div>';
+  }
+  el.innerHTML=html;
+}
+
+function previewQualTag(s){
+  const mono=cfg.iconStyle==='mono';
+  if(cfg.qualitySystem==='percentages'){
+    const pct=s.qual==='best'?99:s.qual==='good'?65:25;
+    const c=mono?S.res:pctColor(pct);
+    return previewTag(pct+'%',c);
+  }
+  const style=mono?S.res:(s.qual==='best'?S.best:s.qual==='good'?S.good:S.bad);
+  if(cfg.qualitySystem==='bestgoodbad'){
+    const label=s.qual==='best'?'Best':s.qual==='good'?'Good':'Bad';
+    return previewTag(label,style);
+  }
+  if(cfg.qualitySystem==='tiersIcon'){
+    const t=s.qual==='best'?'T1':s.qual==='good'?'T2':'T3';
+    return previewTag(t,mono?S.res:S.best);
+  }
+  return '';
+}
+
+function previewAudioTag(s){
+  if(cfg.dolbyMode==='combined'){
+    if(s.dv){
+      if(s.audio.includes('atmos'))return previewTag('Atmos+DV',S.trans);
+      if(s.audio.includes('truehd'))return previewTag('TrueHD+DV',S.trans);
+      if(s.audio.includes('ddp'))return previewTag('DD++DV',S.trans);
+      return previewTag('DV',S.trans);
+    }
+    if(s.audio.includes('atmos'))return previewTag('Atmos',S.trans);
+    if(s.audio.includes('truehd'))return previewTag('TrueHD',S.trans);
+    if(s.audio.includes('ddp'))return previewTag('DD+',S.trans);
+    if(s.audio==='dd')return previewTag('DD',S.trans);
+  } else {
+    let h='';
+    if(s.dv)h+=previewTag('DV',S.trans);
+    if(s.audio.includes('atmos'))h+=previewTag('Atmos',S.trans);
+    else if(s.audio.includes('truehd'))h+=previewTag('TrueHD',S.trans);
+    else if(s.audio.includes('ddp'))h+=previewTag('DD+',S.trans);
+    else if(s.audio==='dd')h+=previewTag('DD',S.trans);
+    return h;
+  }
+  return '';
+}
+
+function previewTag(text,style){
+  if(!text)return '';
+  const bc=style.borderColor||'#00000000';
+  const bg=style.tagColor||'#00000000';
+  const tc=style.textColor||'#FFFFFF';
+  const bca=parseInt(bc.slice(1,3),16)/255;
+  const bcRGB='#'+bc.slice(3);
+  const bga=parseInt(bg.slice(1,3),16)/255;
+  const bgRGB='#'+bg.slice(3);
+  const tca=tc.length===9?parseInt(tc.slice(1,3),16)/255:1;
+  const tcRGB=tc.length===9?'#'+tc.slice(3):tc;
+  return '<span class="tag" style="border:1px solid rgba('+hexToRGB(bcRGB)+','+bca.toFixed(2)+');background:rgba('+hexToRGB(bgRGB)+','+bga.toFixed(2)+');color:rgba('+hexToRGB(tcRGB)+','+tca.toFixed(2)+')">'+text+'</span>';
+}
+
+function hexToRGB(h){const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return r+','+g+','+b}
+
+// --- Output ---
+function updateOutput(){
+  const data=generate();
+  document.getElementById('out-json').value=JSON.stringify(data,null,2);
+  const fmt=getFormatter();
+  document.getElementById('out-name').value=fmt.name.replace(/\\u266B/g,'\u266B').replace(/\\u2B51/g,'\u2B51').replace(/\\u2726/g,'\u2726').replace(/\\u25B3/g,'\u25B3').replace(/\\u2205/g,'\u2205').replace(/\\u2605/g,'\u2605').replace(/\\u2606/g,'\u2606').replace(/\\u2BEA/g,'\u2BEA');
+  document.getElementById('out-desc').value=fmt.desc;
+  renderPreview();
+}
+
+function copyEl(id){
+  const el=document.getElementById(id);
+  navigator.clipboard.writeText(el.value).then(()=>{
+    const t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',1500);
+  });
+}
+
+// --- Events ---
+document.querySelectorAll('.opts').forEach(group=>{
+  const g=group.dataset.group;
+  group.querySelectorAll('.opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('on'));
+      opt.classList.add('on');
+      cfg[g]=opt.dataset.val;
+      updateOutput();
+    });
+  });
+});
+
+updateOutput();
+</script></body></html>
