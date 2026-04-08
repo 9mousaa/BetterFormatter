@@ -17,9 +17,9 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 .cn{font-size:.88rem;font-weight:600;margin-bottom:.12rem}
 .cs{font-size:.72rem;color:#999;margin-bottom:.5rem}
 .tr{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
-.tg{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;font-size:.72rem;font-weight:600;gap:3px;border:1px solid transparent;white-space:nowrap;min-height:24px}
-.tg img{height:16px;width:auto}
-.tg.lg img{height:22px}
+.tg{display:inline-flex;align-items:center;padding:4px 9px;border-radius:7px;font-size:.73rem;font-weight:600;gap:3px;border:1px solid transparent;white-space:nowrap;min-height:26px;line-height:1}
+.tg img{height:17px;width:auto}
+.tg.lg img{height:24px}
 .oph{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:1.8rem 0 .6rem}
 .ob{position:relative;margin-bottom:.9rem}
 .ob label{font-size:.65rem;color:#555;margin-bottom:.25rem;display:block}
@@ -60,7 +60,8 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 <h2 class="oph">Output</h2>
 <div class="ob"><label>AIOStreams — Name</label><textarea id="on" readonly rows="2"></textarea><button class="cp" onclick="cc('on')">Copy</button></div>
 <div class="ob"><label>AIOStreams — Description</label><textarea id="od" readonly rows="2"></textarea><button class="cp" onclick="cc('od')">Copy</button></div>
-<div class="ob"><label>Fusion Tags JSON</label><textarea id="oj" readonly rows="16"></textarea><button class="cp" onclick="cc('oj')">Copy</button></div>
+<div class="ob"><label>Fusion Import URL (paste in Fusion)</label><textarea id="ou" readonly rows="2" style="color:#fff"></textarea><button class="cp" onclick="cc('ou')">Copy</button></div>
+<div class="ob"><label>Fusion Tags JSON (preview)</label><textarea id="oj" readonly rows="12"></textarea><button class="cp" onclick="cc('oj')">Copy</button></div>
 </div>
 <div class="toast" id="toast">Copied!</div>
 
@@ -298,6 +299,8 @@ function upd(){
   const f=fmt();
   document.getElementById('on').value=f.n;
   document.getElementById('od').value=f.d;
+  const url='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/presets/'+C.icon+'-'+C.qual+'-'+C.dv+'-'+C.hdr+'.json';
+  document.getElementById('ou').value=url;
 }
 
 function cc(id){navigator.clipboard.writeText(document.getElementById(id).value).then(()=>{const t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',1500)})}
