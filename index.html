@@ -62,6 +62,11 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 <div class="o" data-v="sep">Separate Tags</div>
 </div></div>
 
+<div class="sec"><h2>TrueHD Display</h2><div class="opts" data-g="truehd">
+<div class="o on" data-v="noatmos">Only when no Atmos</div>
+<div class="o" data-v="always">Always</div>
+</div></div>
+
 <div class="sec"><h2>HDR Display</h2><div class="opts" data-g="hdr">
 <div class="o on" data-v="nodv">Only when no DV</div>
 <div class="o" data-v="always">Always (hybrids)</div>
@@ -114,7 +119,7 @@ h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
 
 <script>
 const I='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/';
-let C={icon:'colored',qual:'bgb',dv:'combo',hdr:'nodv',desc:'short'};
+let C={icon:'colored',qual:'bgb',dv:'combo',hdr:'nodv',truehd:'noatmos',desc:'short'};
 
 const ST={
   best:{bc:'#FF00FF37',bg:'#E600E932',tc:'#27C04F'},
@@ -131,7 +136,7 @@ function pctS(p){const c=hsl((p/100)*120,1,.45),h=hx(...c);return{bc:'#66'+h,bg:
 
 // 4 diverse streams covering key tag combinations
 const STREAMS=[
-  {qual:'Bluray Remux',title:'Avatar Fire and Ash (2025)',size:'76 GB',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.REMUX.IMAX.DV.TrueHD.7.1.Atmos-FraMeSToR.mkv',pct:99,res:'4K',hdr:null,dv:true,aud:'atmos',ch:'7.1',src:'remux',q:'best',tier:'t1',imax:'IMAX',seadex:false},
+  {qual:'Bluray Remux',title:'Avatar Fire and Ash (2025)',size:'76 GB',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.REMUX.IMAX.DV.TrueHD.7.1.Atmos-FraMeSToR.mkv',pct:99,res:'4K',hdr:null,dv:true,aud:'atmos',truehd:true,ch:'7.1',src:'remux',q:'best',tier:'t1',imax:'IMAX',seadex:false},
   {qual:'Bluray',title:'Avatar Fire and Ash (2025)',size:'18 GB',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.HDR10.DTS-X.7.1-CtrlHD.mkv',pct:90,res:'4K',hdr:'HDR10',dv:false,aud:'dtsx',ch:'7.1',src:'bluray',q:'good',tier:'t1',imax:null,seadex:false},
   {qual:'Bluray',title:'Demon Slayer S01\xb7E01',size:'4 GB',fn:'Demon.Slayer.2019.1080p.BluRay.DV.DDP5.1.Atmos-hallowed.mkv',pct:80,res:'1080p',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2',imax:null,seadex:true},
   {qual:'Web-Dl',title:'Avatar Fire and Ash (2025)',size:'2 GB',fn:'Avatar.Fire.and.Ash.2025.720p.WEB-DL.DD5.1.DV-RandomGrp.mkv',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'ok',tier:'t3',imax:null,seadex:false},
@@ -197,6 +202,8 @@ function preview(){
 
     // 4) AUDIO + DV — combined shows ONE badge, separate shows individual
     const isDTS=s.aud&&s.aud.startsWith('dts');
+    const hasAtmos=s.aud==='atmos';
+    const hasTrueHD=s.aud==='truehd'||s.truehd;
     if(C.dv==='combo'){
       // Combined: one badge for Dolby audio+DV
       if(s.dv&&!isDTS){
@@ -223,6 +230,9 @@ function preview(){
       else if(s.aud==='ddp')h+=thtml(null,'digitalplus.png',ST.tr,true);
       else if(s.aud==='dd')h+=thtml(null,'digital.png',ST.tr,true);
       else if(isDTS){h+=thtml(null,(s.aud==='dtsx'?'dtsx':s.aud==='dtshdma'?'dtshdma':s.aud==='dtshd'?'dtshd':'dts')+'.png',ST.res);}
+    }
+    if(C.truehd==='always'&&hasAtmos&&hasTrueHD){
+      h+=thtml(null,'truehd.png',ST.tr,true);
     }
 
     // 5) SURROUND
@@ -314,6 +324,9 @@ function gen(){
     T.push(mk('a-dp','DD+','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')','digitalplus.png',ST.tr,'ga'));
     T.push(mk('a-dd','DD','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')','digital.png',ST.tr,'ga'));
   }
+  if(C.truehd==='always'){
+    T.push(mk('a-th-at','TrueHD','(?i)^(?=.*\\btrue[\\s._-]?hd\\b)(?=.*\\batmos\\b)','truehd.png',ST.tr,'ga'));
+  }
 
   // DTS (always separate, resolution style)
   T.push(mk('d-x','DTS:X','(?i)\\bdts[-_.: ]?x\\b','dtsx.png',ST.res,'ga'));
@@ -357,7 +370,8 @@ function upd(){
   const f=fmt();
   document.getElementById('on').value=f.n;
   document.getElementById('od').value=f.d;
-  const url='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/presets/'+C.icon+'-'+C.qual+'-'+C.dv+'-'+C.hdr+'.json';
+  const truehdSuffix=C.truehd==='always'?'-truehd-always':'';
+  const url='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/presets/'+C.icon+'-'+C.qual+'-'+C.dv+'-'+C.hdr+truehdSuffix+'.json';
   document.getElementById('ou').value=url;
   // Show/hide AIOStreams section + update guide based on quality mode
   const needsAIOS=C.qual==='bgb'||C.qual==='pct';
