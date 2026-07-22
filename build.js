@@ -99,9 +99,9 @@ function gen(C){
       T.push(mk('q-web-'+t.n.toLowerCase(),'Web '+t.n,tierPat('web',t.web),p+'-icon-webdl-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
     }
     // Unranked fallbacks
-    T.push(mk('q-rmx-u','Remux',unrankedPat('remux',RMX_ALL),p+'-remux.png',ST.res,'gq'));
-    T.push(mk('q-blu-u','BluRay',unrankedPat('bluray',BLU_ALL),p+'-bluray.png',ST.res,'gq'));
-    T.push(mk('q-web-u','Web',unrankedPat('web',WEB_ALL),p+'-webdl.png',ST.res,'gq'));
+    T.push(mk('q-rmx-u','Remux',unrankedPat('remux',RMX_ALL),'mono-remux.png',ST.res,'gq'));
+    T.push(mk('q-blu-u','BluRay',unrankedPat('bluray',BLU_ALL),'mono-bluray.png',ST.res,'gq'));
+    T.push(mk('q-web-u','Web',unrankedPat('web',WEB_ALL),'mono-webdl.png',ST.res,'gq'));
   }else if(C.qual==='src'){
     T.push(mk('q-r','Remux','(?i)\\bremux\\b',p+'-remux.png',qs('best'),'gq'));
     T.push(mk('q-b','BluRay','(?i)^(?=.*(?:bluray|blu-ray))(?!.*remux)',p+'-bluray.png',qs('best'),'gq'));
