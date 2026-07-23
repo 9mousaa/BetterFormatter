@@ -522,6 +522,19 @@
     },
     {
       "borderColor": "#00000000",
+      "groupId": "ga",
+      "id": "a-th-at",
+      "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/truehd.png",
+      "isEnabled": true,
+      "name": "TrueHD",
+      "pattern": "(?i)^(?=.*\\btrue[\\s._-]?hd\\b)(?=.*\\batmos\\b)",
+      "tagColor": "#00000000",
+      "tagStyle": "filled and bordered",
+      "textColor": "#FFFFFF",
+      "type": "filter"
+    },
+    {
+      "borderColor": "#00000000",
       "groupId": "gc",
       "id": "ch-71",
       "imageURL": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/7dot1.png",

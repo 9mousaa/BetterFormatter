@@ -99,9 +99,9 @@ function gen(C){
       T.push(mk('q-web-'+t.n.toLowerCase(),'Web '+t.n,tierPat('web',t.web),p+'-icon-webdl-'+t.n.toLowerCase()+'.png',qs('best'),'gq'));
     }
     // Unranked fallbacks
-    T.push(mk('q-rmx-u','Remux',unrankedPat('remux',RMX_ALL),p+'-remux.png',ST.res,'gq'));
-    T.push(mk('q-blu-u','BluRay',unrankedPat('bluray',BLU_ALL),p+'-bluray.png',ST.res,'gq'));
-    T.push(mk('q-web-u','Web',unrankedPat('web',WEB_ALL),p+'-webdl.png',ST.res,'gq'));
+    T.push(mk('q-rmx-u','Remux',unrankedPat('remux',RMX_ALL),'mono-remux.png',ST.res,'gq'));
+    T.push(mk('q-blu-u','BluRay',unrankedPat('bluray',BLU_ALL),'mono-bluray.png',ST.res,'gq'));
+    T.push(mk('q-web-u','Web',unrankedPat('web',WEB_ALL),'mono-webdl.png',ST.res,'gq'));
   }else if(C.qual==='src'){
     T.push(mk('q-r','Remux','(?i)\\bremux\\b',p+'-remux.png',qs('best'),'gq'));
     T.push(mk('q-b','BluRay','(?i)^(?=.*(?:bluray|blu-ray))(?!.*remux)',p+'-bluray.png',qs('best'),'gq'));
@@ -155,6 +155,9 @@ function gen(C){
     T.push(mk('a-dp','DD+','(?i)^(?=.*'+DDP+')(?!.*'+ATMOS+')(?!.*'+TH+')','digitalplus.png',ST.tr,'ga'));
     T.push(mk('a-dd','DD','(?i)^(?=.*'+DD+')(?!.*'+DDP+')(?!.*'+TH+')(?!.*'+ATMOS+')','digital.png',ST.tr,'ga'));
   }
+  if(C.truehd==='always'){
+    T.push(mk('a-th-at','TrueHD','(?i)^(?=.*'+TH+')(?=.*'+ATMOS+')','truehd.png',ST.tr,'ga'));
+  }
 
   // Surround — require no digit after channel number to avoid matching file sizes like "7.02 GB"
   T.push(mk('ch-71','7.1','[^0-9][7-8][. ][01](?![0-9])','7dot1.png',ST.tr,'gc'));
@@ -183,10 +186,13 @@ for(const icon of['colored','mono']){
   for(const qual of['bgb','tier','src','pct']){
     for(const dv of['combo','sep']){
       for(const hdr of['nodv','always']){
-        const data=gen({icon,qual,dv,hdr});
-        const name=`${icon}-${qual}-${dv}-${hdr}.json`;
-        fs.writeFileSync(path.join(dir,name),JSON.stringify(data,null,2));
-        count++;
+        for(const truehd of['noatmos','always']){
+          const data=gen({icon,qual,dv,hdr,truehd});
+          const suffix=truehd==='always'?'-truehd-always':'';
+          const name=`${icon}-${qual}-${dv}-${hdr}${suffix}.json`;
+          fs.writeFileSync(path.join(dir,name),JSON.stringify(data,null,2));
+          count++;
+        }
       }
     }
   }
