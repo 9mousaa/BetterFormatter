@@ -1,0 +1,12 @@
+{
+  "name": "betterformatter",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "check:generated": "node scripts/check-generated.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify:aiostreams": "node scripts/verify-aiostreams.mjs",
+    "verify:icu": "swift scripts/verify-icu.swift exports/fusion",
+    "verify": "npm test && npm run check:generated && npm run verify:icu"
+  }
+}
