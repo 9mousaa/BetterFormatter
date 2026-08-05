@@ -16,7 +16,7 @@
     .sh h2{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555}
     .info-btn{display:inline-flex;align-items:center;justify-content:center;width:12px;height:12px;flex:0 0 12px;border:1px solid #2b2b2b;border-radius:50%;background:#171717;color:#777;font-size:.45rem;line-height:1;font-weight:700;cursor:pointer}
     .info-btn:hover,.info-btn[aria-expanded="true"]{border-color:#555;color:#ddd}
-    .info-btn:focus-visible,.o:focus-visible,summary:focus-visible{outline:2px solid #fff;outline-offset:2px}
+    .info-btn:focus-visible,.o:focus-visible,summary:focus-visible,.modal-btn:focus-visible,.modal-close:focus-visible,.modal-input:focus-visible{outline:2px solid #fff;outline-offset:2px}
     .tip-pop{display:none;position:absolute;z-index:30;left:0;top:calc(100% + 6px);width:210px;max-width:calc(100vw - 2rem);padding:.55rem .65rem;border:1px solid #333;border-radius:7px;background:#1a1a1a;color:#ccc;font-size:.68rem;font-weight:500;line-height:1.45;text-align:left;box-shadow:0 8px 24px #000c}
     .sec.tip-on .tip-pop{display:block}
     .opts{display:flex;flex-wrap:wrap;gap:.35rem}
@@ -27,6 +27,8 @@
     .o.on::before{content:'\2713';border-color:#fff;background:#fff;color:#000;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
     .o[aria-disabled="true"]{color:#444;border-color:#222;cursor:help}
     .o[aria-disabled="true"]:hover{color:#555;border-color:#333}
+    .o.custom-option{display:inline-flex;align-items:center;gap:.32rem}
+    .o.custom-option svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.8;fill:none}
     .sec[hidden]{display:none}
     .pvh,.oph{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555}
     .pvh{margin:1.4rem 0 .6rem}
@@ -58,6 +60,24 @@
     .gd.sub{font-size:.7rem;color:#666;margin-top:.3rem;margin-bottom:0}
     .cbtn{width:100%;padding:.7rem;background:#fff;color:#111;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:.45rem}
     .cbtn:hover{opacity:.9}
+    .guide-error{margin-top:.45rem;padding:.55rem .65rem;border:1px solid #5c2929;border-radius:8px;background:#2a1414;color:#e9a4a4;font-size:.7rem;line-height:1.45}
+    dialog{margin:auto;border:0;background:transparent;color:inherit;max-width:none;max-height:none}
+    dialog::backdrop{background:#000b;backdrop-filter:blur(3px)}
+    .modal-shell{width:min(420px,calc(100vw - 2rem));padding:1rem;border:1px solid #2a2a2a;border-radius:14px;background:#111;box-shadow:0 24px 70px #000}
+    .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.45rem}
+    .modal-head h2{font-size:1rem;color:#f4f4f4}
+    .modal-copy{color:#888;font-size:.75rem;line-height:1.5;margin-bottom:1rem}
+    .modal-close{width:28px;height:28px;border:1px solid #292929;border-radius:8px;background:#171717;color:#888;font-size:1rem;cursor:pointer}
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+    .modal-btn{padding:.7rem;border:1px solid #333;border-radius:9px;background:#1a1a1a;color:#ddd;font-size:.78rem;font-weight:700;cursor:pointer}
+    .modal-btn:hover{border-color:#555;background:#202020}
+    .modal-btn.primary{border-color:#fff;background:#fff;color:#111}
+    .url-panel{margin-top:.75rem;padding-top:.75rem;border-top:1px solid #222}
+    .url-panel[hidden]{display:none}
+    .modal-label{display:block;margin-bottom:.35rem;color:#777;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .modal-input{width:100%;padding:.65rem .7rem;border:1px solid #303030;border-radius:9px;background:#090909;color:#eee;font:inherit;font-size:.78rem}
+    .url-panel .modal-btn{width:100%;margin-top:.5rem}
+    .modal-error{min-height:1rem;margin-top:.65rem;color:#df8e8e;font-size:.7rem;line-height:1.4}
     @media(max-width:520px){
       .wrap{padding:1.5rem .65rem 3rem}
       h1{font-size:1.5rem;margin-left:.35rem}
@@ -117,6 +137,7 @@
         <button class="o" data-v="renoria" role="radio" aria-checked="false">Renoria</button>
         <button class="o" data-v="jeor" role="radio" aria-checked="false">Jeor</button>
         <button class="o" data-v="snoak" role="radio" aria-checked="false">Snoak</button>
+        <button class="o custom-option" data-v="custom" role="radio" aria-checked="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 2.5h9l2 2v9h-11zM5 2.5v4h6v-4M5 13.5v-4h6v4"/></svg><span>Custom</span></button>
       </div>
     </div>
 
@@ -187,10 +208,30 @@
     <div id="guide"></div>
   </div>
 
+  <dialog id="custom-formatter-dialog" aria-labelledby="custom-dialog-title">
+    <div class="modal-shell">
+      <div class="modal-head"><h2 id="custom-dialog-title">Use your formatter</h2><button class="modal-close" id="custom-dialog-close" type="button" aria-label="Close">×</button></div>
+      <p class="modal-copy">Choose an AIOStreams formatter JSON file. BetterFormatter keeps it in this tab and adds the selected Fusion markers only when you download.</p>
+      <div class="modal-actions">
+        <button class="modal-btn primary" id="custom-local-btn" type="button">Import from File</button>
+        <button class="modal-btn" id="custom-url-btn" type="button">Import from URL</button>
+      </div>
+      <input id="custom-file-input" type="file" accept=".json,application/json" hidden>
+      <div class="url-panel" id="custom-url-panel" hidden>
+        <label class="modal-label" for="custom-url-input">Formatter URL</label>
+        <input class="modal-input" id="custom-url-input" type="url" inputmode="url" placeholder="https://example.com/formatter.json" autocomplete="url">
+        <button class="modal-btn primary" id="custom-url-import" type="button">Import formatter</button>
+      </div>
+      <p class="modal-error" id="custom-modal-error" role="alert" aria-live="polite"></p>
+    </div>
+  </dialog>
+
   <script type="module">
     import {DEFAULT_STATE, PUBLIC_BASE, resolveSelection} from './src/ui-state.mjs';
     import {generateFusionExport} from './src/fusion.mjs';
-    import {factsFor, previewStreamsFor, streamDescription, streamName} from './src/preview.mjs';
+    import {factsFor, formatterContextFor, previewStreamsFor, streamDescription, streamName} from './src/preview.mjs';
+    import {composeCustomFormatter, customFormatterFileName, parseCustomFormatter, renderCustomFormatter} from './src/custom-formatter.mjs';
+    import {stringifyExport} from './src/protocol.mjs';
 
     const C = {...DEFAULT_STATE};
     const isLocal = /^(?:localhost|127\.0\.0\.1|\d{1,3}(?:\.\d{1,3}){3})$/.test(location.hostname);
@@ -199,6 +240,9 @@
     let current;
     let openPopup;
     let openTrigger;
+    let customFormatter;
+    let customSourceStem = 'formatter';
+    let customTrigger;
 
     function matchingFilters(stream) {
       const exported = generateFusionExport(current.fusionConfiguration, {assetBase: localAssets});
@@ -224,10 +268,19 @@
       return `<span class="${className}" style="${style}">${filter.name}</span>`;
     }
 
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/gu, (character) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      })[character]);
+    }
+
     function preview() {
       document.getElementById('pv').innerHTML = previewStreamsFor(C.quality).map((stream) => {
         const badges = matchingFilters(stream).map(badgeHTML).join('');
-        return `<div class="cd"><div class="cn">${streamName(stream, C)}</div><div class="cs">${streamDescription(stream, C)}</div><div class="tr">${badges}</div></div>`;
+        const visible = C.formatterStyle === 'custom'
+          ? renderCustomFormatter(customFormatter, formatterContextFor(stream))
+          : {name: streamName(stream, C), description: streamDescription(stream, C)};
+        return `<div class="cd"><div class="cn">${escapeHTML(visible.name)}</div><div class="cs">${escapeHTML(visible.description)}</div><div class="tr">${badges}</div></div>`;
       }).join('');
     }
 
@@ -266,9 +319,11 @@
       return 'Quality Badges has no scoring dependency. Import the matched formatter and Fusion filters.';
     }
 
-    function guideStep(number, title, description, note = '', copyKey = '') {
+    function guideStep(number, title, description, note = '', copyKey = '', download = false) {
       const noteHTML = note ? `<div class="gd sub">${note}</div>` : '';
-      const buttonHTML = copyKey ? `<button class="cbtn" type="button" data-guide-copy="${copyKey}">Copy Import URL</button>` : '';
+      const buttonHTML = copyKey
+        ? `<button class="cbtn" type="button" data-guide-copy="${copyKey}">Copy Import URL</button>`
+        : download ? '<button class="cbtn" type="button" data-guide-download>Download JSON</button><div class="guide-error" role="alert" hidden></div>' : '';
       return `<div class="gs"><div class="gn">${number}</div><div class="gc"><div class="gt">${title}</div><div class="gd">${description}</div>${noteHTML}${buttonHTML}</div></div>`;
     }
 
@@ -283,6 +338,29 @@
       window.setTimeout(() => { button.textContent = original; }, 1500);
     }
 
+    function downloadCustomFormatter(button) {
+      const error = button.parentElement.querySelector('.guide-error');
+      try {
+        const formatter = composeCustomFormatter(customFormatter, {languageMode: C.languageMode});
+        const blob = new Blob([stringifyExport(formatter)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = customFormatterFileName(customSourceStem);
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+        error.hidden = true;
+        error.textContent = '';
+        button.textContent = 'Downloaded!';
+        window.setTimeout(() => { button.textContent = 'Download JSON'; }, 1500);
+      } catch (downloadError) {
+        error.textContent = downloadError.message;
+        error.hidden = false;
+      }
+    }
+
     function renderGuide() {
       const hasScoringTemplate = C.quality !== 'source';
       const steps = [];
@@ -295,12 +373,17 @@
           'Overrides filters and sorting only',
         ));
       }
-      steps.push(guideStep(number++, 'Formatter', 'AIOStreams → Formatter → Import from URL → Save', '', 'formatterUrl'));
+      if (C.formatterStyle === 'custom') {
+        steps.push(guideStep(number++, 'Formatter', 'AIOStreams → Formatter → Import → Import from File → Save', '', '', true));
+      } else {
+        steps.push(guideStep(number++, 'Formatter', 'AIOStreams → Formatter → Import from URL → Save', '', 'formatterUrl'));
+      }
       steps.push(guideStep(number, 'Fusion Filters', 'Fusion → Settings → Filters → Import Filters', '', 'fusionUrl'));
       document.getElementById('guide-intro').textContent = guideIntroduction();
       const guide = document.getElementById('guide');
       guide.innerHTML = steps.join('');
       guide.querySelectorAll('[data-guide-copy]').forEach((button) => button.addEventListener('click', () => copyGuideUrl(button)));
+      guide.querySelectorAll('[data-guide-download]').forEach((button) => button.addEventListener('click', () => downloadCustomFormatter(button)));
     }
 
     function syncControls() {
@@ -317,7 +400,7 @@
     }
 
     function update() {
-      current = resolveSelection(C, {publicBase});
+      current = resolveSelection(C, {publicBase, customFormatter});
       C.carrier = current.carrier;
       C.dvAudio = current.dvAudio;
       syncControls();
@@ -333,10 +416,116 @@
       if (popup.contains(event.target) || openTrigger?.contains(event.target)) return;
       closePopup();
     });
-    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePopup(); });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') { closePopup(); if (customDialog.open) closeCustomDialog(); }
+    });
+
+    const customDialog = document.getElementById('custom-formatter-dialog');
+    const customFileInput = document.getElementById('custom-file-input');
+    const customUrlPanel = document.getElementById('custom-url-panel');
+    const customUrlInput = document.getElementById('custom-url-input');
+    const customModalError = document.getElementById('custom-modal-error');
+
+    function setCustomError(message = '') {
+      customModalError.textContent = message;
+    }
+
+    function openCustomDialog(trigger) {
+      customTrigger = trigger;
+      setCustomError();
+      customUrlPanel.hidden = true;
+      customDialog.showModal();
+      document.getElementById('custom-local-btn').focus();
+    }
+
+    function closeCustomDialog() {
+      if (customDialog.open) customDialog.close();
+    }
+
+    function acceptCustomFormatter(value, sourceName) {
+      const parsed = parseCustomFormatter(value, sourceName);
+      customFormatter = parsed.formatter;
+      customSourceStem = parsed.sourceStem;
+      C.formatterStyle = 'custom';
+      closeCustomDialog();
+      update();
+    }
+
+    async function importCustomText(text, sourceName) {
+      let value;
+      try {
+        value = JSON.parse(text);
+      } catch {
+        throw new SyntaxError('Failed to parse the formatter JSON.');
+      }
+      acceptCustomFormatter(value, sourceName);
+    }
+
+    document.getElementById('custom-dialog-close').addEventListener('click', closeCustomDialog);
+    document.getElementById('custom-local-btn').addEventListener('click', () => customFileInput.click());
+    document.getElementById('custom-url-btn').addEventListener('click', () => {
+      customUrlPanel.hidden = false;
+      customUrlInput.focus();
+    });
+    customFileInput.addEventListener('change', async () => {
+      const file = customFileInput.files?.[0];
+      if (!file) return;
+      setCustomError();
+      try {
+        await importCustomText(await file.text(), file.name);
+      } catch (error) {
+        setCustomError(error.message || 'Unable to import this formatter.');
+      } finally {
+        customFileInput.value = '';
+      }
+    });
+    document.getElementById('custom-url-import').addEventListener('click', async (event) => {
+      const button = event.currentTarget;
+      const url = customUrlInput.value.trim();
+      setCustomError();
+      try {
+        if (!url) throw new TypeError('Enter an HTTP or HTTPS formatter URL.');
+        let parsedUrl;
+        try {
+          parsedUrl = new URL(url);
+        } catch {
+          throw new TypeError('Enter an HTTP or HTTPS formatter URL.');
+        }
+        if (!['http:', 'https:'].includes(parsedUrl.protocol)) throw new TypeError('Enter an HTTP or HTTPS formatter URL.');
+        button.disabled = true;
+        button.textContent = 'Importing…';
+        let response;
+        try {
+          response = await fetch(url);
+        } catch (fetchError) {
+          if (fetchError instanceof TypeError) {
+            throw new TypeError('Unable to fetch this formatter. The host may block browser requests (CORS).', {cause: fetchError});
+          }
+          throw fetchError;
+        }
+        if (!response.ok) throw new Error(`Formatter request failed with HTTP ${response.status}.`);
+        await importCustomText(await response.text(), parsedUrl.href);
+      } catch (error) {
+        setCustomError(error.message || 'Unable to import this formatter URL.');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Import formatter';
+      }
+    });
+    customDialog.addEventListener('click', (event) => { if (event.target === customDialog) closeCustomDialog(); });
+    customDialog.addEventListener('close', () => customTrigger?.focus());
 
     document.querySelectorAll('.opts').forEach((group) => group.querySelectorAll('.o').forEach((option) => {
       option.addEventListener('click', () => {
+        if (group.dataset.g === 'formatterStyle' && option.dataset.v === 'custom') {
+          if (customFormatter && C.formatterStyle !== 'custom') {
+            C.formatterStyle = 'custom';
+            update();
+          } else {
+            openCustomDialog(option);
+          }
+          return;
+        }
         if (option.getAttribute('aria-disabled') === 'true') {
           const reason = option.dataset.modernOnly === 'true'
             ? 'Combined badges are available only with Modern.'

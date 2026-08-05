@@ -24,7 +24,7 @@ const PREREQUISITES = {
   source: 'Source Label Only does not require a scoring template, but it still requires the invisible formatter markers.',
 };
 
-export function resolveSelection(state, {publicBase = PUBLIC_BASE} = {}) {
+export function resolveSelection(state, {publicBase = PUBLIC_BASE, customFormatter = null} = {}) {
   const normalized = state.badgeFamily === 'legacy'
     ? {
         ...state,
@@ -50,6 +50,7 @@ export function resolveSelection(state, {publicBase = PUBLIC_BASE} = {}) {
     style: normalized.formatterStyle,
     languageMode: normalized.languageMode,
   };
+  const custom = normalized.formatterStyle === 'custom';
   return {
     ...normalized,
     dolbyProfile,
@@ -58,8 +59,8 @@ export function resolveSelection(state, {publicBase = PUBLIC_BASE} = {}) {
     fusionConfiguration,
     formatterConfiguration,
     fusionUrl: new URL(fusionExportPath(fusionConfiguration), publicBase).href,
-    formatterUrl: new URL(formatterExportPath(formatterConfiguration), publicBase).href,
-    formatter: generateFormatter(formatterConfiguration),
+    formatterUrl: custom ? null : new URL(formatterExportPath(formatterConfiguration), publicBase).href,
+    formatter: custom ? customFormatter : generateFormatter(formatterConfiguration),
     markerSnippet: markerSuffix({languageMode: normalized.languageMode}),
     prerequisite: PREREQUISITES[normalized.quality],
   };

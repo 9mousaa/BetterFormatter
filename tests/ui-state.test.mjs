@@ -108,3 +108,15 @@ test('explains each quality prerequisite', () => {
   assert.match(resolveSelection({...DEFAULT_STATE, quality: 'tiers'}).prerequisite, /VidHin/i);
   assert.match(resolveSelection({...DEFAULT_STATE, quality: 'source'}).prerequisite, /does not require/i);
 });
+
+test('resolves a session custom formatter without inventing a public export URL', () => {
+  const customFormatter = {name: 'Custom name', description: 'Custom description'};
+  const selected = resolveSelection(
+    {...DEFAULT_STATE, formatterStyle: 'custom'},
+    {customFormatter},
+  );
+  assert.equal(selected.formatterStyle, 'custom');
+  assert.equal(selected.formatterUrl, null);
+  assert.deepEqual(selected.formatter, customFormatter);
+  assert.match(selected.fusionUrl, /exports\/fusion\//);
+});

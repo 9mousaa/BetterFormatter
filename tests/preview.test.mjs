@@ -157,3 +157,16 @@ test('renders all five formatter preview styles from the selected fixtures', () 
   assert.match(preview.streamName(stream, {formatterStyle: 'jeor'}), /Silo/);
   assert.match(preview.streamDescription(stream, {formatterStyle: 'jeor'}), /\[RD\] Debrid · NTb/);
 });
+
+test('builds an AIOStreams formatter context without changing Fusion fixture facts', () => {
+  const stream = preview.PREVIEW_CATALOG.silo;
+  const before = preview.factsFor(stream, {quality: 'tiers', languageMode: 'uLanguages'});
+  const context = preview.formatterContextFor(stream);
+  assert.equal(context.metadata.title, 'Silo');
+  assert.equal(context.stream.resolution, '2160p');
+  assert.equal(context.stream.quality, 'Web-Dl');
+  assert.deepEqual(context.stream.seasonEpisode, ['S02', 'E01']);
+  assert.deepEqual(context.stream.uLanguages, ['English', 'Spanish']);
+  assert.equal(context.service.shortName, 'RD');
+  assert.equal(preview.factsFor(stream, {quality: 'tiers', languageMode: 'uLanguages'}), before);
+});

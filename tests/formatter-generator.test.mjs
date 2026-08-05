@@ -121,13 +121,12 @@ test('splits only Jeor marker categories across name and description', () => {
   assert.equal(descriptionIds.includes(35), false);
 });
 
-test('rejects formatter fields that reach the AIOStreams maximum length', () => {
-  assert.throws(
+test('accepts the AIOStreams maximum length and rejects fields that exceed it', () => {
+  assert.doesNotThrow(
     () => formatterModule.assertFormatterWithinLimit({name: 'x'.repeat(5000), description: ''}),
-    /below 5000 characters/,
   );
   assert.throws(
-    () => formatterModule.assertFormatterWithinLimit({name: '', description: 'x'.repeat(5000)}),
-    /below 5000 characters/,
+    () => formatterModule.assertFormatterWithinLimit({name: '', description: 'x'.repeat(5001)}),
+    /at most 5000 characters/,
   );
 });

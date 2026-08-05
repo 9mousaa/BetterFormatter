@@ -113,7 +113,27 @@ function descriptionFacts() {
 }
 
 export function markerSuffix({languageMode = 'off'} = {}) {
-  return descriptionFacts() + qualityFacts() + languageFacts(languageMode);
+  return markerFragments({languageMode}).join('');
+}
+
+export function markerFragments({languageMode = 'off'} = {}) {
+  const suffix = descriptionFacts() + qualityFacts() + languageFacts(languageMode);
+  const fragments = [];
+  let start = -1;
+  let depth = 0;
+  for (let index = 0; index < suffix.length; index += 1) {
+    if (suffix[index] === '{') {
+      if (depth === 0) start = index;
+      depth += 1;
+    } else if (suffix[index] === '}' && depth > 0) {
+      depth -= 1;
+      if (depth === 0 && start >= 0) {
+        fragments.push(suffix.slice(start, index + 1));
+        start = -1;
+      }
+    }
+  }
+  return fragments;
 }
 
 export function generateFormatter({style, languageMode = 'off'}) {
@@ -132,7 +152,7 @@ export function generateFormatter({style, languageMode = 'off'}) {
 
 export function assertFormatterWithinLimit(formatter) {
   for (const [field, value] of Object.entries(formatter)) {
-    if (value.length >= 5000) throw new RangeError(`formatter ${field} must remain below 5000 characters`);
+    if (value.length > 5000) throw new RangeError(`formatter ${field} must remain at most 5000 characters`);
   }
   return formatter;
 }

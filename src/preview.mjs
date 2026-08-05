@@ -2,6 +2,23 @@ import {MARKERS as M} from './protocol.mjs';
 
 const languages = (...values) => values.map((key) => M[key]);
 
+const LANGUAGE_NAMES = new Map([
+  ['English', 'English'], ['Spanish', 'Spanish'], ['French', 'French'], ['German', 'German'],
+  ['Italian', 'Italian'], ['Portuguese', 'Portuguese'], ['PortugueseBrazil', 'Portuguese (Brazil)'],
+  ['Russian', 'Russian'], ['Chinese', 'Chinese'], ['Japanese', 'Japanese'], ['Korean', 'Korean'],
+  ['Dutch', 'Dutch'], ['Swedish', 'Swedish'], ['Norwegian', 'Norwegian'], ['Danish', 'Danish'],
+  ['Finnish', 'Finnish'], ['Polish', 'Polish'], ['Arabic', 'Arabic'], ['Hindi', 'Hindi'],
+  ['Turkish', 'Turkish'], ['Greek', 'Greek'], ['Hungarian', 'Hungarian'], ['Czech', 'Czech'],
+  ['Ukrainian', 'Ukrainian'], ['Romanian', 'Romanian'], ['Bulgarian', 'Bulgarian'],
+  ['Vietnamese', 'Vietnamese'], ['Thai', 'Thai'], ['MultiDual', 'Multi'],
+].map(([key, name]) => [M[key], name]));
+
+const SMALL_LANGUAGE_CODES = Object.freeze({
+  English: 'ᴇɴ', Spanish: 'ᴇs', French: 'ғʀ', German: 'ᴅᴇ', Italian: 'ɪᴛ',
+  Portuguese: 'ᴘᴛ', 'Portuguese (Brazil)': 'ᴘᴛ-ʙʀ', Japanese: 'ᴊᴀ', Chinese: 'ᴢʜ',
+  Korean: 'ᴋᴏ', Multi: 'ᴍᴜʟᴛɪ',
+});
+
 export const PREVIEW_CATALOG = Object.freeze({
   silo: {
     quality: 'Web-Dl', metadataTitle: 'Silo', year: 2025, seasonEpisode: 'S02·E01',
@@ -108,4 +125,112 @@ export function streamDescription(stream, state) {
   if (state.formatterStyle === 'snoak') return `${stream.size} · ${stream.bitrate}\nDebrid [RD] 🎟️ ${stream.group}`;
   if (state.formatterStyle === 'jeor') return `◈ ${stream.size} · ${stream.bitrate}\n⛊ [RD] Debrid · ${stream.group}\n⛿ ᴇɴ`;
   return `${stream.filename}\nRD · Debrid · ${stream.size}`;
+}
+
+function markerNames(values) {
+  return values.map((value) => LANGUAGE_NAMES.get(value)).filter(Boolean);
+}
+
+function tagsFromMarkers(text, definitions) {
+  return definitions.filter(([, value]) => text.includes(value)).map(([name]) => name);
+}
+
+function numericUnit(value, multiplier) {
+  const number = Number.parseFloat(value);
+  return Number.isFinite(number) ? number * multiplier : 0;
+}
+
+function rseLabel(stream) {
+  const source = stream.source === M.Remux ? 'Remux' : stream.source === M.BluRay ? 'UHD Bluray' : 'Web';
+  const tier = Array.from({length: 8}, (_, index) => index + 1).find((value) => stream.tier === M[`Tier${value}`]);
+  return tier ? `${source} T${tier}` : '';
+}
+
+function withNullDefaults(value) {
+  return new Proxy(value, {
+    get(target, property, receiver) {
+      if (typeof property === 'symbol' || Reflect.has(target, property)) {
+        return Reflect.get(target, property, receiver);
+      }
+      return null;
+    },
+  });
+}
+
+export function formatterContextFor(stream) {
+  const allLanguages = markerNames(stream.languages);
+  const preferredLanguages = markerNames(stream.uLanguages);
+  const resolution = { '4K': '2160p', '1080p': '1080p', '720p': '720p' }[stream.res] ?? stream.res;
+  const visualTags = tagsFromMarkers(stream.common, [
+    ['SDR', M.SDR], ['HDR10+', M.HDR10Plus], ['HDR10', M.HDR10], ['HDR', M.HDR],
+    ['DV', M.DV], ['IMAX Enhanced', M.IMAXEnhanced], ['IMAX', M.IMAX],
+  ]);
+  const audioTags = tagsFromMarkers(stream.common, [
+    ['DTS:X', M.DTSX], ['DTS-HD MA', M.DTSHDMA], ['DTS-HD', M.DTSHD], ['DTS', M.DTS],
+    ['Atmos', M.Atmos], ['TrueHD', M.TrueHD], ['DD+', M.DDPlus], ['DD', M.DD],
+  ]);
+  const audioChannels = tagsFromMarkers(stream.common, [
+    ['7.1', M.Channels71], ['6.1', M.Channels61], ['5.1', M.Channels51],
+  ]);
+  return {
+    config: withNullDefaults({addonName: 'BetterFormatter Preview'}),
+    addon: withNullDefaults({name: 'Debrid', presetId: 'preview', manifestUrl: 'https://example.test/manifest.json'}),
+    metadata: withNullDefaults({
+      title: stream.metadataTitle,
+      titles: [stream.metadataTitle],
+      queryType: stream.seasonEpisodeParts.length ? 'series' : 'movie',
+      type: stream.seasonEpisodeParts.length ? 'series' : 'movie',
+      year: stream.year,
+      genres: [],
+      country: '',
+    }),
+    service: withNullDefaults({id: 'realdebrid', name: 'Real-Debrid', shortName: 'RD', cached: true}),
+    stream: withNullDefaults({
+      ...stream,
+      title: stream.metadataTitle,
+      year: stream.year == null ? null : String(stream.year),
+      resolution,
+      seasonEpisode: [...stream.seasonEpisodeParts],
+      type: 'debrid',
+      size: numericUnit(stream.size, 1_000_000_000),
+      bitrate: numericUnit(stream.bitrate, 1_000_000),
+      folderSize: 0,
+      releaseGroup: stream.group,
+      rseMatched: rseLabel(stream) ? [rseLabel(stream)] : [],
+      seScore: stream.score,
+      nSeScore: stream.score,
+      regexScore: 0,
+      nRegexScore: 0,
+      regexMatched: '',
+      rankedRegexMatched: [],
+      seadex: stream.common.includes(M.SeaDex),
+      seadexBest: stream.common.includes(M.SeaDexBest),
+      visualTags,
+      audioTags,
+      audioChannels,
+      languages: allLanguages,
+      uLanguages: preferredLanguages,
+      smallLanguageCodes: allLanguages.map((name) => SMALL_LANGUAGE_CODES[name] ?? name.toLowerCase()),
+      uSmallLanguageCodes: preferredLanguages.map((name) => SMALL_LANGUAGE_CODES[name] ?? name.toLowerCase()),
+      subtitles: [],
+      uSubtitles: [],
+      smallSubtitleCodes: [],
+      uSmallSubtitleCodes: [],
+      subbed: false,
+      dubbed: false,
+      proxied: true,
+      private: false,
+      preloading: false,
+      library: false,
+      message: '',
+      indexer: '',
+      network: '',
+      editions: [],
+      seeders: 0,
+      country: '',
+      date: null,
+      seasonPack: false,
+    }),
+    debug: withNullDefaults({}),
+  };
 }

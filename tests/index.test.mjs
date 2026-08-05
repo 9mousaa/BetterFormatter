@@ -114,7 +114,7 @@ test('renders marker matches with the original preview treatment', () => {
 
 test('keeps the compact identity without helper copy or a mobile grid', () => {
   assert.match(html, /@media\(max-width:520px\)/);
-  assert.doesNotMatch(html, /grid-template-columns/);
+  assert.doesNotMatch(html, /\.opts\{[^}]*grid-template-columns|class="controls-grid"/);
   assert.doesNotMatch(html, /class="hint"/);
   assert.doesNotMatch(html, /\.hint\{/);
 });
@@ -133,4 +133,51 @@ test('renders the conditional live-site-style setup guide with local copy feedba
   assert.match(html, /Copy failed/);
   assert.match(html, /C\.quality !== 'source'/);
   assert.doesNotMatch(html, /Copy Marker Suffix|Copy Formatter URL|suffix-length|formatter-url|fusion-url|class="toast"|class="warn"|5,000-character/);
+});
+
+test('offers Custom last with a disk glyph and an accessible import dialog', () => {
+  assert.match(html, /data-g="formatterStyle"[\s\S]*?data-v="snoak"[\s\S]*?data-v="custom"[\s\S]*?<svg/);
+  assert.match(html, /data-v="custom"[^>]*>[\s\S]*?<span>Custom<\/span><\/button>/);
+  assert.match(html, /<dialog id="custom-formatter-dialog"[\s\S]*?aria-labelledby="custom-dialog-title"/);
+  assert.match(html, /dialog\{[^}]*margin:auto/);
+  assert.match(html, /id="custom-local-btn"[\s\S]*?>Import from File</);
+  assert.match(html, /id="custom-url-btn"[\s\S]*?>Import from URL</);
+  assert.match(html, /id="custom-file-input"[^>]*accept="\.json,application\/json"/);
+  assert.match(html, /id="custom-url-input"[^>]*type="url"/);
+  assert.match(html, /role="alert"/);
+  assert.match(html, /if \(event\.key === 'Escape'\) \{ closePopup\(\); if \(customDialog\.open\) closeCustomDialog\(\); \}/);
+});
+
+test('loads custom formatters through the shared domain module and keeps them session-only', () => {
+  assert.match(html, /\.\/src\/custom-formatter\.mjs/);
+  assert.match(html, /parseCustomFormatter/);
+  assert.match(html, /composeCustomFormatter/);
+  assert.match(html, /renderCustomFormatter/);
+  assert.match(html, /customFormatterFileName/);
+  assert.match(html, /let customFormatter/);
+  assert.doesNotMatch(html, /localStorage[^\n]*custom|sessionStorage[^\n]*custom/i);
+  assert.match(html, /response = await fetch\(url/);
+  assert.match(html, /\['http:', 'https:'\]\.includes\(parsedUrl\.protocol\)/);
+  assert.match(html, /host may block browser requests \(CORS\)/);
+  assert.match(html, /if \(!url\) throw new TypeError\('Enter an HTTP or HTTPS formatter URL\.'\)/);
+  assert.match(html, /catch \(fetchError\) \{[\s\S]*?fetchError instanceof TypeError[\s\S]*?host may block browser requests \(CORS\)/);
+});
+
+test('renders custom visible text safely while preserving the Fusion badge pipeline', () => {
+  assert.match(html, /formatterContextFor/);
+  assert.match(html, /renderCustomFormatter\(customFormatter, formatterContextFor\(stream\)\)/);
+  assert.match(html, /escapeHTML\(visible\.name\)/);
+  assert.match(html, /escapeHTML\(visible\.description\)/);
+  assert.match(html, /const badges = matchingFilters\(stream\)\.map\(badgeHTML\)\.join\(''\)/);
+});
+
+test('downloads custom JSON with escaped markers and restores URL copying for built-ins', () => {
+  assert.match(html, /Download JSON/);
+  assert.match(html, /AIOStreams → Formatter → Import → Import from File → Save/);
+  assert.match(html, /stringifyExport/);
+  assert.match(html, /new Blob\(\[stringifyExport\(formatter\)\]/);
+  assert.match(html, /customFormatterFileName\(customSourceStem\)/);
+  assert.match(html, /C\.formatterStyle === 'custom'/);
+  assert.match(html, /Copy Import URL/);
+  assert.match(html, /data-guide-download/);
 });
