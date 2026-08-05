@@ -1,393 +1,355 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BetterFormatter Configurator</title><!-- v2 -->
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
-.wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 4rem}
-h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
-.sub{color:#888;font-size:.82rem;margin-bottom:1.8rem}
-.sec{margin-bottom:.9rem;background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:.9rem 1rem}
-.sec h2{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:.6rem}
-.opts{display:flex;flex-wrap:wrap;gap:.35rem}
-.o{padding:.4rem .7rem .4rem 1.7rem;border:1px solid #2a2a2a;border-radius:8px;font-size:.75rem;cursor:pointer;color:#666;background:#0a0a0a;transition:all .15s;position:relative}
-.o:hover{border-color:#444;color:#aaa}
-.o.on{border-color:#fff;color:#fff;background:#1a1a1a}
-.o::before{content:'';position:absolute;left:.55rem;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;border:1.5px solid #444;transition:all .15s}
-.o.on::before{content:'\2713';border-color:#fff;background:#fff;color:#000;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
-.pvh{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:1.4rem 0 .6rem}
-.cd{background:#222;border:1px solid #2a2a2a;border-radius:12px;padding:.7rem .85rem;margin-bottom:.45rem;overflow:hidden}
-.cn{font-size:.88rem;font-weight:600;margin-bottom:.12rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cs{font-size:.65rem;color:#999;margin-bottom:.5rem;overflow:hidden;text-overflow:ellipsis;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
-.tr{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
-.tg{display:inline-flex;align-items:center;padding:4px 9px;border-radius:7px;font-size:.73rem;font-weight:600;gap:3px;border:1px solid transparent;white-space:nowrap;min-height:26px;line-height:1}
-.tg img{height:17px;width:auto}
-.tg.lg img{height:24px}
-.oph{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:1.8rem 0 .6rem}
-.ob{position:relative;margin-bottom:.9rem}
-.ob label{font-size:.65rem;color:#555;margin-bottom:.25rem;display:block}
-.ob textarea{width:100%;padding:.5rem;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:8px;color:#4ade80;font-size:.62rem;font-family:ui-monospace,monospace;resize:vertical;min-height:48px;box-sizing:border-box;word-break:break-all}
-.ob .cp{position:absolute;top:0;right:0;background:#1a1a1a;color:#888;border:1px solid #2a2a2a;padding:.25rem .55rem;border-radius:6px;font-size:.6rem;cursor:pointer}
-.ob .cp:hover{color:#fff}
-.cbtn{width:100%;padding:.7rem;background:#fff;color:#111;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s}
-.cbtn:hover{opacity:.9}
-.gs{display:flex;gap:.65rem;margin-bottom:.65rem}
-.gn{width:22px;height:22px;border-radius:50%;background:#222;color:#aaa;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
-.gc{flex:1}
-.gt{font-size:.88rem;font-weight:600;color:#ddd;margin-bottom:.25rem}
-.gd{font-size:.8rem;color:#888;line-height:1.5}
-.gd.sub{font-size:.7rem;color:#666;margin-top:.3rem}
-.abtn{padding:.5rem .9rem;background:#222;color:#fff;border:1px solid #333;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;margin-top:.45rem;transition:all .15s}
-.abtn:hover{background:#333;border-color:#444}
-#guide .note{font-size:.7rem;color:#999;margin-bottom:.8rem;line-height:1.5}
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#4ade80;padding:.5rem 1rem;border-radius:8px;font-size:.78rem;display:none;z-index:99;border:1px solid #2a2a2a}
-</style></head><body>
-<div class="wrap">
-<h1>BetterFormatter</h1>
-<p class="sub">Configure your Fusion stream tags, preview, and export.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BetterFormatter Configurator</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+    button{font-family:inherit}
+    .wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 4rem}
+    h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
+    .sub{color:#888;font-size:.82rem;margin-bottom:1.8rem}
+    .sec{position:relative;margin-bottom:.9rem;background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:.9rem 1rem}
+    .sh{display:flex;align-items:center;justify-content:flex-start;gap:.3rem;margin-bottom:.6rem;position:relative}
+    .sh h2{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555}
+    .info-btn{display:inline-flex;align-items:center;justify-content:center;width:12px;height:12px;flex:0 0 12px;border:1px solid #2b2b2b;border-radius:50%;background:#171717;color:#777;font-size:.45rem;line-height:1;font-weight:700;cursor:pointer}
+    .info-btn:hover,.info-btn[aria-expanded="true"]{border-color:#555;color:#ddd}
+    .info-btn:focus-visible,.o:focus-visible,summary:focus-visible{outline:2px solid #fff;outline-offset:2px}
+    .tip-pop{display:none;position:absolute;z-index:30;left:0;top:calc(100% + 6px);width:210px;max-width:calc(100vw - 2rem);padding:.55rem .65rem;border:1px solid #333;border-radius:7px;background:#1a1a1a;color:#ccc;font-size:.68rem;font-weight:500;line-height:1.45;text-align:left;box-shadow:0 8px 24px #000c}
+    .sec.tip-on .tip-pop{display:block}
+    .opts{display:flex;flex-wrap:wrap;gap:.35rem}
+    .o{padding:.4rem .7rem .4rem 1.7rem;border:1px solid #2a2a2a;border-radius:8px;font-size:.75rem;cursor:pointer;color:#666;background:#0a0a0a;transition:all .15s;position:relative}
+    .o:hover{border-color:#444;color:#aaa}
+    .o.on{border-color:#fff;color:#fff;background:#1a1a1a}
+    .o::before{content:'';position:absolute;left:.55rem;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;border:1.5px solid #444;transition:all .15s}
+    .o.on::before{content:'\2713';border-color:#fff;background:#fff;color:#000;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .o[aria-disabled="true"]{color:#444;border-color:#222;cursor:help}
+    .o[aria-disabled="true"]:hover{color:#555;border-color:#333}
+    .sec[hidden]{display:none}
+    .pvh,.oph{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#555}
+    .pvh{margin:1.4rem 0 .6rem}
+    .oph{margin:1.8rem 0 .6rem}
+    .cd{background:#222;border:1px solid #2a2a2a;border-radius:12px;padding:.7rem .85rem;margin-bottom:.45rem;overflow:hidden}
+    .cn{font-size:.88rem;font-weight:600;margin-bottom:.12rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .cs{font-size:.65rem;color:#999;margin-bottom:.5rem;overflow:hidden;text-overflow:ellipsis;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+    .tr{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+    .tg{display:inline-flex;align-items:center;padding:0 9px;border-radius:7px;font-size:.73rem;font-weight:600;gap:3px;border:1px solid transparent;white-space:nowrap;height:26px;line-height:1}
+    .tg img{height:17px;width:auto}
+    .tg.lg img{height:24px}
+    .advanced{margin:0;border:0;background:transparent}
+    .advanced summary{list-style:none;cursor:pointer;margin:1.8rem 0 0}
+    .advanced summary::-webkit-details-marker{display:none}
+    .advanced-title{display:flex;align-items:center;justify-content:flex-start;gap:.35rem;margin-bottom:.6rem}
+    .advanced-title .oph{margin:0;font-weight:700}
+    .advanced-title::after{content:'+';font-size:.85rem;line-height:1;color:#666}
+    .advanced[open] .advanced-title::after{content:'−'}
+    .section-note{font-size:.7rem;color:#999;line-height:1.5;margin-bottom:.8rem}
+    .advanced summary .section-note{display:block;margin-bottom:0}
+    .advanced[open] summary .section-note{margin-bottom:.8rem}
+    .advanced-body{padding:0}
+    .setup-heading{margin-top:1.5rem}
+    .gs{display:flex;gap:.65rem;margin-bottom:.8rem}
+    .gn{width:22px;height:22px;border-radius:50%;background:#222;color:#aaa;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+    .gc{flex:1;min-width:0}
+    .gt{font-size:.88rem;font-weight:600;color:#ddd;margin-bottom:.25rem}
+    .gd{font-size:.8rem;color:#888;line-height:1.5}
+    .gd.sub{font-size:.7rem;color:#666;margin-top:.3rem;margin-bottom:0}
+    .cbtn{width:100%;padding:.7rem;background:#fff;color:#111;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:.45rem}
+    .cbtn:hover{opacity:.9}
+    @media(max-width:520px){
+      .wrap{padding:1.5rem .65rem 3rem}
+      h1{font-size:1.5rem;margin-left:.35rem}
+      .sub{margin:0 .35rem 1.8rem}
+      .sec{margin:0 .35rem .9rem;padding:.9rem 1rem;border-radius:12px}
+      .pvh{margin:.85rem 0 .45rem}
+      .cd{padding:.58rem .68rem}
+      .cs{margin-bottom:.38rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>BetterFormatter</h1>
+    <p class="sub">Configure your Fusion stream tags, preview, and export.</p>
 
-<div class="sec"><h2>Icon Style</h2><div class="opts" data-g="icon">
-<div class="o on" data-v="colored">Colored</div>
-<div class="o" data-v="mono">Mono</div>
-</div></div>
+    <div class="sec">
+      <div class="sh"><h2>Icon Style</h2><button class="info-btn" type="button" aria-label="About Icon Style" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Choose the artwork family. Modern supports every combination and compact source icons; Legacy keeps the historical badge appearance."></div></div>
+      <div class="opts" data-g="badgeFamily" role="radiogroup" aria-label="Icon Style">
+        <button class="o on" data-v="modern" role="radio" aria-checked="true">Modern</button>
+        <button class="o" data-v="legacy" role="radio" aria-checked="false">Legacy</button>
+      </div>
+    </div>
 
-<div class="sec"><h2>Quality System</h2><div class="opts" data-g="qual">
-<div class="o on" data-v="bgb">Best / Good / OK</div>
-<div class="o" data-v="tier">Tiers (T1/T2/T3)</div>
-<div class="o" data-v="src">Source Label Only</div>
-<div class="o" data-v="pct">Percentages</div>
-</div></div>
+    <div class="sec">
+      <div class="sh"><h2>Icon Theme</h2><button class="info-btn" type="button" aria-label="About Icon Theme" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Colored uses semantic quality colors. Mono keeps the artwork and Fusion pills neutral."></div></div>
+      <div class="opts" data-g="icon" role="radiogroup" aria-label="Icon Theme">
+        <button class="o on" data-v="colored" role="radio" aria-checked="true">Colored</button>
+        <button class="o" data-v="mono" role="radio" aria-checked="false">Mono</button>
+      </div>
+    </div>
 
-<div class="sec"><h2>Dolby Vision + Audio</h2><div class="opts" data-g="dv">
-<div class="o on" data-v="combo">Combined Badge</div>
-<div class="o" data-v="sep">Separate Tags</div>
-</div></div>
+    <div class="sec">
+      <div class="sh"><h2>Quality System</h2><button class="info-btn" type="button" aria-label="About Quality System" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Tiers uses VidHin ranked expressions and can include T4–T8 for some sources. Best/Good/OK groups scored releases; Percentages shows the exact score; Quality Badges shows source only."></div></div>
+      <div class="opts" data-g="quality" role="radiogroup" aria-label="Quality System">
+        <button class="o on" data-v="tiers" role="radio" aria-checked="true">Tiers (T1/T2/T3)</button>
+        <button class="o" data-v="best-good-ok" role="radio" aria-checked="false">Best/Good/OK</button>
+        <button class="o" data-v="source" role="radio" aria-checked="false">Quality Badges</button>
+        <button class="o" data-v="percentages" role="radio" aria-checked="false">Percentages</button>
+      </div>
+    </div>
 
-<div class="sec"><h2>TrueHD Display</h2><div class="opts" data-g="truehd">
-<div class="o on" data-v="noatmos">Only when no Atmos</div>
-<div class="o" data-v="always">Always</div>
-</div></div>
+    <div class="sec">
+      <div class="sh"><h2>Languages Display</h2><button class="info-btn" type="button" aria-label="About Languages Display" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Preferred Only uses the languages allowed by your AIOStreams preferences. All Detected uses every audio language found by AIOStreams. Hide removes language tags."></div></div>
+      <div class="opts" data-g="languageMode" role="radiogroup" aria-label="Languages Display">
+        <button class="o on" data-v="uLanguages" role="radio" aria-checked="true">Preferred Only</button>
+        <button class="o" data-v="languages" role="radio" aria-checked="false">All Detected</button>
+        <button class="o" data-v="off" role="radio" aria-checked="false">Hide</button>
+      </div>
+    </div>
 
-<div class="sec"><h2>HDR Display</h2><div class="opts" data-g="hdr">
-<div class="o on" data-v="nodv">Only when no DV</div>
-<div class="o" data-v="always">Always (hybrids)</div>
-</div></div>
+    <div class="sec">
+      <div class="sh"><h2>Formatter Display</h2><button class="info-btn" type="button" aria-label="About Formatter Display" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Changes the visible AIOStreams stream layout. Every formatter choice still carries the same invisible Fusion markers."></div></div>
+      <div class="opts" data-g="formatterStyle" role="radiogroup" aria-label="Formatter Display">
+        <button class="o on" data-v="classic" role="radio" aria-checked="true">Classic</button>
+        <button class="o" data-v="filename" role="radio" aria-checked="false">Filename</button>
+        <button class="o" data-v="renoria" role="radio" aria-checked="false">Renoria</button>
+        <button class="o" data-v="jeor" role="radio" aria-checked="false">Jeor</button>
+        <button class="o" data-v="snoak" role="radio" aria-checked="false">Snoak</button>
+      </div>
+    </div>
 
-<div class="sec"><h2>Description</h2><div class="opts" data-g="desc">
-<div class="o on" data-v="short">Service + Filename</div>
-<div class="o" data-v="fn">Filename Only</div>
-</div></div>
+    <h2 class="pvh">Preview</h2>
+    <div id="pv"></div>
 
-<h2 class="pvh">Preview</h2>
-<div id="pv"></div>
+    <details class="advanced" id="advanced">
+      <summary>
+        <span class="advanced-title"><span class="oph">Advanced Settings</span></span>
+        <span class="section-note">Fine-tune how Dolby Vision, audio, HDR, quality, and SeaDex badges are displayed.</span>
+      </summary>
+      <div class="advanced-body">
+        <div class="sec">
+          <div class="sh"><h2>Dolby Vision Display</h2><button class="info-btn" type="button" aria-label="About Dolby Vision Display" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Combine with Audio uses a single Dolby Vision and audio badge when supported. Separate Badges always shows independent tags."></div></div>
+          <div class="opts" data-g="dvAudio" role="radiogroup" aria-label="Dolby Vision Display">
+            <button class="o on" data-v="combined" data-modern-only="true" role="radio" aria-checked="true" aria-disabled="false">Combine with Audio</button>
+            <button class="o" data-v="separate" role="radio" aria-checked="false">Separate Badges</button>
+          </div>
+        </div>
 
-<h2 class="oph">Setup Guide</h2>
-<div id="guide"></div>
+        <div class="sec">
+          <div class="sh"><h2>Audio Display</h2><button class="info-btn" type="button" aria-label="About Audio Display" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Atmos Priority hides its carrier beneath Atmos. Separate Badges shows Atmos and the carrier. Combined merges Atmos with TrueHD or Digital+."></div></div>
+          <div class="opts" data-g="carrier" role="radiogroup" aria-label="Audio Display">
+            <button class="o on" data-v="compact" role="radio" aria-checked="true">Atmos Priority</button>
+            <button class="o" data-v="separate" role="radio" aria-checked="false">Separate Badges</button>
+            <button class="o" data-v="combined" data-modern-only="true" role="radio" aria-checked="false" aria-disabled="false">Combined</button>
+          </div>
+        </div>
 
-<div style="display:none"><textarea id="ou" readonly></textarea><textarea id="oj" readonly></textarea></div>
+        <div class="sec" id="priority-sec" hidden>
+          <div class="sh"><h2>Combination System</h2><button class="info-btn" type="button" aria-label="About Combination System" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="When both combination modes match, Pair Atmos with DV combines the visual pair; Pair Atmos with Audio combines Atmos with TrueHD or Digital+."></div></div>
+          <div class="opts" data-g="priority" role="radiogroup" aria-label="Combination System">
+            <button class="o on" data-v="dv" role="radio" aria-checked="true">Pair Atmos with DV</button>
+            <button class="o" data-v="audio" role="radio" aria-checked="false">Pair Atmos with Audio</button>
+          </div>
+        </div>
 
-<h2 class="oph" style="margin-top:1.5rem">Setup</h2>
-<div id="guide"></div>
+        <div class="sec">
+          <div class="sh"><h2>HDR Display</h2><button class="info-btn" type="button" aria-label="About HDR Display" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="DV Priority suppresses HDR on Dolby Vision hybrids. Always Show keeps both visual badges."></div></div>
+          <div class="opts" data-g="hdrPolicy" role="radiogroup" aria-label="HDR Display">
+            <button class="o on" data-v="suppress-with-dv" role="radio" aria-checked="true">DV Priority</button>
+            <button class="o" data-v="show-both" role="radio" aria-checked="false">Always Show</button>
+          </div>
+        </div>
 
-<div id="aios-section">
-<div class="gs">
-<div class="gn">1</div>
-<div class="gc">
-<div class="gt">Scoring Template</div>
-<div class="gd">AIOStreams → Featured Templates → <b>Tamtaro Complete SEL Setup</b> → Load Template → follow the wizard</div>
-<div class="gd sub">Overrides filters and sorting only · Nightly required</div>
-</div></div>
+        <div class="sec" id="source-style-sec">
+          <div class="sh"><h2>Quality Badges</h2><button class="info-btn" type="button" aria-label="About Quality Badges" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Detailed spells out Remux, BluRay, and WEB-DL. Icon Only uses compact Modern source artwork where the selected quality system supports it."></div></div>
+          <div class="opts" data-g="sourceBadgeStyle" role="radiogroup" aria-label="Quality Badges">
+            <button class="o on" data-v="detailed" data-source-setting="true" role="radio" aria-checked="true">Detailed</button>
+            <button class="o" data-v="icon-only" data-source-setting="true" role="radio" aria-checked="false">Icon Only</button>
+          </div>
+        </div>
 
-<div class="gs">
-<div class="gn">2</div>
-<div class="gc">
-<div class="gt">Formatter</div>
-<div class="gd">AIOStreams → Formatter → Custom → replace both fields → Save</div>
-<div style="display:flex;gap:.4rem;margin-top:.45rem"><button class="abtn" onclick="cc('on')">Copy Name</button><button class="abtn" onclick="cc('od')">Copy Description</button></div>
-<textarea id="on" style="display:none"></textarea><textarea id="od" style="display:none"></textarea>
-</div></div>
-</div>
+        <div class="sec">
+          <div class="sh"><h2>SeaDex Display</h2><button class="info-btn" type="button" aria-label="About SeaDex Display" aria-expanded="false">i</button><div class="tip-pop" role="tooltip" data-default="Split distinguishes SeaDex Best and Alt releases. Combined uses one general SeaDex badge. Hide removes SeaDex markers and filters."></div></div>
+          <div class="opts" data-g="seadexMode" role="radiogroup" aria-label="SeaDex Display">
+            <button class="o on" data-v="split" role="radio" aria-checked="true">Split (Best/Alt)</button>
+            <button class="o" data-v="combined" role="radio" aria-checked="false">Combined</button>
+            <button class="o" data-v="off" role="radio" aria-checked="false">Hide</button>
+          </div>
+        </div>
+      </div>
+    </details>
 
-<div class="gs">
-<div class="gn" id="step-fusion-n">3</div>
-<div class="gc">
-<div class="gt">Fusion Filters</div>
-<div class="gd">Fusion → Settings → Filters → Import Filters → paste URL</div>
-<button class="cbtn" style="margin-top:.45rem" onclick="cc('ou')">Copy Import URL</button>
-</div></div>
-</div>
-<div class="toast" id="toast">Copied!</div>
+    <h2 class="oph">Setup Guide</h2>
+    <div class="section-note" id="guide-intro"></div>
+    <h2 class="oph setup-heading">Setup</h2>
+    <div id="guide"></div>
+  </div>
 
-<script>
-const I='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/';
-let C={icon:'colored',qual:'bgb',dv:'combo',hdr:'nodv',truehd:'noatmos',desc:'short'};
+  <script type="module">
+    import {DEFAULT_STATE, PUBLIC_BASE, resolveSelection} from './src/ui-state.mjs';
+    import {generateFusionExport} from './src/fusion.mjs';
+    import {factsFor, previewStreamsFor, streamDescription, streamName} from './src/preview.mjs';
 
-const ST={
-  best:{bc:'#FF00FF37',bg:'#E600E932',tc:'#27C04F'},
-  good:{bc:'#FF2D9943',bg:'#3300E932',tc:'#27C04F'},
-  bad:{bc:'#FF9D613D',bg:'#33FF7728',tc:'#FF6904'},
-  res:{bc:'#FF858283',bg:'#33FFFFFF',tc:'#FFFFFF'},
-  tr:{bc:'#00000000',bg:'#00000000',tc:'#FFFFFF'},
-  dim:{bc:'#00000000',bg:'#00000000',tc:'#80FFFFFF'},
-};
+    const C = {...DEFAULT_STATE};
+    const isLocal = /^(?:localhost|127\.0\.0\.1|\d{1,3}(?:\.\d{1,3}){3})$/.test(location.hostname);
+    const publicBase = isLocal ? new URL('./', location.href).href : PUBLIC_BASE;
+    const localAssets = new URL('./assets/badges/', location.href).href;
+    let current;
+    let openPopup;
+    let openTrigger;
 
-function hsl(h,s,l){const a=s*Math.min(l,1-l),f=n=>{const k=(n+h/30)%12;return l-a*Math.max(Math.min(k-3,9-k,1),-1)};return[Math.round(f(0)*255),Math.round(f(8)*255),Math.round(f(4)*255)]}
-function hx(r,g,b){return((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1).toUpperCase()}
-function pctS(p){const c=hsl((p/100)*120,1,.45),h=hx(...c);return{bc:'#66'+h,bg:'#33'+h,tc:'#FF'+h}}
-
-// 4 diverse streams covering key tag combinations
-const STREAMS=[
-  {qual:'Bluray Remux',title:'Avatar Fire and Ash (2025)',size:'76 GB',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.REMUX.IMAX.DV.HDR10.TrueHD.7.1.Atmos-FraMeSToR.mkv',pct:99,res:'4K',hdr:'HDR10',dv:true,aud:'atmos',truehd:true,ch:'7.1',src:'remux',q:'best',tier:'t1',imax:'IMAX',seadex:false},
-  {qual:'Bluray',title:'Avatar Fire and Ash (2025)',size:'18 GB',fn:'Avatar.Fire.and.Ash.2025.2160p.BluRay.x265.HDR10.DTS-X.7.1-CtrlHD.mkv',pct:90,res:'4K',hdr:'HDR10',dv:false,aud:'dtsx',ch:'7.1',src:'bluray',q:'good',tier:'t1',imax:null,seadex:false},
-  {qual:'Bluray',title:'Demon Slayer S01\xb7E01',size:'4 GB',fn:'Demon.Slayer.2019.1080p.BluRay.DV.DDP5.1.Atmos-hallowed.mkv',pct:80,res:'1080p',hdr:null,dv:true,aud:'atmos',ch:'5.1',src:'bluray',q:'good',tier:'t2',imax:null,seadex:true},
-  {qual:'Web-Dl',title:'Avatar Fire and Ash (2025)',size:'2 GB',fn:'Avatar.Fire.and.Ash.2025.720p.WEB-DL.DD5.1.DV-RandomGrp.mkv',pct:50,res:'720p',hdr:null,dv:true,aud:'dd',ch:'5.1',src:'webdl',q:'ok',tier:'t3',imax:null,seadex:false},
-];
-
-function rgba(c){
-  if(!c)return'transparent';
-  if(c.length===7){const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);return'rgb('+r+','+g+','+b+')';}
-  if(c.length===9){const a=parseInt(c.slice(1,3),16)/255,r=parseInt(c.slice(3,5),16),g=parseInt(c.slice(5,7),16),b=parseInt(c.slice(7,9),16);return'rgba('+r+','+g+','+b+','+a.toFixed(3)+')';}
-  return'transparent';
-}
-
-function thtml(label,img,st,lg){
-  const s='border-color:'+rgba(st.bc)+';background:'+rgba(st.bg)+';color:'+rgba(st.tc);
-  const cls='tg'+(lg?' lg':'');
-  if(img)return'<span class="'+cls+'" style="'+s+'"><img src="'+I+img+'"></span>';
-  return'<span class="'+cls+'" style="'+s+'">'+label+'</span>';
-}
-
-function fmtName(s){
-  const sym={best:'\u265b ',good:'\u2b51 ',ok:'\u25b3 '};
-  if(C.qual==='bgb') return (sym[s.q]||'')+s.qual;
-  if(C.qual==='pct') return s.pct+'% '+s.qual;
-  return s.qual;
-}
-
-function preview(){
-  const p=C.icon,mono=p==='mono';
-  let h='';
-  for(const s of STREAMS){
-    const st=(s.type||'debrid');const stCap=st==='p2p'?'P2P':st[0].toUpperCase()+st.slice(1);const descTxt=C.desc==='fn'?s.fn:s.fn+'\n'+(s.svc||'RD')+' \xb7 '+stCap+' \xb7 '+s.size;
-    h+='<div class="cd"><div class="cn">'+fmtName(s)+'</div><div class="cs">'+descTxt+'</div><div class="tr">';
-
-    // 1) QUALITY
-    if(C.qual==='bgb'){
-      const qst=s.q==='ok'?ST.res:(mono?ST.res:ST[s.q]);
-      const img=s.q==='ok'?'mono-ok-'+s.src+'.png':p+'-'+s.q+'-'+s.src+'.png';
-      h+=thtml(null,img,qst);
-    }else if(C.qual==='tier'){
-      h+=thtml(null,p+'-icon-'+s.src+'-'+s.tier+'.png',mono?ST.res:ST.best);
-    }else if(C.qual==='src'){
-      h+=thtml(null,p+'-'+s.src+'.png',mono?ST.res:ST.best);
-    }else{
-      h+=thtml(s.pct+'%',null,mono?ST.res:pctS(s.pct));
+    function matchingFilters(stream) {
+      const exported = generateFusionExport(current.fusionConfiguration, {assetBase: localAssets});
+      const facts = factsFor(stream, C);
+      return exported.filters.filter((filter) => new RegExp(filter.pattern.replace(/^\(\?s\)/, ''), 'su').test(facts));
     }
 
-    // 1b) SEADEX — right after quality
-    if(s.seadex)h+=thtml(null,p+'-SeaDex.png',mono?ST.res:ST.best);
-
-    // 2) RESOLUTION
-    const ri=s.res==='4K'?'4k.png':s.res.toLowerCase()+'.png';
-    h+=thtml(null,ri,ST.res);
-
-    // 3) HDR
-    if(s.hdr&&(C.hdr==='always'||!s.dv)){
-      const hi=s.hdr==='HDR10+'?'HDR10Plus.png':s.hdr==='HDR10'?'HDR10.png':'HDR.png';
-      h+=thtml(null,hi,ST.res);
+    function rgbaFromARGB(value) {
+      if (!value || value === '#00000000') return 'transparent';
+      if (value.length === 7) return value;
+      const alpha = parseInt(value.slice(1, 3), 16) / 255;
+      const red = parseInt(value.slice(3, 5), 16);
+      const green = parseInt(value.slice(5, 7), 16);
+      const blue = parseInt(value.slice(7, 9), 16);
+      return `rgba(${red},${green},${blue},${alpha.toFixed(3)})`;
     }
 
-    // 3b) IMAX
-    if(s.imax==='IMAX Enhanced')h+=thtml(null,'IMAX-enhanced.png',ST.res);
-    else if(s.imax==='IMAX')h+=thtml(null,'IMAX.png',ST.res);
+    function badgeHTML(filter) {
+      const largeArtwork = C.badgeFamily === 'modern' && (filter.id === 'a-dv' || (filter.groupId === 'ga' && !filter.id.startsWith('a-dts')));
+      const style = `border-color:${rgbaFromARGB(filter.borderColor)};background:${rgbaFromARGB(filter.tagColor)};color:${rgbaFromARGB(filter.textColor)}`;
+      const className = `tg${largeArtwork ? ' lg' : ''}`;
+      if (filter.imageURL) return `<span class="${className}" style="${style}" title="${filter.name}"><img src="${filter.imageURL}" alt="${filter.name}"></span>`;
+      return `<span class="${className}" style="${style}">${filter.name}</span>`;
+    }
 
-    // 4) AUDIO + DV — combined shows ONE badge, separate shows individual
-    const isDTS=s.aud&&s.aud.startsWith('dts');
-    const hasAtmos=s.aud==='atmos';
-    const hasTrueHD=s.aud==='truehd'||s.truehd;
-    if(C.dv==='combo'){
-      // Combined: one badge for Dolby audio+DV
-      if(s.dv&&!isDTS){
-        // DV + Dolby audio → single combined badge
-        if(s.aud==='atmos')h+=thtml(null,'atmos-vision.png',ST.tr,true);
-        else if(s.aud==='truehd')h+=thtml(null,'truehd-vision.png',ST.tr,true);
-        else if(s.aud==='ddp')h+=thtml(null,'digitalplus-vision.png',ST.tr,true);
-        else if(s.aud==='dd')h+=thtml(null,'digital-vision.png',ST.tr,true);
-        else h+=thtml(null,'vision.png',ST.tr,true);
-      }else{
-        // No DV, or DV + DTS (no Dolby audio combo)
-        if(s.dv)h+=thtml(null,'vision.png',ST.tr,true);
-        if(s.aud==='atmos')h+=thtml(null,'atmos.png',ST.tr,true);
-        else if(s.aud==='truehd')h+=thtml(null,'truehd.png',ST.tr,true);
-        else if(s.aud==='ddp')h+=thtml(null,'digitalplus.png',ST.tr,true);
-        else if(s.aud==='dd')h+=thtml(null,'digital.png',ST.tr,true);
-        else if(isDTS){h+=thtml(null,(s.aud==='dtsx'?'dtsx':s.aud==='dtshdma'?'dtshdma':s.aud==='dtshd'?'dtshd':'dts')+'.png',ST.res);}
+    function preview() {
+      document.getElementById('pv').innerHTML = previewStreamsFor(C.quality).map((stream) => {
+        const badges = matchingFilters(stream).map(badgeHTML).join('');
+        return `<div class="cd"><div class="cn">${streamName(stream, C)}</div><div class="cs">${streamDescription(stream, C)}</div><div class="tr">${badges}</div></div>`;
+      }).join('');
+    }
+
+    function closePopup() {
+      if (!openPopup) return;
+      openPopup.classList.remove('tip-on');
+      if (openTrigger?.classList.contains('info-btn')) openTrigger.setAttribute('aria-expanded', 'false');
+      openPopup = undefined;
+      openTrigger = undefined;
+    }
+
+    function showPopup(card, message, trigger = card.querySelector('.info-btn')) {
+      if (openPopup === card && openTrigger === trigger) {
+        closePopup();
+        return;
       }
-    }else{
-      // Separate: individual DV + individual audio
-      if(s.dv)h+=thtml(null,'vision.png',ST.tr,true);
-      if(s.aud==='atmos')h+=thtml(null,'atmos.png',ST.tr,true);
-      else if(s.aud==='truehd')h+=thtml(null,'truehd.png',ST.tr,true);
-      else if(s.aud==='ddp')h+=thtml(null,'digitalplus.png',ST.tr,true);
-      else if(s.aud==='dd')h+=thtml(null,'digital.png',ST.tr,true);
-      else if(isDTS){h+=thtml(null,(s.aud==='dtsx'?'dtsx':s.aud==='dtshdma'?'dtshdma':s.aud==='dtshd'?'dtshd':'dts')+'.png',ST.res);}
-    }
-    if(C.truehd==='always'&&hasAtmos&&hasTrueHD){
-      h+=thtml(null,'truehd.png',ST.tr,true);
+      closePopup();
+      const popup = card.querySelector('.tip-pop');
+      popup.textContent = message || popup.dataset.default;
+      card.classList.add('tip-on');
+      if (trigger?.classList.contains('info-btn')) trigger.setAttribute('aria-expanded', 'true');
+      openPopup = card;
+      openTrigger = trigger;
     }
 
-    // 5) SURROUND
-    h+=thtml(null,s.ch==='7.1'?'7dot1.png':'5dot1.png',ST.tr);
+    function sourceDisabledReason() {
+      if (C.badgeFamily === 'legacy') return 'Icon Only quality badges are available only with Modern.';
+      if (C.quality === 'best-good-ok') return 'Best/Good/OK uses its own ranked artwork, so source badge detail does not apply.';
+      return '';
+    }
 
-    h+='</div></div>';
-  }
-  document.getElementById('pv').innerHTML=h;
-}
+    function guideIntroduction() {
+      if (C.quality === 'tiers') return 'Tiers uses ranked stream expressions from the Tamtaro Complete SEL template. Complete all three steps.';
+      if (C.quality === 'best-good-ok') return 'Best/Good/OK requires scored sorting from the Tamtaro Complete SEL template. Complete all three steps.';
+      if (C.quality === 'percentages') return 'Percentages requires scored sorting from the Tamtaro Complete SEL template. Complete all three steps.';
+      return 'Quality Badges has no scoring dependency. Import the matched formatter and Fusion filters.';
+    }
 
-// --- JSON Generation ---
-function mk(id,name,pat,img,st,gid){
-  return{borderColor:st.bc,groupId:gid,id:id,imageURL:img?I+img:'',isEnabled:true,name:name,pattern:pat,tagColor:st.bg,tagStyle:'filled and bordered',textColor:st.tc,type:'filter'};
-}
+    function guideStep(number, title, description, note = '', copyKey = '') {
+      const noteHTML = note ? `<div class="gd sub">${note}</div>` : '';
+      const buttonHTML = copyKey ? `<button class="cbtn" type="button" data-guide-copy="${copyKey}">Copy Import URL</button>` : '';
+      return `<div class="gs"><div class="gn">${number}</div><div class="gc"><div class="gt">${title}</div><div class="gd">${description}</div>${noteHTML}${buttonHTML}</div></div>`;
+    }
 
-function gen(){
-  const p=C.icon,mono=p==='mono',T=[],G=[];
-  const qs=k=>mono?ST.res:ST[k];
-
-  // Patterns
-  const dvR='\\b(?:dv|dovi|dolby[\\s._-]?vision)\\b';
-  const dvY='(?=.*(?i)'+dvR+')';
-  const dvN='(?!.*(?i)'+dvR+')';
-  const atmosR='(?i)\\batmos\\b';
-  const thR='(?i)true[\\s._-]?hd';
-  const ddpR='(?i)(?:dd[p+]|e[\\s._-]?ac[\\s._-]?3)';
-  const ddR='(?i)(?:dd[^p+a-z]|(?<!e-)ac-?3)';
-
-  // Quality
-  if(C.qual==='bgb'){
-    T.push(mk('q-br','Best Remux','(?=.*\u265b)(?=.*(?i)remux)',p+'-best-remux.png',qs('best'),'gq'));
-    T.push(mk('q-bb','Best BluRay','(?=.*\u265b)(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-best-bluray.png',qs('best'),'gq'));
-    T.push(mk('q-bw','Best WebDL','(?=.*\u265b)(?=.*(?i)(?:web[-_. ]?dl|webdl|webrip))',p+'-best-webdl.png',qs('best'),'gq'));
-    T.push(mk('q-gr','Good Remux','(?=.*[\u2b51\u2726])(?=.*(?i)remux)',p+'-good-remux.png',qs('good'),'gq'));
-    T.push(mk('q-gb','Good BluRay','(?=.*[\u2b51\u2726])(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-good-bluray.png',qs('good'),'gq'));
-    T.push(mk('q-gw','Good WebDL','(?=.*[\u2b51\u2726])(?=.*(?i)(?:web[-_. ]?dl|webdl|webrip))',p+'-good-webdl.png',qs('good'),'gq'));
-    T.push(mk('q-bad','Bad','[\u25b3\u2205]',p+'-Bad.png',qs('bad'),'gq'));
-  }else if(C.qual==='tier'){
-    const subs=['\u2081','\u2082','\u2083'];
-    const srcs=[['remux','Remux','\u0280\u1d07\u1d0d\u1d1c\u0445'],['bluray','Bluray','\u0299\u029f\u1d1c\u0280\u1d00\u028f'],['webdl','WEB','\u1d21\u1d07\u0299']];
-    for(let i=0;i<3;i++){
-      const tn='T'+(i+1);
-      for(const[k,l,sc] of srcs){
-        T.push(mk('q-'+k+'-t'+(i+1),l+' '+tn,'(?:\\b'+l+' '+tn+'\\b|'+sc+' \u1d1b'+subs[i]+')',p+'-icon-'+k+'-t'+(i+1)+'.png',qs('best'),'gq'));
+    async function copyGuideUrl(button) {
+      const original = 'Copy Import URL';
+      try {
+        await navigator.clipboard.writeText(current[button.dataset.guideCopy]);
+        button.textContent = 'Copied!';
+      } catch {
+        button.textContent = 'Copy failed';
       }
+      window.setTimeout(() => { button.textContent = original; }, 1500);
     }
-  }else if(C.qual==='src'){
-    T.push(mk('q-r','Remux','(?i)remux',p+'-remux.png',qs('best'),'gq'));
-    T.push(mk('q-b','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-bluray.png',qs('best'),'gq'));
-    T.push(mk('q-w','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip)',p+'-webdl.png',qs('best'),'gq'));
-  }else{
-    for(let i=100;i>=1;i--)T.push(mk('p'+i,i+'%','\\b'+i+'%','',mono?ST.res:pctS(i),'gp'));
-    T.push(mk('q-r','Remux','(?i)remux',p+'-remux.png',qs('best'),'gq'));
-    T.push(mk('q-b','BluRay','(?=.*(?i)(?:bluray|blu-ray))(?!.*(?i)remux)',p+'-bluray.png',qs('best'),'gq'));
-    T.push(mk('q-w','WebDL','(?i)(?:web[-_. ]?dl|webdl|webrip)',p+'-webdl.png',qs('best'),'gq'));
-  }
 
-  // Resolution
-  T.push(mk('r4','4K','(?i)^(?!.*\\b(?:1080[pi]?|720[pi]?)\\b).*?(?:\\b2160[pi]?\\b|\\b4k\\b|\\buhd\\b)','4k.png',ST.res,'gr'));
-  T.push(mk('r1','1080p','(?i)\\b1080[pi]?\\b','1080p.png',ST.res,'gr'));
-  T.push(mk('r7','720p','(?i)\\b720[pi]?\\b','720p.png',ST.res,'gr'));
+    function renderGuide() {
+      const hasScoringTemplate = C.quality !== 'source';
+      const steps = [];
+      let number = 1;
+      if (hasScoringTemplate) {
+        steps.push(guideStep(
+          number++,
+          'Scoring Template',
+          'AIOStreams → Featured Templates → Tamtaro Complete SEL Setup → Load Template',
+          'Overrides filters and sorting only',
+        ));
+      }
+      steps.push(guideStep(number++, 'Formatter', 'AIOStreams → Formatter → Import from URL → Save', '', 'formatterUrl'));
+      steps.push(guideStep(number, 'Fusion Filters', 'Fusion → Settings → Filters → Import Filters', '', 'fusionUrl'));
+      document.getElementById('guide-intro').textContent = guideIntroduction();
+      const guide = document.getElementById('guide');
+      guide.innerHTML = steps.join('');
+      guide.querySelectorAll('[data-guide-copy]').forEach((button) => button.addEventListener('click', () => copyGuideUrl(button)));
+    }
 
-  // HDR (before audio in order)
-  const hp=C.hdr==='nodv'?dvN:'';
-  T.push(mk('h+','HDR10+',hp+'(?=.*(?i)hdr\\s*10\\s*(?:\\+|plus|p))','HDR10Plus.png',ST.res,'gv'));
-  T.push(mk('h1','HDR10',hp+'(?=.*(?i)hdr\\s*10)(?!.*(?i)hdr\\s*10\\s*(?:\\+|plus|p))','HDR10.png',ST.res,'gv'));
-  T.push(mk('hh','HDR',hp+'(?=.*(?i)\\bHDR\\b)(?!.*(?i)hdr\\s*10)','HDR.png',ST.res,'gv'));
+    function syncControls() {
+      document.querySelectorAll('.opts').forEach((group) => group.querySelectorAll('.o').forEach((option) => {
+        const selected = option.dataset.v === C[group.dataset.g];
+        option.classList.toggle('on', selected);
+        option.setAttribute('aria-checked', selected.toString());
+      }));
+      const legacy = C.badgeFamily === 'legacy';
+      document.querySelectorAll('[data-modern-only="true"]').forEach((option) => option.setAttribute('aria-disabled', legacy.toString()));
+      const sourceReason = sourceDisabledReason();
+      document.querySelectorAll('[data-source-setting="true"]').forEach((option) => option.setAttribute('aria-disabled', Boolean(sourceReason).toString()));
+      document.getElementById('source-style-sec').dataset.disabledReason = sourceReason;
+    }
 
-  // Audio + DV
-  if(C.dv==='combo'){
-    // Atmos (top priority) — catches both TrueHD Atmos and DD+ Atmos
-    T.push(mk('a-at-dv','Atmos+DV','(?=.*'+atmosR+')'+dvY,'atmos-vision.png',ST.tr,'ga'));
-    T.push(mk('a-at','Atmos','(?=.*'+atmosR+')'+dvN,'atmos.png',ST.tr,'ga'));
-    // TrueHD (no Atmos)
-    T.push(mk('a-th-dv','TrueHD+DV','(?=.*'+thR+')(?!.*'+atmosR+')'+dvY,'truehd-vision.png',ST.tr,'ga'));
-    T.push(mk('a-th','TrueHD','(?=.*'+thR+')(?!.*'+atmosR+')'+dvN,'truehd.png',ST.tr,'ga'));
-    // DD+ (no Atmos, no TrueHD)
-    T.push(mk('a-dp-dv','DD+ DV','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')'+dvY,'digitalplus-vision.png',ST.tr,'ga'));
-    T.push(mk('a-dp','DD+','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')'+dvN,'digitalplus.png',ST.tr,'ga'));
-    // DD (no DD+, no TrueHD, no Atmos)
-    T.push(mk('a-dd-dv','DD DV','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')'+dvY,'digital-vision.png',ST.tr,'ga'));
-    T.push(mk('a-dd','DD','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')'+dvN,'digital.png',ST.tr,'ga'));
-    // DV standalone (DV + non-Dolby audio like DTS)
-    T.push(mk('a-dv','DV','(?=.*(?i)'+dvR+')(?!.*'+atmosR+')(?!.*'+thR+')(?!.*'+ddpR+')(?!.*'+ddR+')','vision.png',ST.tr,'gv'));
-  }else{
-    T.push(mk('a-dv','DV','(?i)'+dvR,'vision.png',ST.tr,'gv'));
-    T.push(mk('a-at','Atmos',atmosR,'atmos.png',ST.tr,'ga'));
-    T.push(mk('a-th','TrueHD','(?=.*'+thR+')(?!.*'+atmosR+')','truehd.png',ST.tr,'ga'));
-    T.push(mk('a-dp','DD+','(?=.*'+ddpR+')(?!.*'+atmosR+')(?!.*'+thR+')','digitalplus.png',ST.tr,'ga'));
-    T.push(mk('a-dd','DD','(?=.*'+ddR+')(?!.*'+ddpR+')(?!.*'+thR+')(?!.*'+atmosR+')','digital.png',ST.tr,'ga'));
-  }
-  if(C.truehd==='always'){
-    T.push(mk('a-th-at','TrueHD','(?i)^(?=.*\\btrue[\\s._-]?hd\\b)(?=.*\\batmos\\b)','truehd.png',ST.tr,'ga'));
-  }
+    function update() {
+      current = resolveSelection(C, {publicBase});
+      C.carrier = current.carrier;
+      C.dvAudio = current.dvAudio;
+      syncControls();
+      document.getElementById('priority-sec').toggleAttribute('hidden', !current.pairingPriorityVisible);
+      preview();
+      renderGuide();
+    }
 
-  // DTS (always separate, resolution style)
-  T.push(mk('d-x','DTS:X','(?i)\\bdts[-_.: ]?x\\b','dtsx.png',ST.res,'ga'));
-  T.push(mk('d-ma','DTS-HD MA','(?i)\\bdts[-_. ]?(?:hd[-_. ]?ma|ma|xll)\\b','dtshdma.png',ST.res,'ga'));
-  T.push(mk('d-hd','DTS-HD','(?i)\\bdts[-_. ]?hd\\b(?![-_. ]?ma)','dtshd.png',ST.res,'ga'));
-  T.push(mk('d-d','DTS','(?=.*(?i)\\bDTS\\b)(?!.*(?i)dts[-_. ]?(?:hd|ma|xll|x))','dts.png',ST.res,'ga'));
+    document.querySelectorAll('.info-btn').forEach((button) => button.addEventListener('click', () => showPopup(button.closest('.sec'), undefined, button)));
+    document.addEventListener('pointerdown', (event) => {
+      if (!openPopup) return;
+      const popup = openPopup.querySelector('.tip-pop');
+      if (popup.contains(event.target) || openTrigger?.contains(event.target)) return;
+      closePopup();
+    });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePopup(); });
 
-  // Surround
-  T.push(mk('c7','7.1','(?i)[^0-9][7-8][ .][0-1]','7dot1.png',ST.tr,'gc'));
-  T.push(mk('c5','5.1','(?=.*(?i)[^0-9]5[ .][0-1])(?!.*(?i)[^0-9][7-8][ .][0-1])','5dot1.png',ST.tr,'gc'));
+    document.querySelectorAll('.opts').forEach((group) => group.querySelectorAll('.o').forEach((option) => {
+      option.addEventListener('click', () => {
+        if (option.getAttribute('aria-disabled') === 'true') {
+          const reason = option.dataset.modernOnly === 'true'
+            ? 'Combined badges are available only with Modern.'
+            : option.closest('.sec').dataset.disabledReason;
+          showPopup(option.closest('.sec'), reason, option);
+          return;
+        }
+        C[group.dataset.g] = option.dataset.v;
+        update();
+      });
+    }));
 
-  // Languages
-  const L=[['en','\ud83c\uddec\ud83c\udde7','(?i)\\benglish\\b|\\beng\\b'],['es','\ud83c\uddea\ud83c\uddf8','(?i)\\bspanish\\b|\\bspa\\b'],['fr','\ud83c\uddeb\ud83c\uddf7','(?i)\\bfrench\\b|\\bfra\\b'],['de','\ud83c\udde9\ud83c\uddea','(?i)\\bgerman\\b|\\bdeu\\b'],['it','\ud83c\uddee\ud83c\uddf9','(?i)\\bitalian\\b|\\bita\\b'],['pt','\ud83c\udde7\ud83c\uddf7','(?i)\\bportuguese\\b|\\bpor\\b'],['ja','\ud83c\uddef\ud83c\uddf5','(?i)\\bjapanese\\b|\\bjpn\\b'],['ko','\ud83c\uddf0\ud83c\uddf7','(?i)\\bkorean\\b|\\bkor\\b'],['zh','\ud83c\udde8\ud83c\uddf3','(?i)\\bchinese\\b|\\bchi\\b'],['hi','\ud83c\uddee\ud83c\uddf3','(?i)\\bhindi\\b|\\bhin\\b'],['ar','\ud83c\uddf8\ud83c\udde6','(?i)\\barabic\\b|\\bara\\b'],['ru','\ud83c\uddf7\ud83c\uddfa','(?i)\\brussian\\b|\\brus\\b'],['mu','\ud83c\udf10','(?i)\\bmulti\\b|\\bdual[\\s._-]?audio\\b']];
-  for(const[c,f,pt] of L)T.push(mk('l-'+c,f,pt,'',ST.dim,'gl'));
-
-  // Groups (order = display order in Fusion)
-  if(C.qual==='pct')G.push({borderColor:'#00000000',color:'#27C04F',id:'gp',isExpanded:true,name:'Score'});
-  G.push({borderColor:ST.best.bc,color:'#27C04F',id:'gq',isExpanded:true,name:'Quality'});
-  G.push({borderColor:ST.res.bc,color:'#FFBE01',id:'gr',isExpanded:true,name:'Resolution'});
-  G.push({borderColor:ST.res.bc,color:'#FF6B6B',id:'gv',isExpanded:true,name:'Visual'});
-  G.push({borderColor:'#00000000',color:'#45B7D1',id:'ga',isExpanded:true,name:'Audio'});
-  G.push({borderColor:'#00000000',color:'#FFD700',id:'gc',isExpanded:true,name:'Channels'});
-  G.push({borderColor:'#00000000',color:'#4ECDC4',id:'gl',isExpanded:true,name:'Language'});
-
-  return{filters:T,groups:G};
-}
-
-function fmt(){
-  const d=C.desc==='fn'
-    ?'{stream.filename::exists["{stream.filename}"||""]}'
-    :'{stream.filename::exists["{stream.filename}"||""]}\\n{service.shortName::exists["{service.shortName}"||""]}{stream.type::exists[" \xb7 {stream.type::title::replace(\'P2p\',\'P2P\')}"||""]}{stream.size::>0[" \xb7 {stream.size::bytes}"||""]}';
-  if(C.qual==='pct')return{n:'{stream.nSeScore::exists["{stream.nSeScore}% "||""]}{stream.quality::exists["{stream.quality::title}"||""]}',d};
-  if(C.qual==='bgb')return{n:"{stream.nSeScore::exists[\"{stream.nSeScore::pstar::replace('\u2bea','\u2605')::replace('\u2605\u2605\u2605\u2605\u2605','\u265b ')::replace('\u2605\u2605\u2605\u2605\u2606','\u2b51 ')::replace('\u2605\u2605\u2605\u2606\u2606','\u2726 ')::replace('\u2605\u2605\u2606\u2606\u2606','\u25b3 ')::replace('\u2605\u2606\u2606\u2606\u2606','\u2205 ')::replace('\u2606\u2606\u2606\u2606\u2606','\u2205 ')}\"||\"\"]}"+'{stream.quality::exists["{stream.quality::title}"||""]}',d};
-  return{n:'{stream.quality::exists["{stream.quality::title}"||""]}',d};
-}
-
-function upd(){
-  preview();
-  const j=gen();
-  document.getElementById('oj').value=JSON.stringify(j,null,2);
-  const f=fmt();
-  document.getElementById('on').value=f.n;
-  document.getElementById('od').value=f.d;
-  const truehdSuffix=C.truehd==='always'?'-truehd-always':'';
-  const url='https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/presets/'+C.icon+'-'+C.qual+'-'+C.dv+'-'+C.hdr+truehdSuffix+'.json';
-  document.getElementById('ou').value=url;
-  // Show/hide AIOStreams section + update guide based on quality mode
-  const needsAIOS=C.qual==='bgb'||C.qual==='pct';
-  document.getElementById('aios-section').style.display=needsAIOS?'':'none';
-  document.getElementById('step-fusion-n').textContent=needsAIOS?'3':'1';
-  const g=document.getElementById('guide');
-  if(needsAIOS){
-    g.innerHTML='<div class="note">Your selection (<b>'+(C.qual==='bgb'?'Best/Good/OK':'Percentages')+'</b>) requires AIOStreams scored sorting. Follow all 3 steps below.</div>';
-  }else{
-    g.innerHTML='<div class="note">Your selection (<b>'+(C.qual==='tier'?'Tiers':'Source Only')+'</b>) works from filenames — no AIOStreams setup needed. Just import the Fusion filters below.</div>';
-  }
-}
-
-function cc(id){navigator.clipboard.writeText(document.getElementById(id).value).then(()=>{const t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',1500)})}
-
-document.querySelectorAll('.opts').forEach(g=>{g.querySelectorAll('.o').forEach(o=>{o.onclick=()=>{g.querySelectorAll('.o').forEach(x=>x.classList.remove('on'));o.classList.add('on');C[g.dataset.g]=o.dataset.v;upd()}})});
-
-upd();
-</script></body></html>
+    update();
+  </script>
+</body>
+</html>
