@@ -1,1 +1,0 @@
-{stream.nSeScore::exists["{stream.nSeScore::pstar::replace('⯪','★')::replace('★★★★★','♛ ')::replace('★★★★☆','⭑ ')::replace('★★★☆☆','✦ ')::replace('★★☆☆☆','△ ')::replace('★☆☆☆☆','∅ ')::replace('☆☆☆☆☆','∅ ')}"||""]}{stream.quality::exists["{stream.quality::title}"||""]}
