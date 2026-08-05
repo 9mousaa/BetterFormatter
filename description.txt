@@ -1,1 +1,0 @@
-{stream.filename::exists["{stream.filename}"||""]}{service.shortName::exists[" · {service.shortName}"||""]}{stream.size::>0[" · {stream.size::bytes}"||""]}
